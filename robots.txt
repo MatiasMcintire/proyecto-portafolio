@@ -1,0 +1,11 @@
+# robots.txt — Portafolio Profesional
+# Indica a los bots de búsqueda qué pueden y no pueden indexar.
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /config/
+Disallow: /includes/
+
+Sitemap: https://tu-dominio.cl/sitemap.xml
