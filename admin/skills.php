@@ -26,6 +26,9 @@ $msg = $_GET['msg'] ?? '';
   <title>Habilidades — Panel Admin</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <!-- Devicons + Tabler Icons para previsualizar icon_class en el listado -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <style>
     .nivel-bar {
       height: 6px;
@@ -70,25 +73,26 @@ $msg = $_GET['msg'] ?? '';
     Copia y ejecuta este SQL en <strong>phpMyAdmin → SQL</strong>:
   </div>
   <div class="sql-box">CREATE TABLE IF NOT EXISTS `habilidades` (
-  `id`        INT            AUTO_INCREMENT PRIMARY KEY,
-  `categoria` VARCHAR(80)    NOT NULL,
-  `nombre`    VARCHAR(80)    NOT NULL,
-  `nivel`     TINYINT UNSIGNED NOT NULL DEFAULT 80,
-  `icono`     VARCHAR(10)    DEFAULT '⚙️',
-  `orden`     SMALLINT       DEFAULT 0,
-  `visible`   TINYINT(1)     DEFAULT 1,
-  `created_at` TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+  `id`         INT              AUTO_INCREMENT PRIMARY KEY,
+  `categoria`  VARCHAR(80)      NOT NULL,
+  `nombre`     VARCHAR(80)      NOT NULL,
+  `nivel`      TINYINT UNSIGNED NOT NULL DEFAULT 80,
+  `icono`      VARCHAR(10)      DEFAULT '⚙️',
+  `icon_class` VARCHAR(100)     DEFAULT '',
+  `orden`      SMALLINT         DEFAULT 0,
+  `visible`    TINYINT(1)       DEFAULT 1,
+  `created_at` TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Habilidades de ejemplo (puedes editarlas o eliminarlas)
-INSERT INTO `habilidades` (categoria, nombre, nivel, icono, orden) VALUES
-  ('Frontend',     'HTML5',         90, '🌐', 1),
-  ('Frontend',     'CSS3',          85, '🎨', 2),
-  ('Frontend',     'JavaScript',    80, '⚡', 3),
-  ('Backend',      'PHP',           80, '🐘', 1),
-  ('Backend',      'MySQL',         75, '🗄️', 2),
-  ('Herramientas', 'Git',           70, '🔧', 1),
-  ('Herramientas', 'XAMPP',         75, '💻', 2);</div>
+INSERT INTO `habilidades` (categoria, nombre, nivel, icono, icon_class, orden) VALUES
+  ('Frontend',     'HTML5',      90, '🌐', 'devicon-html5-plain colored',      1),
+  ('Frontend',     'CSS3',       85, '🎨', 'devicon-css3-plain colored',       2),
+  ('Frontend',     'JavaScript', 80, '⚡', 'devicon-javascript-plain colored', 3),
+  ('Backend',      'PHP',        80, '🐘', 'devicon-php-plain colored',        1),
+  ('Backend',      'MySQL',      75, '🗄️', 'devicon-mysql-plain colored',      2),
+  ('Herramientas', 'Git',        70, '🔧', 'devicon-git-plain colored',        1),
+  ('Herramientas', 'XAMPP',      75, '💻', 'devicon-apache-plain colored',     2);</div>
   <p style="color:#64748b; font-size:.88rem; margin-top:.5rem;">
     Después de ejecutar el SQL, recarga esta página.
   </p>
@@ -118,7 +122,11 @@ INSERT INTO `habilidades` (categoria, nombre, nivel, icono, orden) VALUES
             <?php while ($h = $habilidades->fetch_assoc()): ?>
               <tr>
                 <td style="font-size:1.4rem; text-align:center; padding:.5rem;">
-                  <?= htmlspecialchars($h['icono'] ?? '⚙️') ?>
+                  <?php if (!empty($h['icon_class'])): ?>
+                    <i class="<?= htmlspecialchars($h['icon_class']) ?>" style="font-size:1.4rem;"></i>
+                  <?php else: ?>
+                    <?= htmlspecialchars($h['icono'] ?? '⚙️') ?>
+                  <?php endif; ?>
                 </td>
                 <td><strong><?= htmlspecialchars($h['nombre']) ?></strong></td>
                 <td>

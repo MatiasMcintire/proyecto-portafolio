@@ -106,7 +106,8 @@ CREATE TABLE IF NOT EXISTS `habilidades` (
   `categoria`  VARCHAR(80)      NOT NULL,
   `nombre`     VARCHAR(80)      NOT NULL,
   `nivel`      TINYINT UNSIGNED NOT NULL DEFAULT 80 COMMENT '0-100',
-  `icono`      VARCHAR(10)      DEFAULT '⚙️',
+  `icono`      VARCHAR(10)      DEFAULT '⚙️' COMMENT 'Emoji para sección Tecnologías',
+  `icon_class` VARCHAR(100)     DEFAULT ''  COMMENT 'Clase devicon o tabler-icons para sección Habilidades',
   `orden`      SMALLINT         DEFAULT 0,
   `visible`    TINYINT(1)       DEFAULT 1,
   `created_at` TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
@@ -118,8 +119,9 @@ CREATE TABLE IF NOT EXISTS `habilidades` (
 -- ============================================================
 
 -- Usuario admin (password: Admin2024!)
+-- Hash generado con: password_hash('Admin2024!', PASSWORD_DEFAULT) en PHP 8.2
 INSERT INTO `usuarios` (`username`, `password`) VALUES
-('admin', '$2y$12$WJ5r4N2nAp.VdFEqTfDzBOBQmpXSHEZiVJUriMn4lFkrLCh2pjF7a');
+('admin', '$2y$10$LG0mlrCgVrtB.rLW6I4AHealKWUOu2VxXnyFQCz9SaKnFvSl49PAW');
 
 -- Perfil (fila única con id = 1, se completa desde /admin/profile.php)
 INSERT IGNORE INTO `perfil` (`id`, `nombre`, `titulo_profesional`, `bio`) VALUES
@@ -146,11 +148,48 @@ VALUES
  '', '', 0, 3);
 
 -- Habilidades de ejemplo (editables desde /admin/skills.php)
-INSERT INTO `habilidades` (`categoria`, `nombre`, `nivel`, `icono`, `orden`) VALUES
-('Frontend',     'HTML5',      90, '🌐', 1),
-('Frontend',     'CSS3',       85, '🎨', 2),
-('Frontend',     'JavaScript', 80, '⚡', 3),
-('Backend',      'PHP',        80, '🐘', 1),
-('Backend',      'MySQL',      75, '🗄️', 2),
-('Herramientas', 'Git',        70, '🔧', 1),
-('Herramientas', 'XAMPP',      75, '💻', 2);
+-- icon_class usa Devicons (https://devicon.dev) o Tabler Icons (ti ti-*).
+INSERT INTO `habilidades`
+  (`categoria`, `nombre`, `nivel`, `icono`, `icon_class`, `orden`) VALUES
+-- Backend
+('Backend',        'PHP 8',                       85, '🐘', 'devicon-php-plain colored',          1),
+('Backend',        'MySQL',                       80, '🗄️', 'devicon-mysql-plain colored',         2),
+('Backend',        'NestJS',                      70, '🦅', 'devicon-nestjs-plain colored',        3),
+('Backend',        'REST APIs',                   80, '🔌', 'ti ti-api',                           4),
+('Backend',        'Prepared Statements',         85, '🛡️', 'ti ti-shield-lock',                   5),
+('Backend',        'OWASP Top 10 (básico)',       65, '⚠️', 'ti ti-shield-exclamation',            6),
+('Backend',        'Seguridad en REST APIs',      70, '🔒', 'ti ti-lock',                          7),
+-- Frontend
+('Frontend',       'HTML5 Semántico',             90, '🌐', 'devicon-html5-plain colored',         1),
+('Frontend',       'CSS3 + Flexbox',              85, '🎨', 'devicon-css3-plain colored',          2),
+('Frontend',       'JavaScript ES6',              80, '⚡', 'devicon-javascript-plain colored',    3),
+('Frontend',       'Next.js 14',                  65, '⚫', 'devicon-nextjsjs-plain',              4),
+('Frontend',       'Tailwind CSS',                75, '💨', 'devicon-tailwindcss-plain colored',   5),
+-- Base de Datos
+('Base de Datos',  'MySQL / phpMyAdmin',          80, '🗄️', 'devicon-mysql-plain colored',         1),
+('Base de Datos',  'PostgreSQL',                  65, '🐘', 'devicon-postgresql-plain colored',    2),
+('Base de Datos',  'Prisma ORM',                  60, '🔷', 'ti ti-database',                      3),
+('Base de Datos',  'Diseño relacional',           75, '📐', 'ti ti-relation-one-to-many',          4),
+-- Herramientas
+('Herramientas',   'Git / GitHub',                75, '🔧', 'devicon-git-plain colored',           1),
+('Herramientas',   'VS Code',                     85, '💻', 'devicon-vscode-plain colored',        2),
+('Herramientas',   'XAMPP / cPanel',              75, '🛠️', 'devicon-apache-plain colored',        3),
+('Herramientas',   'Docker',                      55, '🐳', 'devicon-docker-plain colored',        4),
+('Herramientas',   'Insomnia',                    70, '🌙', 'ti ti-moon',                          5),
+('Herramientas',   'Kali Linux',                  65, '🐧', 'devicon-linux-plain',                 6),
+('Herramientas',   'Nmap',                        60, '🔍', 'ti ti-scan',                          7),
+('Herramientas',   'Metasploit Framework',        50, '💣', 'ti ti-terminal',                      8),
+('Herramientas',   'Wireshark',                   55, '🦈', 'ti ti-wave-square',                   9);
+
+-- ============================================================
+-- MIGRACIÓN (solo si ya importaste una versión anterior de bd.sql)
+-- ============================================================
+-- Si ya tienes datos en `habilidades` y no quieres perderlos, en lugar
+-- de re-importar este archivo completo, ejecuta solo este bloque en
+-- phpMyAdmin → SQL:
+--
+-- ALTER TABLE `habilidades`
+--   ADD COLUMN `icon_class` VARCHAR(100) DEFAULT '' AFTER `icono`;
+--
+-- Después, edita cada habilidad desde /admin/skills.php para asignarle
+-- una clase devicon o tabler-icons (ej: "devicon-php-plain colored").

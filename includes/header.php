@@ -62,9 +62,19 @@
     <nav role="navigation" aria-label="Navegación principal">
       <ul class="nav__menu" id="navMenu" role="list">
         <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#inicio">Inicio</a></li>
+        <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#biografia">Biografía</a></li>
         <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#habilidades">Habilidades</a></li>
+        <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#tecnologias">Tecnologías</a></li>
         <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#proyectos">Proyectos</a></li>
         <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#contacto">Contacto</a></li>
+        <li>
+          <a href="<?= isset($rootPath) ? $rootPath : '' ?>admin/login.php"
+             class="nav__login"
+             aria-label="Iniciar sesión como administrador">
+            <i data-lucide="lock" width="14" height="14" aria-hidden="true"></i>
+            Iniciar sesión
+          </a>
+        </li>
       </ul>
     </nav>
 

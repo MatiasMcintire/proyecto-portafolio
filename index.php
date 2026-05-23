@@ -5,10 +5,12 @@
  * Estructura semántica HTML5 completa:
  *   <header> → navegación principal
  *   <main>   → contenido principal
- *     <section id="inicio">     → Hero
- *     <section id="habilidades"> → Skills
- *     <section id="proyectos">  → Proyectos desde DB
- *     <section id="contacto">   → Formulario de contacto
+ *     <section id="inicio">       → Hero
+ *     <section id="biografia">    → Bio desde DB (tabla perfil)
+ *     <section id="habilidades">  → Habilidades desde DB agrupadas por categoría
+ *     <section id="tecnologias">  → Mismas habilidades como barras de progreso
+ *     <section id="proyectos">    → Proyectos desde DB
+ *     <section id="contacto">     → Formulario de contacto
  *   <footer> → pie de página
  */
 
@@ -22,6 +24,63 @@ $rootPath  = '';
 // Conectar a la base de datos para cargar proyectos
 require_once 'config/db.php';
 
+// ── Perfil (id = 1) ─────────────────────────────────────────
+// Fallback si la tabla aún no existe (ej: bd.sql no reimportado tras Fase 2.4)
+$perfil = [
+    'nombre'             => 'Matias McIntire',
+    'titulo_profesional' => 'Desarrollador Web Full Stack',
+    'bio'                => 'Desarrollador web con enfoque en PHP, MySQL y JavaScript. Construyo aplicaciones funcionales, seguras y bien diseñadas.',
+    'email_contacto'     => 'Motka2269@gmail.com',
+    'telefono'           => '',
+    'ubicacion'          => '',
+    'github'             => 'https://github.com/MatiasMcintire',
+    'linkedin'           => '',
+    'foto'               => '',
+];
+$_chkPerfil = $conn->query("SHOW TABLES LIKE 'perfil'");
+if ($_chkPerfil && $_chkPerfil->num_rows > 0) {
+    $rp = $conn->query("SELECT * FROM perfil WHERE id = 1 LIMIT 1");
+    if ($rp && $rp->num_rows > 0) {
+        $perfil = array_merge($perfil, $rp->fetch_assoc());
+    }
+}
+
+// ── Habilidades agrupadas por categoría ─────────────────────
+// Orden preferido de categorías (las no listadas van al final, alfabéticamente)
+$ordenCategorias = ['Backend', 'Frontend', 'Base de Datos', 'Herramientas'];
+$iconosCategorias = [
+    'Backend'        => 'server',
+    'Frontend'       => 'monitor',
+    'Base de Datos'  => 'database',
+    'Herramientas'   => 'wrench',
+];
+$habilidadesPorCategoria = [];
+$_chkHab = $conn->query("SHOW TABLES LIKE 'habilidades'");
+if ($_chkHab && $_chkHab->num_rows > 0) {
+    $rh = $conn->query(
+        "SELECT * FROM habilidades WHERE visible = 1
+         ORDER BY categoria ASC, orden ASC, nombre ASC"
+    );
+    if ($rh) {
+        while ($h = $rh->fetch_assoc()) {
+            $habilidadesPorCategoria[$h['categoria']][] = $h;
+        }
+    }
+}
+// Reordenar según preferencia
+$categoriasOrdenadas = [];
+foreach ($ordenCategorias as $cat) {
+    if (isset($habilidadesPorCategoria[$cat])) {
+        $categoriasOrdenadas[$cat] = $habilidadesPorCategoria[$cat];
+        unset($habilidadesPorCategoria[$cat]);
+    }
+}
+// Las categorías no listadas se anexan al final
+foreach ($habilidadesPorCategoria as $cat => $items) {
+    $categoriasOrdenadas[$cat] = $items;
+}
+
+// ── Proyectos ───────────────────────────────────────────────
 // Obtener proyectos destacados para el home (prepared statement)
 $stmt = $conn->prepare("SELECT * FROM proyectos WHERE destacado = 1 ORDER BY orden ASC LIMIT 4");
 $stmt->execute();
@@ -60,13 +119,12 @@ $stmtAll->close();
         <!-- h1 único de la página — palabra clave al inicio -->
         <h1 id="hero-heading">
           Hola, soy
-          <span class="hero__name">Matias McIntire</span>
+          <span class="hero__name"><?= htmlspecialchars($perfil['nombre']) ?></span>
         </h1>
 
-        <!-- Subtítulo descriptivo -->
+        <!-- Subtítulo descriptivo (título profesional desde tabla perfil) -->
         <p>
-          Desarrollador web con enfoque en <strong>PHP</strong>,
-          <strong>MySQL</strong> y <strong>JavaScript</strong>.
+          <strong><?= htmlspecialchars($perfil['titulo_profesional']) ?></strong>.
           Construyo aplicaciones web funcionales, seguras y bien diseñadas.
         </p>
 
@@ -87,9 +145,95 @@ $stmtAll->close();
 
 
   <!-- ──────────────────────────────────────────────────────────
-       SECCIÓN 2: HABILIDADES TÉCNICAS
-       Usa <section> + <h2> (jerarquía correcta después del h1)
-       Las habilidades se presentan como listas semánticas <ul><li>
+       SECCIÓN 2: BIOGRAFÍA
+       Información personal desde la tabla `perfil` (id = 1).
+       Editable desde /admin/profile.php
+       ──────────────────────────────────────────────────────────── -->
+  <section id="biografia" class="section section--alt" aria-labelledby="bio-heading">
+    <div class="container">
+
+      <h2 id="bio-heading" class="section__title">Biografía</h2>
+      <p class="section__subtitle">Quién soy y qué hago</p>
+
+      <div class="bio">
+
+        <!-- Columna izquierda: foto / avatar -->
+        <div class="bio__photo">
+          <?php if (!empty($perfil['foto']) && file_exists('assets/uploads/' . $perfil['foto'])): ?>
+            <img
+              src="assets/uploads/<?= htmlspecialchars($perfil['foto']) ?>"
+              alt="Foto de <?= htmlspecialchars($perfil['nombre']) ?>"
+              loading="lazy"
+            >
+          <?php else: ?>
+            <div class="bio__photo-placeholder" aria-hidden="true">
+              <?= htmlspecialchars(mb_strtoupper(mb_substr($perfil['nombre'], 0, 1))) ?>
+            </div>
+          <?php endif; ?>
+        </div>
+
+        <!-- Columna derecha: contenido -->
+        <div class="bio__content">
+
+          <h3 class="bio__role"><?= htmlspecialchars($perfil['titulo_profesional']) ?></h3>
+
+          <?php if (!empty($perfil['bio'])): ?>
+            <p class="bio__text"><?= nl2br(htmlspecialchars($perfil['bio'])) ?></p>
+          <?php endif; ?>
+
+          <!-- Datos de contacto (solo los que existen) -->
+          <ul class="bio__meta" role="list">
+            <?php if (!empty($perfil['ubicacion'])): ?>
+              <li><i data-lucide="map-pin" width="16" height="16" aria-hidden="true"></i>
+                <?= htmlspecialchars($perfil['ubicacion']) ?></li>
+            <?php endif; ?>
+            <?php if (!empty($perfil['email_contacto'])): ?>
+              <li><i data-lucide="mail" width="16" height="16" aria-hidden="true"></i>
+                <a href="mailto:<?= htmlspecialchars($perfil['email_contacto']) ?>">
+                  <?= htmlspecialchars($perfil['email_contacto']) ?>
+                </a></li>
+            <?php endif; ?>
+            <?php if (!empty($perfil['telefono'])): ?>
+              <li><i data-lucide="phone" width="16" height="16" aria-hidden="true"></i>
+                <?= htmlspecialchars($perfil['telefono']) ?></li>
+            <?php endif; ?>
+          </ul>
+
+          <!-- Redes sociales -->
+          <?php if (!empty($perfil['github']) || !empty($perfil['linkedin'])): ?>
+            <div class="bio__social">
+              <?php if (!empty($perfil['github'])): ?>
+                <a href="<?= htmlspecialchars($perfil['github']) ?>"
+                   class="btn btn--outline btn--sm"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="GitHub de <?= htmlspecialchars($perfil['nombre']) ?>">
+                  <i class="devicon-github-original"></i> GitHub
+                </a>
+              <?php endif; ?>
+              <?php if (!empty($perfil['linkedin'])): ?>
+                <a href="<?= htmlspecialchars($perfil['linkedin']) ?>"
+                   class="btn btn--outline btn--sm"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="LinkedIn de <?= htmlspecialchars($perfil['nombre']) ?>">
+                  <i class="devicon-linkedin-plain colored"></i> LinkedIn
+                </a>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
+
+        </div><!-- .bio__content -->
+
+      </div><!-- .bio -->
+
+    </div><!-- .container -->
+  </section>
+  <!-- FIN SECCIÓN BIOGRAFÍA -->
+
+
+  <!-- ──────────────────────────────────────────────────────────
+       SECCIÓN 3: HABILIDADES TÉCNICAS
+       Cargadas desde la tabla `habilidades` agrupadas por categoría.
+       Editable desde /admin/skills.php
        ──────────────────────────────────────────────────────────── -->
   <section id="habilidades" class="section" aria-labelledby="skills-heading">
     <div class="container">
@@ -97,75 +241,40 @@ $stmtAll->close();
       <h2 id="skills-heading" class="section__title">Habilidades Técnicas</h2>
       <p class="section__subtitle">Tecnologías con las que trabajo día a día, todo bajo estricta autodisciplina</p>
 
-      <!-- Grid de tarjetas de habilidad -->
-      <div class="skills-grid">
+      <?php if (!empty($categoriasOrdenadas)): ?>
 
-        <!-- Tarjeta: Backend -->
-        <article class="skill-card" aria-label="Habilidades de Backend">
-          <div class="skill-card__icon" aria-hidden="true">
-            <i data-lucide="server" width="28" height="28"></i>
-          </div>
-          <h3 class="skill-card__title">Backend</h3>
-          <ul role="list">
-            <li><i class="devicon-php-plain colored"></i> PHP 8</li>
-            <li><i class="devicon-mysql-plain colored"></i> MySQL</li>
-            <li><i class="devicon-nestjs-plain colored"></i> NestJS</li>
-            <li><i class="ti ti-api"></i> REST APIs</li>
-            <li><i class="ti ti-shield-lock"></i> Prepared Statements</li>
-            <li><i class="ti ti-shield-exclamation"></i> OWASP Top 10 (básico)</li>
-            <li><i class="ti ti-lock"></i> Seguridad en REST APIs</li>
-          </ul>
-        </article>
+        <!-- Grid de tarjetas de habilidad (una por categoría) -->
+        <div class="skills-grid">
 
-        <!-- Tarjeta: Frontend -->
-        <article class="skill-card" aria-label="Habilidades de Frontend">
-          <div class="skill-card__icon" aria-hidden="true">
-            <i data-lucide="monitor" width="28" height="28"></i>
-          </div>
-          <h3 class="skill-card__title">Frontend</h3>
-          <ul role="list">
-            <li><i class="devicon-html5-plain colored"></i> HTML5 Semántico</li>
-            <li><i class="devicon-css3-plain colored"></i> CSS3 + Flexbox</li>
-            <li><i class="devicon-javascript-plain colored"></i> JavaScript ES6</li>
-            <li><i class="devicon-nextjs-plain"></i> Next.js 14</li>
-            <li><i class="devicon-tailwindcss-plain colored"></i> Tailwind CSS</li>
-          </ul>
-        </article>
+          <?php foreach ($categoriasOrdenadas as $categoria => $items): ?>
+            <article class="skill-card" aria-label="Habilidades de <?= htmlspecialchars($categoria) ?>">
+              <div class="skill-card__icon" aria-hidden="true">
+                <i data-lucide="<?= htmlspecialchars($iconosCategorias[$categoria] ?? 'tag') ?>"
+                   width="28" height="28"></i>
+              </div>
+              <h3 class="skill-card__title"><?= htmlspecialchars($categoria) ?></h3>
+              <ul role="list">
+                <?php foreach ($items as $h): ?>
+                  <li>
+                    <?php if (!empty($h['icon_class'])): ?>
+                      <i class="<?= htmlspecialchars($h['icon_class']) ?>" aria-hidden="true"></i>
+                    <?php else: ?>
+                      <span aria-hidden="true"><?= htmlspecialchars($h['icono'] ?? '⚙️') ?></span>
+                    <?php endif; ?>
+                    <?= htmlspecialchars($h['nombre']) ?>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+            </article>
+          <?php endforeach; ?>
 
-        <!-- Tarjeta: Base de datos -->
-        <article class="skill-card" aria-label="Habilidades de Base de Datos">
-          <div class="skill-card__icon" aria-hidden="true">
-            <i data-lucide="database" width="28" height="28"></i>
-          </div>
-          <h3 class="skill-card__title">Base de Datos</h3>
-          <ul role="list">
-            <li><i class="devicon-mysql-plain colored"></i> MySQL / phpMyAdmin</li>
-            <li><i class="devicon-postgresql-plain colored"></i> PostgreSQL</li>
-            <li>Prisma ORM</li>
-            <li>Diseño relacional</li>
-          </ul>
-        </article>
+        </div><!-- .skills-grid -->
 
-        <!-- Tarjeta: Herramientas -->
-        <article class="skill-card" aria-label="Herramientas de desarrollo">
-          <div class="skill-card__icon" aria-hidden="true">
-            <i data-lucide="wrench" width="28" height="28"></i>
-          </div>
-          <h3 class="skill-card__title">Herramientas</h3>
-          <ul role="list">
-            <li><i class="devicon-git-plain colored"></i> Git / GitHub</li>
-            <li><i class="devicon-vscode-plain colored"></i> VS Code</li>
-            <li><i class="devicon-apache-plain colored"></i> XAMPP / cPanel</li>
-            <li><i class="devicon-docker-plain colored"></i> Docker</li>
-            <li><i class="ti ti-moon"></i> Insomnia</li>
-            <li><i class="devicon-linux-plain"></i> Kali Linux</li>
-            <li><i class="ti ti-scan"></i> Nmap</li>
-            <li><i class="ti ti-terminal"></i> Metasploit Framework</li>
-            <li><i class="ti ti-wave-square"></i> Wireshark</li>
-          </ul>
-        </article>
-
-      </div><!-- .skills-grid -->
+      <?php else: ?>
+        <p style="text-align:center; color: var(--color-text-muted);">
+          Próximamente se agregarán habilidades desde el panel.
+        </p>
+      <?php endif; ?>
 
     </div><!-- .container -->
   </section>
@@ -173,7 +282,60 @@ $stmtAll->close();
 
 
   <!-- ──────────────────────────────────────────────────────────
-       SECCIÓN 3: PROYECTOS
+       SECCIÓN 4: TECNOLOGÍAS — barras de nivel
+       Misma fuente de datos (tabla habilidades) pero visualización
+       distinta: lista plana con barra de progreso por nivel %.
+       ──────────────────────────────────────────────────────────── -->
+  <section id="tecnologias" class="section section--alt" aria-labelledby="tech-heading">
+    <div class="container">
+
+      <h2 id="tech-heading" class="section__title">Tecnologías</h2>
+      <p class="section__subtitle">Nivel de dominio por tecnología</p>
+
+      <?php if (!empty($categoriasOrdenadas)): ?>
+
+        <div class="tech-groups">
+
+          <?php foreach ($categoriasOrdenadas as $categoria => $items): ?>
+            <div class="tech-group">
+              <h3 class="tech-group__title"><?= htmlspecialchars($categoria) ?></h3>
+              <ul class="tech-list" role="list">
+                <?php foreach ($items as $h): ?>
+                  <li class="tech-item">
+                    <span class="tech-item__icon" aria-hidden="true">
+                      <?= htmlspecialchars($h['icono'] ?? '⚙️') ?>
+                    </span>
+                    <span class="tech-item__name"><?= htmlspecialchars($h['nombre']) ?></span>
+                    <div class="tech-item__bar"
+                         role="progressbar"
+                         aria-valuenow="<?= (int)$h['nivel'] ?>"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         aria-label="Nivel de <?= htmlspecialchars($h['nombre']) ?>">
+                      <div class="tech-item__fill" style="width: <?= (int)$h['nivel'] ?>%"></div>
+                    </div>
+                    <span class="tech-item__level"><?= (int)$h['nivel'] ?>%</span>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+            </div>
+          <?php endforeach; ?>
+
+        </div><!-- .tech-groups -->
+
+      <?php else: ?>
+        <p style="text-align:center; color: var(--color-text-muted);">
+          Próximamente se agregarán tecnologías desde el panel.
+        </p>
+      <?php endif; ?>
+
+    </div><!-- .container -->
+  </section>
+  <!-- FIN SECCIÓN TECNOLOGÍAS -->
+
+
+  <!-- ──────────────────────────────────────────────────────────
+       SECCIÓN 5: PROYECTOS
        Los proyectos se cargan dinámicamente desde MySQL.
        Cada proyecto es un <article> (contenido autónomo).
        ──────────────────────────────────────────────────────────── -->
@@ -276,7 +438,7 @@ $stmtAll->close();
 
 
   <!-- ──────────────────────────────────────────────────────────
-       SECCIÓN 4: CONTACTO
+       SECCIÓN 6: CONTACTO
        Formulario con validaciones JS avanzadas (25 pts rúbrica).
        Sin alert() — feedback dinámico con mensajes en línea.
        ──────────────────────────────────────────────────────────── -->

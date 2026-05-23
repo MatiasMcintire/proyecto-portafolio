@@ -6,12 +6,13 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $categoria = trim($_POST['categoria'] ?? '');
-    $nombre    = trim($_POST['nombre']    ?? '');
-    $nivel     = (int)($_POST['nivel']    ?? 80);
-    $icono     = trim($_POST['icono']     ?? '⚙️');
-    $orden     = (int)($_POST['orden']    ?? 0);
-    $visible   = isset($_POST['visible']) ? 1 : 0;
+    $categoria  = trim($_POST['categoria']  ?? '');
+    $nombre     = trim($_POST['nombre']     ?? '');
+    $nivel      = (int)($_POST['nivel']     ?? 80);
+    $icono      = trim($_POST['icono']      ?? '⚙️');
+    $icon_class = trim($_POST['icon_class'] ?? '');
+    $orden      = (int)($_POST['orden']     ?? 0);
+    $visible    = isset($_POST['visible']) ? 1 : 0;
 
     if (empty($categoria)) {
         $error = 'La categoría es obligatoria.';
@@ -21,10 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'El nivel debe estar entre 0 y 100.';
     } else {
         $stmt = $conn->prepare(
-            "INSERT INTO habilidades (categoria, nombre, nivel, icono, orden, visible)
-             VALUES (?, ?, ?, ?, ?, ?)"
+            "INSERT INTO habilidades (categoria, nombre, nivel, icono, icon_class, orden, visible)
+             VALUES (?, ?, ?, ?, ?, ?, ?)"
         );
-        $stmt->bind_param('ssisii', $categoria, $nombre, $nivel, $icono, $orden, $visible);
+        $stmt->bind_param('ssissii', $categoria, $nombre, $nivel, $icono, $icon_class, $orden, $visible);
         $stmt->execute();
         $stmt->close();
         header('Location: skills.php?msg=creada');
@@ -101,7 +102,7 @@ if ($rc) {
 
         <div class="form-grid-2">
           <div class="form-row">
-            <label for="icono">Icono <small>(emoji)</small></label>
+            <label for="icono">Icono <small>(emoji para sección Tecnologías)</small></label>
             <input type="text" id="icono" name="icono"
                    value="<?= htmlspecialchars($_POST['icono'] ?? '⚙️') ?>"
                    placeholder="⚙️"
@@ -116,6 +117,18 @@ if ($rc) {
                    value="<?= (int)($_POST['nivel'] ?? 80) ?>"
                    oninput="document.getElementById('nivel-val').textContent = this.value + '%'"
                    style="width:100%; accent-color:#3b82f6; margin-top:.5rem;">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="icon_class">Clase del ícono <small>(Devicon o Tabler Icons, para sección Habilidades)</small></label>
+          <input type="text" id="icon_class" name="icon_class"
+                 value="<?= htmlspecialchars($_POST['icon_class'] ?? '') ?>"
+                 placeholder="Ej: devicon-php-plain colored  o  ti ti-shield-lock">
+          <div class="hint">
+            Buscar en <a href="https://devicon.dev" target="_blank" rel="noopener">devicon.dev</a>
+            o <a href="https://tabler.io/icons" target="_blank" rel="noopener">tabler.io/icons</a>.
+            Si lo dejas vacío, se usa el emoji.
           </div>
         </div>
 
