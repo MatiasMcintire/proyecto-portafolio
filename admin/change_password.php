@@ -43,6 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Contraseña — Panel Admin</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -52,16 +56,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <div class="page-header">
     <div>
-      <h1>🔒 Seguridad</h1>
+      <h1>Seguridad</h1>
       <p>Cambia la contraseña de acceso al panel</p>
     </div>
   </div>
 
-  <?php if ($error):   ?><div class="alert alert-del"><?= htmlspecialchars($error) ?></div><?php endif; ?>
-  <?php if ($success): ?><div class="alert alert-ok">✅ <?= htmlspecialchars($success) ?></div><?php endif; ?>
+  <?php if ($error):   ?><div class="alert alert-del"><i class="ti ti-alert-circle"></i> <?= htmlspecialchars($error) ?></div><?php endif; ?>
+  <?php if ($success): ?><div class="alert alert-ok"><i class="ti ti-circle-check"></i> <?= htmlspecialchars($success) ?></div><?php endif; ?>
 
   <div class="card" style="max-width:480px">
-    <div class="card__header"><h2>🔑 Nueva contraseña</h2></div>
+    <div class="card__header"><h2><i class="ti ti-key"></i> Nueva contraseña</h2></div>
     <div class="card__body" style="padding:1.5rem">
 
       <form method="POST" action="change_password.php" novalidate>

@@ -118,12 +118,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Editar Proyecto — Admin</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 </head>
 <body class="admin-body">
 
   <header class="admin-header" role="banner">
-    <span class="admin-header__title">✏️ Editar Proyecto</span>
-    <nav><a href="index.php">← Volver</a></nav>
+    <span class="admin-header__title"><i class="ti ti-edit" aria-hidden="true"></i> Editar Proyecto</span>
+    <nav><a href="index.php"><i class="ti ti-arrow-left" aria-hidden="true"></i> Volver</a></nav>
   </header>
 
   <main class="admin-container" role="main">

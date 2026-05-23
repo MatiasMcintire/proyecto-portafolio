@@ -30,8 +30,8 @@ if ($_rsk && $_rsk->num_rows > 0) {
 <aside class="sidebar" id="sidebar">
 
   <div class="sidebar__logo">
-    <strong>⚙️ Panel Admin</strong>
-    <span>Portafolio Profesional</span>
+    <i class="ti ti-command icon" aria-hidden="true"></i>
+    <strong>Panel Admin</strong>
   </div>
 
   <nav class="sidebar__nav">
@@ -39,21 +39,21 @@ if ($_rsk && $_rsk->num_rows > 0) {
     <div class="sidebar__section">Principal</div>
 
     <a href="index.php" class="sidebar__link <?= $_sp === 'index' ? 'active' : '' ?>">
-      <span class="icon">📊</span> Dashboard
+      <i class="ti ti-layout-dashboard icon" aria-hidden="true"></i> Dashboard
     </a>
 
     <div class="sidebar__section">Contenido</div>
 
     <a href="index.php#sec-proyectos"
        class="sidebar__link <?= in_array($_sp, ['add', 'edit']) ? 'active' : '' ?>">
-      <span class="icon">💼</span> Proyectos
+      <i class="ti ti-folder icon" aria-hidden="true"></i> Proyectos
       <?php if ($_nPr > 0): ?>
         <span class="sidebar__count"><?= $_nPr ?></span>
       <?php endif; ?>
     </a>
 
     <a href="index.php#sec-mensajes" class="sidebar__link">
-      <span class="icon">✉️</span> Mensajes
+      <i class="ti ti-mail icon" aria-hidden="true"></i> Mensajes
       <?php if ($_unr > 0): ?>
         <span class="sidebar__badge"><?= $_unr ?></span>
       <?php endif; ?>
@@ -61,7 +61,7 @@ if ($_rsk && $_rsk->num_rows > 0) {
 
     <a href="skills.php"
        class="sidebar__link <?= str_starts_with($_sp, 'skills') ? 'active' : '' ?>">
-      <span class="icon">🛠️</span> Habilidades
+      <i class="ti ti-tool icon" aria-hidden="true"></i> Habilidades
       <?php if ($_nSk > 0): ?>
         <span class="sidebar__count"><?= $_nSk ?></span>
       <?php endif; ?>
@@ -70,18 +70,18 @@ if ($_rsk && $_rsk->num_rows > 0) {
     <div class="sidebar__section">Configuración</div>
 
     <a href="profile.php" class="sidebar__link <?= $_sp === 'profile' ? 'active' : '' ?>">
-      <span class="icon">👤</span> Mi Perfil
+      <i class="ti ti-user icon" aria-hidden="true"></i> Mi Perfil
     </a>
 
     <a href="change_password.php"
        class="sidebar__link <?= $_sp === 'change_password' ? 'active' : '' ?>">
-      <span class="icon">🔒</span> Contraseña
+      <i class="ti ti-key icon" aria-hidden="true"></i> Contraseña
     </a>
 
     <div class="sidebar__section">Sitio</div>
 
     <a href="../index.php" class="sidebar__link" target="_blank" rel="noopener">
-      <span class="icon">🌐</span> Ver portafolio
+      <i class="ti ti-world icon" aria-hidden="true"></i> Ver portafolio
     </a>
 
   </nav>

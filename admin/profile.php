@@ -92,6 +92,10 @@ if ($tableExists) {
   <title>Mi Perfil — Panel Admin</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -101,7 +105,7 @@ if ($tableExists) {
 
   <div class="page-header">
     <div>
-      <h1>👤 Mi Perfil</h1>
+      <h1>Mi Perfil</h1>
       <p>Información pública de tu portafolio</p>
     </div>
   </div>
@@ -109,7 +113,7 @@ if ($tableExists) {
   <?php if (!$tableExists): ?>
   <!-- ── Instrucciones de primer uso ── -->
   <div class="sql-instructions">
-    <strong>⚠️ Primer uso — Crea la tabla en phpMyAdmin</strong><br>
+    <strong><i class="ti ti-alert-triangle"></i> Primer uso — Crea la tabla en phpMyAdmin</strong><br>
     Copia y ejecuta este SQL en <strong>phpMyAdmin → SQL</strong>:
   </div>
   <div class="sql-box">CREATE TABLE IF NOT EXISTS `perfil` (
@@ -132,8 +136,8 @@ INSERT IGNORE INTO `perfil` (`id`) VALUES (1);</div>
 
   <?php else: ?>
 
-  <?php if ($error):   ?><div class="alert alert-del"><?= htmlspecialchars($error) ?></div><?php endif; ?>
-  <?php if ($success): ?><div class="alert alert-ok">✅ <?= htmlspecialchars($success) ?></div><?php endif; ?>
+  <?php if ($error):   ?><div class="alert alert-del"><i class="ti ti-alert-circle"></i> <?= htmlspecialchars($error) ?></div><?php endif; ?>
+  <?php if ($success): ?><div class="alert alert-ok"><i class="ti ti-circle-check"></i> <?= htmlspecialchars($success) ?></div><?php endif; ?>
 
   <form method="POST" action="profile.php" enctype="multipart/form-data">
 
@@ -228,7 +232,7 @@ INSERT IGNORE INTO `perfil` (`id`) VALUES (1);</div>
           <div class="hint">Sube una nueva imagen para reemplazar la actual.</div>
         </div>
 
-        <button type="submit" class="btn-save">💾 Guardar perfil</button>
+        <button type="submit" class="btn-save"><i class="ti ti-device-floppy"></i> Guardar perfil</button>
 
       </div>
     </div>

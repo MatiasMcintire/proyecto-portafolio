@@ -236,85 +236,51 @@ a:hover {
       Pseudo-clases: :hover, .active
    ──────────────────────────────────────────────────────────── */
 
-/* Barra de navegación fija en la parte superior */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/* ─────────────────────────────────────────────────────
+   Bootstrap navbar — overrides de tema
+   El collapse mobile, el toggler y la estructura los maneja
+   Bootstrap; aquí solo personalizamos colores, tipografía
+   y blur de fondo para mantener la identidad del sitio.
+   ───────────────────────────────────────────────────── */
+.navbar-custom {
   background-color: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-border);
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 64px;
 }
 
-/* Selector de hijo directo (>): el .container que es hijo DIRECTO de .nav */
-.nav > .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-}
-
-/* Logo de la navegación */
+/* Logo / brand */
 .nav__logo {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--color-text);
+  text-decoration: none;
 }
-
-/* Selector de descendiente: <span> dentro de .nav__logo */
 .nav__logo span {
   color: var(--color-primary);
 }
 
-/* Menú de navegación (lista) */
-.nav__menu {
-  display: flex;
-  gap: 0.25rem;
-}
-
-/* Selector hijo directo: enlace dentro del <li> del menú */
-.nav__menu > li > a {
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
+/* Links de navegación (override de Bootstrap .nav-link) */
+.navbar-custom .nav-link {
   color: var(--color-text);
   font-weight: 500;
   font-size: 0.9rem;
-  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
 }
-
-/* Pseudo-clases :hover y clase .active en los enlaces del menú */
-.nav__menu > li > a:hover,
-.nav__menu > li > a.active {
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link.active {
   color: var(--color-primary);
   background-color: var(--color-primary-light);
 }
 
-/* Botón hamburger (solo visible en mobile) */
-.nav__toggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  border-radius: var(--radius-sm);
-}
-
-/* Selector de descendiente: líneas del hamburger */
-.nav__toggle span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background-color: var(--color-text);
-  border-radius: 2px;
-  transition: var(--transition);
-}
-
-/* Pseudo-clase :focus-visible para accesibilidad con teclado */
-.nav__toggle:focus-visible {
+/* Toggler hamburger (accesibilidad — outline custom) */
+.navbar-toggler:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+  box-shadow: none;
 }
 
 
@@ -983,35 +949,13 @@ tbody tr:hover {
 /* Tablet y móvil: pantallas ≤ 768px */
 @media (max-width: 768px) {
 
-  /* Mostrar botón hamburger */
-  .nav__toggle {
-    display: flex;
+  /* El collapse del navbar lo gestiona Bootstrap (data-bs-toggle). */
+  /* Ajustes finos del menú colapsado en mobile: */
+  .navbar-custom .navbar-collapse {
+    padding: 0.5rem 0 0.75rem;
   }
-
-  /* Ocultar menú de navegación (se muestra con JS al clic) */
-  .nav__menu {
-    display: none;
-    position: absolute;
-    top: 64px;
-    left: 0;
-    right: 0;
-    background-color: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
-    flex-direction: column;
-    padding: 1rem;
+  .navbar-custom .navbar-nav {
     gap: 0.25rem;
-    box-shadow: var(--shadow-md);
-    z-index: 99;
-  }
-
-  /* Clase .is-open activa el menú en mobile */
-  .nav__menu.is-open {
-    display: flex;
-  }
-
-  /* .nav necesita position relative para que el menú sea absoluto */
-  .nav > .container {
-    position: relative;
   }
 
   /* Hero: sin altura mínima completa en mobile */
@@ -1093,8 +1037,8 @@ tbody tr:hover {
   background-color: var(--color-bg-soft);
 }
 
-/* ── Botón "Iniciar sesión" en la navbar ── */
-.nav__login {
+/* ── Botón "Iniciar sesión" en la navbar (override de Bootstrap .nav-link) ── */
+.navbar-custom .nav-link.nav__login {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -1106,7 +1050,7 @@ tbody tr:hover {
   font-weight: 600;
   transition: var(--transition);
 }
-.nav__login:hover {
+.navbar-custom .nav-link.nav__login:hover {
   background-color: var(--color-primary-dark);
   transform: translateY(-1px);
 }
@@ -1304,7 +1248,7 @@ tbody tr:hover {
 }
 
 @media (max-width: 480px) {
-  .nav__login {
+  .navbar-custom .nav-link.nav__login {
     padding: 0.4rem 0.75rem;
     font-size: 0.82rem;
   }

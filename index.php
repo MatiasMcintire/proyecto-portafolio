@@ -306,13 +306,15 @@ $stmtAll->close();
                       <?= htmlspecialchars($h['icono'] ?? '⚙️') ?>
                     </span>
                     <span class="tech-item__name"><?= htmlspecialchars($h['nombre']) ?></span>
-                    <div class="tech-item__bar"
+                    <!-- Bootstrap .progress + .progress-bar (theme custom via .tech-item__*) -->
+                    <div class="progress tech-item__bar"
                          role="progressbar"
                          aria-valuenow="<?= (int)$h['nivel'] ?>"
                          aria-valuemin="0"
                          aria-valuemax="100"
                          aria-label="Nivel de <?= htmlspecialchars($h['nombre']) ?>">
-                      <div class="tech-item__fill" style="width: <?= (int)$h['nivel'] ?>%"></div>
+                      <div class="progress-bar tech-item__fill"
+                           style="width: <?= (int)$h['nivel'] ?>%"></div>
                     </div>
                     <span class="tech-item__level"><?= (int)$h['nivel'] ?>%</span>
                   </li>
@@ -351,11 +353,12 @@ $stmtAll->close();
 
           <?php while ($proyecto = $proyectosDestacados->fetch_assoc()): ?>
 
-            <!-- <article> → contenido autónomo (semántica correcta para proyectos) -->
-            <article class="project-card" aria-label="<?= htmlspecialchars($proyecto['titulo']) ?>">
+            <!-- <article> → contenido autónomo (semántica correcta para proyectos)
+                 Combina .card (Bootstrap) + .project-card (tema custom: hover, overlay) -->
+            <article class="card project-card h-100" aria-label="<?= htmlspecialchars($proyecto['titulo']) ?>">
 
               <!-- Imagen del proyecto (o placeholder si no tiene) -->
-              <div class="project-card__img">
+              <div class="card-img-top project-card__img">
                 <?php if (!empty($proyecto['imagen']) && file_exists('assets/uploads/' . $proyecto['imagen'])): ?>
                   <img
                     src="assets/uploads/<?= htmlspecialchars($proyecto['imagen']) ?>"
@@ -368,13 +371,13 @@ $stmtAll->close();
               </div>
 
               <!-- Contenido de la tarjeta -->
-              <div class="project-card__body">
+              <div class="card-body project-card__body">
 
-                <h3 class="project-card__title">
+                <h3 class="card-title project-card__title">
                   <?= htmlspecialchars($proyecto['titulo']) ?>
                 </h3>
 
-                <p>
+                <p class="card-text">
                   <?= htmlspecialchars($proyecto['descripcion']) ?>
                 </p>
 

@@ -29,6 +29,9 @@ $msg = $_GET['msg'] ?? '';
   <!-- Devicons + Tabler Icons para previsualizar icon_class en el listado -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
     .nivel-bar {
       height: 6px;
@@ -54,22 +57,22 @@ $msg = $_GET['msg'] ?? '';
 
   <div class="page-header">
     <div>
-      <h1>🛠️ Habilidades</h1>
+      <h1>Habilidades</h1>
       <p>Gestiona las habilidades técnicas de tu portafolio</p>
     </div>
     <?php if ($tableExists): ?>
-      <a href="skills_add.php" class="btn-add">+ Nueva habilidad</a>
+      <a href="skills_add.php" class="btn-add"><i class="ti ti-plus"></i> Nueva habilidad</a>
     <?php endif; ?>
   </div>
 
-  <?php if ($msg === 'creada'):   ?><div class="alert alert-ok">✅ Habilidad agregada.</div><?php endif; ?>
-  <?php if ($msg === 'editada'):  ?><div class="alert alert-ok">✅ Habilidad actualizada.</div><?php endif; ?>
-  <?php if ($msg === 'eliminada'):?><div class="alert alert-del">🗑️ Habilidad eliminada.</div><?php endif; ?>
+  <?php if ($msg === 'creada'):   ?><div class="alert alert-ok"><i class="ti ti-circle-check"></i> Habilidad agregada.</div><?php endif; ?>
+  <?php if ($msg === 'editada'):  ?><div class="alert alert-ok"><i class="ti ti-circle-check"></i> Habilidad actualizada.</div><?php endif; ?>
+  <?php if ($msg === 'eliminada'):?><div class="alert alert-del"><i class="ti ti-trash"></i> Habilidad eliminada.</div><?php endif; ?>
 
   <?php if (!$tableExists): ?>
   <!-- ── Instrucciones de primer uso ── -->
   <div class="sql-instructions">
-    <strong>⚠️ Primer uso — Crea la tabla en phpMyAdmin</strong><br>
+    <strong><i class="ti ti-alert-triangle"></i> Primer uso — Crea la tabla en phpMyAdmin</strong><br>
     Copia y ejecuta este SQL en <strong>phpMyAdmin → SQL</strong>:
   </div>
   <div class="sql-box">CREATE TABLE IF NOT EXISTS `habilidades` (
@@ -102,7 +105,7 @@ INSERT INTO `habilidades` (categoria, nombre, nivel, icono, icon_class, orden) V
   <div class="card">
     <div class="card__header">
       <h2>Lista de habilidades</h2>
-      <a href="skills_add.php" class="btn-add">+ Agregar</a>
+      <a href="skills_add.php" class="btn-add"><i class="ti ti-plus"></i> Agregar</a>
     </div>
     <div class="card__body">
       <?php if ($habilidades && $habilidades->num_rows > 0): ?>
@@ -150,12 +153,15 @@ INSERT INTO `habilidades` (categoria, nombre, nivel, icono, icon_class, orden) V
                 </td>
                 <td>
                   <div style="display:flex; gap:.4rem; flex-wrap:wrap;">
-                    <a href="skills_edit.php?id=<?= $h['id'] ?>" class="btn-xs btn-edit">✏️ Editar</a>
+                    <a href="skills_edit.php?id=<?= $h['id'] ?>"
+                       class="btn-xs btn-edit"
+                       aria-label="Editar <?= htmlspecialchars($h['nombre']) ?>"
+                       title="Editar"><i class="ti ti-edit"></i></a>
                     <a href="skills_delete.php?id=<?= $h['id'] ?>"
                        class="btn-xs btn-delete"
-                       onclick="return confirm('¿Eliminar «<?= htmlspecialchars(addslashes($h['nombre'])) ?>»?')">
-                      🗑️ Eliminar
-                    </a>
+                       aria-label="Eliminar <?= htmlspecialchars($h['nombre']) ?>"
+                       title="Eliminar"
+                       onclick="return confirm('¿Eliminar «<?= htmlspecialchars(addslashes($h['nombre'])) ?>»?')"><i class="ti ti-trash"></i></a>
                   </div>
                 </td>
               </tr>
@@ -164,7 +170,7 @@ INSERT INTO `habilidades` (categoria, nombre, nivel, icono, icon_class, orden) V
         </table>
       <?php else: ?>
         <div class="empty">
-          <div class="empty-icon">🛠️</div>
+          <div class="empty-icon"><i class="ti ti-tool"></i></div>
           <p>No hay habilidades registradas. <a href="skills_add.php">Agrega la primera</a>.</p>
         </div>
       <?php endif; ?>

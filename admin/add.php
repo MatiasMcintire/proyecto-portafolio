@@ -98,13 +98,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Agregar Proyecto — Admin</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 </head>
 <body class="admin-body">
 
   <header class="admin-header" role="banner">
-    <span class="admin-header__title">➕ Agregar Proyecto</span>
+    <span class="admin-header__title"><i class="ti ti-plus" aria-hidden="true"></i> Agregar Proyecto</span>
     <nav>
-      <a href="index.php">← Volver al dashboard</a>
+      <a href="index.php"><i class="ti ti-arrow-left" aria-hidden="true"></i> Volver al dashboard</a>
     </nav>
   </header>
 

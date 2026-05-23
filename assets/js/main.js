@@ -22,27 +22,21 @@
    ═══════════════════════════════════════════════════════════ */
 
 /**
- * Inicializa el menú hamburger para dispositivos móviles.
- * Al hacer clic en el botón, alterna la clase 'is-open' en el menú.
- * Actualiza el atributo aria-expanded para accesibilidad.
+ * Cierra el menú colapsado de Bootstrap al hacer clic en un enlace.
+ * Bootstrap maneja el toggle/show/hide del navbar-collapse vía data-bs-toggle;
+ * solo agregamos la UX de auto-cierre en mobile cuando el usuario navega.
  */
-function initNav() {
-  const toggle = document.getElementById('navToggle');
-  const menu   = document.getElementById('navMenu');
+function initNavCollapse() {
+  const collapseEl = document.getElementById('navMenu');
+  if (!collapseEl || typeof bootstrap === 'undefined') return;
 
-  if (!toggle || !menu) return;
-
-  toggle.addEventListener('click', function () {
-    const isOpen = menu.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  // Cerrar menú al hacer clic en cualquier enlace (mejora UX en mobile)
-  const links = menu.querySelectorAll('a');
-  links.forEach(function (link) {
+  collapseEl.querySelectorAll('a.nav-link').forEach(function (link) {
     link.addEventListener('click', function () {
-      menu.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
+      // Solo cerrar si está expandido (mobile)
+      if (collapseEl.classList.contains('show')) {
+        const instance = bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+        instance.hide();
+      }
     });
   });
 }
@@ -54,7 +48,7 @@ function initNav() {
  */
 function initActiveNav() {
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav__menu a[href*="#"]');
+  const navLinks = document.querySelectorAll('.navbar-nav a.nav-link[href*="#"]');
 
   if (!sections.length || !navLinks.length) return;
 
@@ -547,7 +541,7 @@ function initContactForm() {
  * Es más rápido que window.onload.
  */
 document.addEventListener('DOMContentLoaded', function () {
-  initNav();
+  initNavCollapse();
   initActiveNav();
   initCharCounters();
   initContactForm();

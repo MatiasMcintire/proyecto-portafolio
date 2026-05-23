@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Setup Admin</title>
   <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -141,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="card">
 
-  <h1>🔐 Configurar Admin</h1>
+  <h1><i class="ti ti-lock"></i> Configurar Admin</h1>
   <p class="subtitle">Define la contraseña para el usuario <strong>admin</strong></p>
 
   <?php if ($msg && !$success): ?>
@@ -151,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <?php if ($success): ?>
 
     <div class="alert alert-success">
-      <strong>✅ <?= htmlspecialchars($msg) ?></strong>
+      <strong><i class="ti ti-circle-check"></i> <?= htmlspecialchars($msg) ?></strong>
     </div>
 
     <div class="actions-success">
@@ -160,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <div class="warning">
-      ⚠️ <strong>Importante:</strong> Elimina este archivo del servidor
+      <i class="ti ti-alert-triangle"></i> <strong>Importante:</strong> Elimina este archivo del servidor
       (<code>admin/setup_password.php</code>) una vez que hayas ingresado al panel.
     </div>
 
@@ -193,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
     <div class="warning" style="margin-top:1rem">
-      ℹ️ Usuario: <strong>admin</strong> &nbsp;|&nbsp;
+      <i class="ti ti-info-circle"></i> Usuario: <strong>admin</strong> &nbsp;|&nbsp;
       Este script solo existe para el primer acceso.
     </div>
 

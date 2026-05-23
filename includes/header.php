@@ -21,7 +21,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- CSS propio (Flexbox + Grid + selectores avanzados) -->
+  <!-- Bootstrap 5.3 (framework CSS — base, sobreescrito por style.css) -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+  <!-- CSS propio (Flexbox + Grid + selectores avanzados, overrides de Bootstrap) -->
   <link rel="stylesheet" href="<?= isset($cssPath) ? $cssPath : '' ?>assets/css/style.css">
 
   <!-- Devicons: logos de tecnologías -->
@@ -34,50 +39,52 @@
 <body>
 
 <!-- ============================================================
-     HEADER — Navegación principal
+     HEADER — Navegación principal (Bootstrap 5.3 navbar)
      role="banner" → landmark ARIA para lectores de pantalla
      ============================================================ -->
-<header class="nav" role="banner">
-  <div class="container">
+<header role="banner">
+  <nav class="navbar navbar-expand-lg sticky-top navbar-custom" aria-label="Navegación principal">
+    <div class="container">
 
-    <!-- Logo / nombre -->
-    <a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php" class="nav__logo" aria-label="Inicio">
-      Matias<span>McIntire</span>
-    </a>
+      <!-- Logo / brand -->
+      <a class="navbar-brand nav__logo"
+         href="<?= isset($rootPath) ? $rootPath : '' ?>index.php"
+         aria-label="Inicio">
+        Matias<span>McIntire</span>
+      </a>
 
-    <!-- Botón hamburger (visible solo en mobile) -->
-    <button
-      class="nav__toggle"
-      id="navToggle"
-      aria-label="Abrir menú de navegación"
-      aria-expanded="false"
-      aria-controls="navMenu"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <!-- Botón toggler de Bootstrap (visible <992px) -->
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navMenu"
+              aria-controls="navMenu"
+              aria-expanded="false"
+              aria-label="Abrir menú de navegación">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <!-- Menú principal -->
-    <nav role="navigation" aria-label="Navegación principal">
-      <ul class="nav__menu" id="navMenu" role="list">
-        <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#inicio">Inicio</a></li>
-        <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#biografia">Biografía</a></li>
-        <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#habilidades">Habilidades</a></li>
-        <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#tecnologias">Tecnologías</a></li>
-        <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#proyectos">Proyectos</a></li>
-        <li><a href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#contacto">Contacto</a></li>
-        <li>
-          <a href="<?= isset($rootPath) ? $rootPath : '' ?>admin/login.php"
-             class="nav__login"
-             aria-label="Iniciar sesión como administrador">
-            <i data-lucide="lock" width="14" height="14" aria-hidden="true"></i>
-            Iniciar sesión
-          </a>
-        </li>
-      </ul>
-    </nav>
+      <!-- Menú principal (colapsable en mobile, lo gestiona bootstrap.bundle.js) -->
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto" role="list">
+          <li class="nav-item"><a class="nav-link" href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#biografia">Biografía</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#habilidades">Habilidades</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#tecnologias">Tecnologías</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#proyectos">Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= isset($rootPath) ? $rootPath : '' ?>index.php#contacto">Contacto</a></li>
+          <li class="nav-item">
+            <a class="nav-link nav__login"
+               href="<?= isset($rootPath) ? $rootPath : '' ?>admin/login.php"
+               aria-label="Iniciar sesión como administrador">
+              <i data-lucide="lock" width="14" height="14" aria-hidden="true"></i>
+              Iniciar sesión
+            </a>
+          </li>
+        </ul>
+      </div>
 
-  </div>
+    </div>
+  </nav>
 </header>
 <!-- FIN HEADER -->

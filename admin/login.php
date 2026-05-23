@@ -68,98 +68,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Admin Login — Portafolio</title>
   <!-- Sin indexación de páginas de admin -->
   <meta name="robots" content="noindex, nofollow">
+
+  <!-- Bootstrap 5.3 (framework CSS) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+
+  <!-- CSS propio (variables del tema, sobrescribe Bootstrap donde se requiere) -->
   <link rel="stylesheet" href="../assets/css/style.css">
+
   <style>
-    /* Estilos específicos del login */
+    /* Página de login: fondo suave, centra verticalmente */
     .login-page {
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background-color: var(--color-bg-soft);
-      padding: 2rem;
     }
     .login-card {
       background-color: var(--color-bg);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: var(--shadow-lg);
-    }
-    .login-card h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
-    .login-card p {
-      text-align: center;
-      color: var(--color-text-muted);
-      margin-bottom: 2rem;
-      font-size: 0.9rem;
-    }
-    .alert-error {
-      background-color: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #991b1b;
-      padding: 0.75rem 1rem;
-      border-radius: var(--radius-md);
-      margin-bottom: 1.25rem;
-      font-size: 0.9rem;
+      border: 1px solid var(--color-border);
     }
   </style>
 </head>
-<body class="login-page">
+<body class="login-page d-flex align-items-center">
 
-  <div class="login-card">
+  <main class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
 
-    <h1>🔐 Admin</h1>
-    <p>Panel de administración del portafolio</p>
+        <div class="card login-card shadow-lg">
+          <div class="card-body p-4 p-md-5">
 
-    <?php if ($error): ?>
-      <div class="alert-error" role="alert">
-        <?= htmlspecialchars($error) ?>
+            <h1 class="h4 text-center mb-1"><i class="ti ti-lock" aria-hidden="true"></i> Admin</h1>
+            <p class="text-center text-muted small mb-4">
+              Panel de administración del portafolio
+            </p>
+
+            <?php if ($error): ?>
+              <div class="alert alert-danger" role="alert">
+                <?= htmlspecialchars($error) ?>
+              </div>
+            <?php endif; ?>
+
+            <form method="POST" action="login.php" novalidate>
+
+              <div class="mb-3">
+                <label for="username" class="form-label">Usuario</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-control"
+                  required
+                  autocomplete="username"
+                  placeholder="admin"
+                  value="<?= htmlspecialchars($_POST['username'] ?? '') ?>"
+                >
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control"
+                  required
+                  autocomplete="current-password"
+                  placeholder="••••••••"
+                >
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 mt-2">
+                Iniciar sesión
+              </button>
+
+            </form>
+
+            <p class="text-center text-muted small mt-4 mb-0">
+              <a href="../index.php" class="text-decoration-none">← Volver al portafolio</a>
+            </p>
+
+          </div>
+        </div>
+
       </div>
-    <?php endif; ?>
+    </div>
+  </main>
 
-    <form method="POST" action="login.php" novalidate>
-
-      <div class="form-group">
-        <label for="username">Usuario</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          required
-          autocomplete="username"
-          placeholder="admin"
-          value="<?= htmlspecialchars($_POST['username'] ?? '') ?>"
-        >
-      </div>
-
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          required
-          autocomplete="current-password"
-          placeholder="••••••••"
-        >
-      </div>
-
-      <button type="submit" class="btn btn--primary" style="width:100%; margin-top:0.5rem">
-        Iniciar sesión
-      </button>
-
-    </form>
-
-    <p style="margin-top:1.5rem; text-align:center; font-size:0.82rem; color:var(--color-text-muted)">
-      <a href="../index.php">← Volver al portafolio</a>
-    </p>
-
-  </div>
-
+  <!-- Bootstrap JS bundle (no estrictamente necesario en login, pero coherente) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

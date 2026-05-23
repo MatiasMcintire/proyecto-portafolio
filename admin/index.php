@@ -54,6 +54,10 @@ $msg = $_GET['msg'] ?? '';
   <title>Dashboard — Panel Admin</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -67,39 +71,39 @@ $msg = $_GET['msg'] ?? '';
       <h1>Dashboard</h1>
       <p>Bienvenido, <?= htmlspecialchars($_SESSION['admin_user']) ?> — <?= date('d \d\e F\, Y') ?></p>
     </div>
-    <a href="add.php" class="btn-add">+ Nuevo proyecto</a>
+    <a href="add.php" class="btn-add"><i class="ti ti-plus"></i> Nuevo proyecto</a>
   </div>
 
   <!-- Alertas de acciones -->
-  <?php if ($msg === 'creado'):    ?><div class="alert alert-ok">✅ Proyecto agregado correctamente.</div><?php endif; ?>
-  <?php if ($msg === 'editado'):   ?><div class="alert alert-ok">✅ Proyecto actualizado correctamente.</div><?php endif; ?>
-  <?php if ($msg === 'eliminado'): ?><div class="alert alert-del">🗑️ Proyecto eliminado.</div><?php endif; ?>
+  <?php if ($msg === 'creado'):    ?><div class="alert alert-ok"><i class="ti ti-circle-check"></i> Proyecto agregado correctamente.</div><?php endif; ?>
+  <?php if ($msg === 'editado'):   ?><div class="alert alert-ok"><i class="ti ti-circle-check"></i> Proyecto actualizado correctamente.</div><?php endif; ?>
+  <?php if ($msg === 'eliminado'): ?><div class="alert alert-del"><i class="ti ti-trash"></i> Proyecto eliminado.</div><?php endif; ?>
 
   <!-- ── Stats ── -->
   <div class="stats">
     <div class="stat">
-      <div class="stat__icon blue">💼</div>
+      <div class="stat__icon"><i class="ti ti-briefcase"></i></div>
       <div>
         <div class="stat__value"><?= $stats['proyectos'] ?></div>
         <div class="stat__label">Proyectos totales</div>
       </div>
     </div>
     <div class="stat">
-      <div class="stat__icon green">⭐</div>
+      <div class="stat__icon"><i class="ti ti-star"></i></div>
       <div>
         <div class="stat__value"><?= $stats['destacados'] ?></div>
         <div class="stat__label">Destacados en home</div>
       </div>
     </div>
     <div class="stat">
-      <div class="stat__icon yellow">✉️</div>
+      <div class="stat__icon"><i class="ti ti-mail"></i></div>
       <div>
         <div class="stat__value"><?= $stats['mensajes'] ?></div>
         <div class="stat__label">Mensajes recibidos</div>
       </div>
     </div>
     <div class="stat">
-      <div class="stat__icon red">🔔</div>
+      <div class="stat__icon"><i class="ti ti-bell"></i></div>
       <div>
         <div class="stat__value"><?= $stats['no_leidos'] ?></div>
         <div class="stat__label">Sin leer</div>
@@ -112,8 +116,8 @@ $msg = $_GET['msg'] ?? '';
   ════════════════════════════════════════ -->
   <div class="card" id="sec-proyectos">
     <div class="card__header">
-      <h2>💼 Proyectos</h2>
-      <a href="add.php" class="btn-add">+ Agregar</a>
+      <h2><i class="ti ti-folder"></i> Proyectos</h2>
+      <a href="add.php" class="btn-add"><i class="ti ti-plus"></i> Agregar</a>
     </div>
     <div class="card__body">
       <?php if ($proyectos && $proyectos->num_rows > 0): ?>
@@ -137,7 +141,7 @@ $msg = $_GET['msg'] ?? '';
                            alt="<?= htmlspecialchars($p['titulo']) ?>">
                     </div>
                   <?php else: ?>
-                    <div class="td-img">💻</div>
+                    <div class="td-img"><i class="ti ti-photo"></i></div>
                   <?php endif; ?>
                 </td>
                 <td>
@@ -151,19 +155,22 @@ $msg = $_GET['msg'] ?? '';
                 </td>
                 <td>
                   <?php if ($p['destacado']): ?>
-                    <span class="badge badge-blue">⭐ Destacado</span>
+                    <span class="pill-destacado"><i class="ti ti-star"></i> Destacado</span>
                   <?php else: ?>
-                    <span class="badge badge-gray">Normal</span>
+                    <span class="pill-normal">Normal</span>
                   <?php endif; ?>
                 </td>
                 <td>
                   <div style="display:flex; gap:.4rem; flex-wrap:wrap;">
-                    <a href="edit.php?id=<?= $p['id'] ?>" class="btn-xs btn-edit">✏️ Editar</a>
+                    <a href="edit.php?id=<?= $p['id'] ?>"
+                       class="btn-xs btn-edit"
+                       aria-label="Editar <?= htmlspecialchars($p['titulo']) ?>"
+                       title="Editar"><i class="ti ti-edit"></i></a>
                     <a href="delete.php?id=<?= $p['id'] ?>"
                        class="btn-xs btn-delete"
-                       onclick="return confirm('¿Eliminar «<?= htmlspecialchars(addslashes($p['titulo'])) ?>»?')">
-                      🗑️ Eliminar
-                    </a>
+                       aria-label="Eliminar <?= htmlspecialchars($p['titulo']) ?>"
+                       title="Eliminar"
+                       onclick="return confirm('¿Eliminar «<?= htmlspecialchars(addslashes($p['titulo'])) ?>»?')"><i class="ti ti-trash"></i></a>
                   </div>
                 </td>
               </tr>
@@ -172,7 +179,7 @@ $msg = $_GET['msg'] ?? '';
         </table>
       <?php else: ?>
         <div class="empty">
-          <div class="empty-icon">💼</div>
+          <div class="empty-icon"><i class="ti ti-folder-off"></i></div>
           <p>No hay proyectos todavía. <a href="add.php">Agrega el primero</a>.</p>
         </div>
       <?php endif; ?>
@@ -185,7 +192,7 @@ $msg = $_GET['msg'] ?? '';
   <div class="card" id="sec-mensajes">
     <div class="card__header">
       <h2>
-        ✉️ Mensajes de Contacto
+        <i class="ti ti-mail"></i> Mensajes de Contacto
         <?php if ($stats['no_leidos'] > 0): ?>
           <span class="badge badge-red" style="margin-left:.5rem">
             <?= $stats['no_leidos'] ?> nuevos
@@ -193,7 +200,7 @@ $msg = $_GET['msg'] ?? '';
         <?php endif; ?>
       </h2>
       <?php if ($stats['mensajes'] > 0): ?>
-        <span style="font-size:.82rem; color:#94a3b8;">
+        <span style="font-size:12px; color:var(--text-muted);">
           <?= $stats['mensajes'] ?> mensaje<?= $stats['mensajes'] != 1 ? 's' : '' ?> en total
         </span>
       <?php endif; ?>
@@ -241,20 +248,20 @@ $msg = $_GET['msg'] ?? '';
                     <button class="btn-xs btn-view"
                             onclick="toggleMsg(<?= $msgId ?>)"
                             aria-expanded="false"
-                            id="btn-view-<?= $msgId ?>">
-                      👁️ Ver
-                    </button>
+                            aria-label="Ver mensaje"
+                            title="Ver"
+                            id="btn-view-<?= $msgId ?>"><i class="ti ti-eye"></i></button>
 
                     <a href="index.php?action=toggle_read&id=<?= $msgId ?>"
-                       class="btn-xs <?= $c['leido'] ? 'btn-unread' : 'btn-read' ?>">
-                      <?= $c['leido'] ? '↩️ No leído' : '✅ Leído' ?>
-                    </a>
+                       class="btn-xs <?= $c['leido'] ? 'btn-unread' : 'btn-read' ?>"
+                       aria-label="<?= $c['leido'] ? 'Marcar como no leído' : 'Marcar como leído' ?>"
+                       title="<?= $c['leido'] ? 'Marcar como no leído' : 'Marcar como leído' ?>"><i class="ti <?= $c['leido'] ? 'ti-arrow-back-up' : 'ti-circle-check' ?>"></i></a>
 
                     <a href="index.php?action=delete_msg&id=<?= $msgId ?>"
                        class="btn-xs btn-delete"
-                       onclick="return confirm('¿Eliminar este mensaje? Esta acción no se puede deshacer.')">
-                      🗑️ Eliminar
-                    </a>
+                       aria-label="Eliminar mensaje"
+                       title="Eliminar"
+                       onclick="return confirm('¿Eliminar este mensaje? Esta acción no se puede deshacer.')"><i class="ti ti-trash"></i></a>
 
                   </div>
                 </td>
@@ -262,13 +269,13 @@ $msg = $_GET['msg'] ?? '';
 
               <tr class="msg-body" id="msg-body-<?= $msgId ?>">
                 <td colspan="6">
-                  <strong style="display:block; margin-bottom:.5rem; color:#374151;">
-                    💬 Mensaje de <?= htmlspecialchars($c['nombre']) ?>:
+                  <strong class="msg-body__title">
+                    <i class="ti ti-message"></i> Mensaje de <?= htmlspecialchars($c['nombre']) ?>:
                   </strong>
                   <p style="white-space:pre-wrap;"><?= htmlspecialchars($c['mensaje']) ?></p>
-                  <div style="margin-top:.75rem; display:flex; gap:1.5rem; font-size:.82rem; color:#94a3b8;">
-                    <span>📧 <?= htmlspecialchars($c['email']) ?></span>
-                    <span>🕒 <?= date('d/m/Y \a \l\a\s H:i', strtotime($c['created_at'])) ?></span>
+                  <div class="msg-body__meta">
+                    <span><i class="ti ti-mail"></i><?= htmlspecialchars($c['email']) ?></span>
+                    <span><i class="ti ti-clock"></i><?= date('d/m/Y \a \l\a\s H:i', strtotime($c['created_at'])) ?></span>
                   </div>
                 </td>
               </tr>
@@ -278,7 +285,7 @@ $msg = $_GET['msg'] ?? '';
         </table>
       <?php else: ?>
         <div class="empty">
-          <div class="empty-icon">📭</div>
+          <div class="empty-icon"><i class="ti ti-mailbox"></i></div>
           <p>Aún no hay mensajes de contacto.</p>
         </div>
       <?php endif; ?>
@@ -295,7 +302,11 @@ function toggleMsg(id) {
   if (!row) return;
   var isOpen = row.classList.toggle('open');
   btn.setAttribute('aria-expanded', isOpen);
-  btn.textContent = isOpen ? '🔼 Cerrar' : '👁️ Ver';
+  btn.setAttribute('title', isOpen ? 'Cerrar' : 'Ver');
+  btn.setAttribute('aria-label', isOpen ? 'Cerrar mensaje' : 'Ver mensaje');
+  btn.innerHTML = isOpen
+    ? '<i class="ti ti-chevron-up"></i>'
+    : '<i class="ti ti-eye"></i>';
 }
 </script>
 

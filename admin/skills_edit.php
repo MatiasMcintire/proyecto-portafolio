@@ -82,6 +82,10 @@ if ($rc) {
   <title>Editar Habilidad — Panel Admin</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -91,10 +95,10 @@ if ($rc) {
 
   <div class="page-header">
     <div>
-      <h1>✏️ Editar Habilidad</h1>
+      <h1>Editar Habilidad</h1>
       <p><?= htmlspecialchars($h['nombre']) ?></p>
     </div>
-    <a href="skills.php" class="btn-add" style="background:#64748b">← Volver</a>
+    <a href="skills.php" class="btn-add" style="background:var(--text-secondary)"><i class="ti ti-arrow-left"></i> Volver</a>
   </div>
 
   <?php if ($error): ?><div class="alert alert-del"><?= htmlspecialchars($error) ?></div><?php endif; ?>
@@ -183,7 +187,7 @@ if ($rc) {
           </div>
         </div>
 
-        <button type="submit" class="btn-save">💾 Actualizar habilidad</button>
+        <button type="submit" class="btn-save"><i class="ti ti-device-floppy"></i> Actualizar habilidad</button>
 
       </form>
 

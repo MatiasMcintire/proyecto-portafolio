@@ -15,6 +15,9 @@
 <!-- Toast de notificación (se muestra/oculta por JS) -->
 <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
+<!-- Bootstrap 5.3 JS bundle (incluye Popper, necesario para navbar collapse / dropdowns / modales) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- JavaScript principal -->
 <script src="<?= isset($jsPath) ? $jsPath : '' ?>assets/js/main.js" defer></script>
 
