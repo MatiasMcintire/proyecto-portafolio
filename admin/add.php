@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-group">
           <label for="url_produccion">URL en Producción</label>
           <input type="url" id="url_produccion" name="url_produccion"
-                 placeholder="https://tu-dominio.cl/proyecto"
+                 placeholder="https://miproyecto.cl/"
                  value="<?= htmlspecialchars($_POST['url_produccion'] ?? '') ?>">
         </div>
 

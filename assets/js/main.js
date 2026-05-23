@@ -9,7 +9,7 @@
  *   5. Contador de caracteres en tiempo real
  *   6. Inicialización del formulario de contacto
  *
- * @author Tu Nombre
+ * @author Matías McIntire
  * @version 1.0.0
  * @course Diseño y Desarrollo Web + IA
  */

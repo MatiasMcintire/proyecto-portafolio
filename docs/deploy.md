@@ -46,7 +46,7 @@ define('DB_NAME', 'usuario_portafolio');       // La BD que creaste
 3. Hacer clic en "Nuevo sitio"
 4. Completar:
    - **Protocolo**: FTP - Protocolo de Transferencia de Archivos
-   - **Servidor**: el host FTP del curso (ej: `ftp.tu-dominio.cl`)
+   - **Servidor**: el host FTP del curso (ej: `ftp.teclab.uct.cl`)
    - **Cifrado**: Requerir FTP explícito sobre TLS (si está disponible)
    - **Modo de acceso**: Normal
    - **Usuario**: tu usuario FTP del curso
@@ -108,10 +108,10 @@ UPDATE usuarios SET password = 'HASH_GENERADO' WHERE username = 'admin';
 
 ### PASO 7: Verificar el deploy
 
-1. Abrir `https://tu-dominio.cl/` en el navegador
+1. Abrir `https://teclab.uct.cl/~usuario/` en el navegador
 2. Verificar que carga la página y los proyectos aparecen
 3. Probar el formulario de contacto
-4. Ir a `https://tu-dominio.cl/admin/login.php`
+4. Ir a `https://teclab.uct.cl/~usuario/admin/login.php`
 5. Iniciar sesión con las credenciales
 6. Verificar CRUD de proyectos
 
