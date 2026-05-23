@@ -3,6 +3,7 @@
  * admin/edit.php — Editar proyecto existente
  */
 require_once '../includes/auth.php';
+require_once '../includes/csrf.php';
 require_once '../config/db.php';
 
 $id = (int)($_GET['id'] ?? 0);
@@ -27,6 +28,8 @@ if (!$proyecto) {
 $errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    csrf_check();
 
     // RAW en BD; htmlspecialchars() solo al renderizar (evita doble-escape al editar).
     $titulo         = trim($_POST['titulo']         ?? '');
@@ -145,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endif; ?>
 
       <form method="POST" action="edit.php?id=<?= $id ?>" enctype="multipart/form-data" novalidate>
+        <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
         <div class="form-group">
           <label for="titulo">Título *</label>

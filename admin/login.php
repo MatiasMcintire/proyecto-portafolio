@@ -17,11 +17,14 @@ if (isset($_SESSION['admin_user'])) {
 }
 
 require_once '../config/db.php';
+require_once '../includes/csrf.php';
 
 $error = '';
 
 // Procesar el formulario de login
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    csrf_check();
 
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -111,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form method="POST" action="login.php" novalidate>
+              <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
               <div class="mb-3">
                 <label for="username" class="form-label">Usuario</label>

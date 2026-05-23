@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/auth.php';
+require_once '../includes/csrf.php';
 require_once '../config/db.php';
 
 $error   = '';
@@ -13,6 +14,8 @@ $tableExists = ($_check && $_check->num_rows > 0);
 if ($tableExists) {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        csrf_check();
 
         $nombre    = trim($_POST['nombre']             ?? '');
         $titulo    = trim($_POST['titulo_profesional'] ?? '');
@@ -140,6 +143,7 @@ INSERT IGNORE INTO `perfil` (`id`) VALUES (1);</div>
   <?php if ($success): ?><div class="alert alert-ok"><i class="ti ti-circle-check"></i> <?= htmlspecialchars($success) ?></div><?php endif; ?>
 
   <form method="POST" action="profile.php" enctype="multipart/form-data">
+    <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
     <div class="card">
       <div class="card__header"><h2>Información personal</h2></div>

@@ -1,11 +1,14 @@
 <?php
 require_once '../includes/auth.php';
+require_once '../includes/csrf.php';
 require_once '../config/db.php';
 
 $error   = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    csrf_check();
 
     $actual   = $_POST['actual']   ?? '';
     $nueva    = $_POST['nueva']    ?? '';
@@ -69,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="card__body" style="padding:1.5rem">
 
       <form method="POST" action="change_password.php" novalidate>
+        <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
         <div class="form-row">
           <label for="actual">Contraseña actual</label>

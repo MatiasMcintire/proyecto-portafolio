@@ -6,6 +6,7 @@
  * No requiere login previo (es el script de primer acceso).
  */
 require_once '../config/db.php';
+require_once '../includes/csrf.php';
 
 $msg     = '';
 $success = false;
@@ -13,6 +14,8 @@ $newPass = '';
 
 // Si se envió el formulario: actualizar contraseña
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    csrf_check();
 
     $newPass    = $_POST['new_password']     ?? '';
     $confirmPass = $_POST['confirm_password'] ?? '';
@@ -168,6 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <?php else: ?>
 
     <form method="POST" action="setup_password.php">
+      <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
       <label for="new_password">Nueva contraseña (mín. 8 caracteres)</label>
       <input

@@ -8,6 +8,7 @@
  *   - Generar nombre único (evitar sobreescribir archivos)
  */
 require_once '../includes/auth.php';
+require_once '../includes/csrf.php';
 require_once '../config/db.php';
 
 $errores = [];
@@ -15,9 +16,11 @@ $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    csrf_check();
+
     // Recoger campos de texto en RAW.
     // Los prepared statements (más abajo) previenen SQL injection.
-    // El escape contra XSS se hace al renderizar con htmlspecialchars() en cada <?= ?>.
+    // El escape contra XSS se hace al renderizar (htmlspecialchars en cada short-echo).
     // Escapar aquí en la entrada produciría doble-escape acumulativo al editar.
     $titulo         = trim($_POST['titulo']         ?? '');
     $descripcion    = trim($_POST['descripcion']    ?? '');
@@ -130,6 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <!-- enctype="multipart/form-data" es obligatorio para subir archivos -->
       <form method="POST" action="add.php" enctype="multipart/form-data" novalidate>
+        <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
         <div class="form-group">
           <label for="titulo">Título del proyecto *</label>

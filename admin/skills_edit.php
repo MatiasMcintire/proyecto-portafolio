@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/auth.php';
+require_once '../includes/csrf.php';
 require_once '../config/db.php';
 
 $id    = (int)($_GET['id'] ?? 0);
@@ -23,6 +24,8 @@ if (!$h) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    csrf_check();
 
     $categoria  = trim($_POST['categoria']  ?? '');
     $nombre     = trim($_POST['nombre']     ?? '');
@@ -108,6 +111,7 @@ if ($rc) {
     <div class="card__body" style="padding:1.5rem">
 
       <form method="POST" action="skills_edit.php?id=<?= $id ?>" novalidate>
+        <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
         <div class="form-grid-2">
           <div class="form-row">
