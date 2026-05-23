@@ -1,8 +1,9 @@
 <?php
 /*
  * admin_sidebar.php — Sidebar compartido del panel de administración.
- * Requiere: $conn abierto (db.php) + $_SESSION['admin_user'] (auth.php).
+ * Requiere: $conn abierto (db.php) + $_SESSION['admin_user'] (auth.php) + csrf.php.
  */
+require_once __DIR__ . '/../includes/csrf.php';
 
 $_sp = basename($_SERVER['PHP_SELF'], '.php');
 
@@ -90,7 +91,10 @@ if ($_rsk && $_rsk->num_rows > 0) {
     <p class="sidebar__user">
       Sesión: <strong><?= htmlspecialchars($_SESSION['admin_user']) ?></strong>
     </p>
-    <a href="logout.php" class="sidebar__logout">Cerrar sesión</a>
+    <form method="POST" action="logout.php" style="margin:0">
+      <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+      <button type="submit" class="sidebar__logout">Cerrar sesión</button>
+    </form>
   </div>
 
 </aside>

@@ -1,12 +1,21 @@
 <?php
 /**
  * admin/delete.php — Eliminar un proyecto
- * No renderiza HTML — solo procesa y redirige.
+ * Solo acepta POST con token CSRF válido (evita CSRF + prefetch del navegador).
  */
 require_once '../includes/auth.php';
+require_once '../includes/csrf.php';
 require_once '../config/db.php';
 
-$id = (int)($_GET['id'] ?? 0);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    header('Location: index.php');
+    exit;
+}
+
+csrf_check();
+
+$id = (int)($_POST['id'] ?? 0);
 
 if ($id <= 0) {
     header('Location: index.php');

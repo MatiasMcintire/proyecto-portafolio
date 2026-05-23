@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/auth.php';
+require_once '../includes/csrf.php';
 require_once '../config/db.php';
 
 $error   = '';
@@ -157,11 +158,14 @@ INSERT INTO `habilidades` (categoria, nombre, nivel, icono, icon_class, orden) V
                        class="btn-xs btn-edit"
                        aria-label="Editar <?= htmlspecialchars($h['nombre']) ?>"
                        title="Editar"><i class="ti ti-edit"></i></a>
-                    <a href="skills_delete.php?id=<?= $h['id'] ?>"
-                       class="btn-xs btn-delete"
-                       aria-label="Eliminar <?= htmlspecialchars($h['nombre']) ?>"
-                       title="Eliminar"
-                       onclick="return confirm('¿Eliminar «<?= htmlspecialchars(addslashes($h['nombre'])) ?>»?')"><i class="ti ti-trash"></i></a>
+                    <form method="POST" action="skills_delete.php" style="display:inline"
+                          onsubmit="return confirm('¿Eliminar «<?= htmlspecialchars(addslashes($h['nombre'])) ?>»?')">
+                      <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+                      <input type="hidden" name="id" value="<?= $h['id'] ?>">
+                      <button type="submit" class="btn-xs btn-delete"
+                              aria-label="Eliminar <?= htmlspecialchars($h['nombre']) ?>"
+                              title="Eliminar"><i class="ti ti-trash"></i></button>
+                    </form>
                   </div>
                 </td>
               </tr>

@@ -140,10 +140,13 @@ body {
   width: 100%;
   background: var(--bg-logout);
   color: var(--text-logout);
+  border: none;                /* el <button> necesita esto */
   border-radius: 5px;
   font-size: 12px;
   font-weight: 500;
+  font-family: inherit;        /* el <button> no hereda Inter por default */
   text-decoration: none;
+  cursor: pointer;
   transition: background .15s;
 }
 .sidebar__logout:hover { background: #991b1b; color: #fff; }

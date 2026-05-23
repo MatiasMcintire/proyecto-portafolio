@@ -1,11 +1,14 @@
 <?php
 require_once '../includes/auth.php';
+require_once '../includes/csrf.php';
 require_once '../config/db.php';
 
-// ── Acciones sobre mensajes ─────────────────────────────────
-if (isset($_GET['action'], $_GET['id'])) {
-    $action = $_GET['action'];
-    $mid    = (int)$_GET['id'];
+// ── Acciones sobre mensajes (solo POST + CSRF, evita CSRF vía <img src>) ──
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id'])) {
+    csrf_check();
+
+    $action = $_POST['action'];
+    $mid    = (int)$_POST['id'];
 
     if ($mid > 0) {
         if ($action === 'toggle_read') {
@@ -166,11 +169,14 @@ $msg = $_GET['msg'] ?? '';
                        class="btn-xs btn-edit"
                        aria-label="Editar <?= htmlspecialchars($p['titulo']) ?>"
                        title="Editar"><i class="ti ti-edit"></i></a>
-                    <a href="delete.php?id=<?= $p['id'] ?>"
-                       class="btn-xs btn-delete"
-                       aria-label="Eliminar <?= htmlspecialchars($p['titulo']) ?>"
-                       title="Eliminar"
-                       onclick="return confirm('¿Eliminar «<?= htmlspecialchars(addslashes($p['titulo'])) ?>»?')"><i class="ti ti-trash"></i></a>
+                    <form method="POST" action="delete.php" style="display:inline"
+                          onsubmit="return confirm('¿Eliminar «<?= htmlspecialchars(addslashes($p['titulo'])) ?>»?')">
+                      <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+                      <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                      <button type="submit" class="btn-xs btn-delete"
+                              aria-label="Eliminar <?= htmlspecialchars($p['titulo']) ?>"
+                              title="Eliminar"><i class="ti ti-trash"></i></button>
+                    </form>
                   </div>
                 </td>
               </tr>
@@ -252,16 +258,25 @@ $msg = $_GET['msg'] ?? '';
                             title="Ver"
                             id="btn-view-<?= $msgId ?>"><i class="ti ti-eye"></i></button>
 
-                    <a href="index.php?action=toggle_read&id=<?= $msgId ?>"
-                       class="btn-xs <?= $c['leido'] ? 'btn-unread' : 'btn-read' ?>"
-                       aria-label="<?= $c['leido'] ? 'Marcar como no leído' : 'Marcar como leído' ?>"
-                       title="<?= $c['leido'] ? 'Marcar como no leído' : 'Marcar como leído' ?>"><i class="ti <?= $c['leido'] ? 'ti-arrow-back-up' : 'ti-circle-check' ?>"></i></a>
+                    <form method="POST" action="index.php" style="display:inline">
+                      <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+                      <input type="hidden" name="action" value="toggle_read">
+                      <input type="hidden" name="id" value="<?= $msgId ?>">
+                      <button type="submit"
+                              class="btn-xs <?= $c['leido'] ? 'btn-unread' : 'btn-read' ?>"
+                              aria-label="<?= $c['leido'] ? 'Marcar como no leído' : 'Marcar como leído' ?>"
+                              title="<?= $c['leido'] ? 'Marcar como no leído' : 'Marcar como leído' ?>"><i class="ti <?= $c['leido'] ? 'ti-arrow-back-up' : 'ti-circle-check' ?>"></i></button>
+                    </form>
 
-                    <a href="index.php?action=delete_msg&id=<?= $msgId ?>"
-                       class="btn-xs btn-delete"
-                       aria-label="Eliminar mensaje"
-                       title="Eliminar"
-                       onclick="return confirm('¿Eliminar este mensaje? Esta acción no se puede deshacer.')"><i class="ti ti-trash"></i></a>
+                    <form method="POST" action="index.php" style="display:inline"
+                          onsubmit="return confirm('¿Eliminar este mensaje? Esta acción no se puede deshacer.')">
+                      <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+                      <input type="hidden" name="action" value="delete_msg">
+                      <input type="hidden" name="id" value="<?= $msgId ?>">
+                      <button type="submit" class="btn-xs btn-delete"
+                              aria-label="Eliminar mensaje"
+                              title="Eliminar"><i class="ti ti-trash"></i></button>
+                    </form>
 
                   </div>
                 </td>
