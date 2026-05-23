@@ -28,11 +28,12 @@ $errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $titulo         = trim(htmlspecialchars($_POST['titulo']         ?? ''));
-    $descripcion    = trim(htmlspecialchars($_POST['descripcion']    ?? ''));
-    $tecnologias    = trim(htmlspecialchars($_POST['tecnologias']    ?? ''));
-    $url_github     = trim(htmlspecialchars($_POST['url_github']     ?? ''));
-    $url_produccion = trim(htmlspecialchars($_POST['url_produccion'] ?? ''));
+    // RAW en BD; htmlspecialchars() solo al renderizar (evita doble-escape al editar).
+    $titulo         = trim($_POST['titulo']         ?? '');
+    $descripcion    = trim($_POST['descripcion']    ?? '');
+    $tecnologias    = trim($_POST['tecnologias']    ?? '');
+    $url_github     = trim($_POST['url_github']     ?? '');
+    $url_produccion = trim($_POST['url_produccion'] ?? '');
     $destacado      = isset($_POST['destacado']) ? 1 : 0;
     $orden          = (int)($_POST['orden'] ?? 0);
     $imagenActual   = $proyecto['imagen'];

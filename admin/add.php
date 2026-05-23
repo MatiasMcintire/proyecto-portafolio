@@ -15,14 +15,17 @@ $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Recoger y sanitizar campos de texto
-    $titulo        = trim(htmlspecialchars($_POST['titulo']        ?? ''));
-    $descripcion   = trim(htmlspecialchars($_POST['descripcion']   ?? ''));
-    $tecnologias   = trim(htmlspecialchars($_POST['tecnologias']   ?? ''));
-    $url_github    = trim(htmlspecialchars($_POST['url_github']    ?? ''));
-    $url_produccion = trim(htmlspecialchars($_POST['url_produccion'] ?? ''));
-    $destacado     = isset($_POST['destacado']) ? 1 : 0;
-    $orden         = (int)($_POST['orden'] ?? 0);
+    // Recoger campos de texto en RAW.
+    // Los prepared statements (más abajo) previenen SQL injection.
+    // El escape contra XSS se hace al renderizar con htmlspecialchars() en cada <?= ?>.
+    // Escapar aquí en la entrada produciría doble-escape acumulativo al editar.
+    $titulo         = trim($_POST['titulo']         ?? '');
+    $descripcion    = trim($_POST['descripcion']    ?? '');
+    $tecnologias    = trim($_POST['tecnologias']    ?? '');
+    $url_github     = trim($_POST['url_github']     ?? '');
+    $url_produccion = trim($_POST['url_produccion'] ?? '');
+    $destacado      = isset($_POST['destacado']) ? 1 : 0;
+    $orden          = (int)($_POST['orden'] ?? 0);
 
     // Validaciones
     if (empty($titulo))       $errores[] = 'El título es obligatorio.';

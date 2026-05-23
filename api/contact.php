@@ -27,13 +27,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Conectar a la base de datos
 require_once '../config/db.php';
 
-// ── Recoger y sanitizar datos del formulario ──────────────────
-
-// filter_var con FILTER_SANITIZE_STRING elimina tags HTML
-$nombre  = trim(filter_var($_POST['nombre']  ?? '', FILTER_SANITIZE_SPECIAL_CHARS));
-$email   = trim(filter_var($_POST['email']   ?? '', FILTER_SANITIZE_EMAIL));
-$asunto  = trim(filter_var($_POST['asunto']  ?? '', FILTER_SANITIZE_SPECIAL_CHARS));
-$mensaje = trim(filter_var($_POST['mensaje'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS));
+// ── Recoger datos del formulario en RAW ───────────────────────
+// SQL injection: bloqueado por los prepared statements (más abajo).
+// XSS: se escapa al renderizar en el admin con htmlspecialchars().
+// No usamos FILTER_SANITIZE_SPECIAL_CHARS porque modifica el contenido
+// y produce doble-escape al mostrar (M&M's → M&#38;M&#39;s en BD).
+$nombre  = trim($_POST['nombre']  ?? '');
+$email   = trim($_POST['email']   ?? '');
+$asunto  = trim($_POST['asunto']  ?? '');
+$mensaje = trim($_POST['mensaje'] ?? '');
 
 // IP del visitante (para control de spam, si se requiere)
 $ip = $_SERVER['REMOTE_ADDR'] ?? '';
