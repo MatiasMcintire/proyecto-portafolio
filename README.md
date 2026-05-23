@@ -1,8 +1,12 @@
 # Portafolio Web Profesional
 
 Portafolio personal autoadministrable desarrollado como Evaluación 3 de la
-asignatura **Programación de Sitios Dinámicos Web** — Tecnicatura Universitaria
-en Informática, TECLAB (Universidad Católica de Temuco).
+asignatura **Diseño y Desarrollo Web + IA** — Tecnicatura Universitaria en
+Informática, TECLAB (Universidad Católica de Temuco).
+
+- **Repositorio:** https://github.com/MatiasMcintire/proyecto-portafolio
+- **Producción:** _pendiente de deploy en `teclab.uct.cl/~usuario/`_
+- **Documento de uso de IA:** [`prompts/uso-ia.md`](prompts/uso-ia.md)
 
 El sitio público presenta biografía, habilidades, proyectos y un formulario de
 contacto. Un panel de administración privado (`/admin/`) permite gestionar todo
@@ -16,9 +20,9 @@ habilidades y bandeja de mensajes recibidos.
 - **Frontend:** HTML5 semántico, CSS3 (Flexbox + Grid), JavaScript ES6+
 - **Backend:** PHP 8 (sin frameworks)
 - **Base de datos:** MySQL 8 / MariaDB 10
-- **Bootstrap:** 5.3.8 (planificado en Fase 2.5 — aún no integrado)
+- **Bootstrap:** 5.3.3 (integrado vía CDN — navbar collapse, cards, progress, form-control, grid, alerts)
 - **Servidor local:** XAMPP / LAMP
-- **Producción:** cPanel en `teclab.uct.cl/~usuario/`
+- **Producción:** cPanel en `teclab.uct.cl/~usuario/` (ver [`docs/deploy.md`](docs/deploy.md))
 
 ## Estructura del proyecto
 
@@ -51,7 +55,7 @@ proyecto-portafolio/
 1. Clonar el repositorio dentro de `htdocs/`:
    ```bash
    cd /opt/lampp/htdocs       # Linux
-   git clone <url-del-repo> proyecto-portafolio
+   git clone https://github.com/MatiasMcintire/proyecto-portafolio.git
    ```
 2. Iniciar Apache y MySQL desde el panel de XAMPP.
 3. Abrir `http://localhost/phpmyadmin/` e **importar `bd.sql`**.
@@ -107,6 +111,7 @@ Ubicados en [`files/`](files/):
 
 ## Documentación adicional
 
+- [`prompts/uso-ia.md`](prompts/uso-ia.md) — uso documentado de IA (herramientas, prompts, ajustes, reflexión)
 - [`docs/arquitectura.md`](docs/arquitectura.md) — decisiones técnicas
 - [`docs/base-datos.md`](docs/base-datos.md) — modelo de datos
 - [`docs/validaciones-js.md`](docs/validaciones-js.md) — validaciones de formularios
@@ -116,5 +121,5 @@ Ubicados en [`files/`](files/):
 
 **Matías McIntire**
 Estudiante de Tecnicatura Universitaria en Informática — TECLAB UCT
-Asignatura: Programación de Sitios Dinámicos Web
+Asignatura: Diseño y Desarrollo Web + IA
 Docente: Cristian Iglesias Vera
