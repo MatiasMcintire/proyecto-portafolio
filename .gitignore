@@ -30,3 +30,6 @@ vendor/
 # Archivos de build
 dist/
 build/
+
+# Material del docente (no se redistribuye)
+Rubrica_y_Escala_Ev_3.pdf
