@@ -366,7 +366,7 @@ $stmtAll->close();
                     loading="lazy"
                   >
                 <?php else: ?>
-                  <div class="img-placeholder" aria-hidden="true">💻</div>
+                  <div class="img-placeholder" aria-hidden="true"><i class="ti ti-photo"></i></div>
                 <?php endif; ?>
               </div>
 
@@ -465,10 +465,10 @@ $stmtAll->close();
           </p>
           <address>
             <p>
-              📧 <a href="mailto:Motka2269@gmail.com">Motka2269@gmail.com</a>
+              <i class="ti ti-mail" aria-hidden="true"></i> <a href="mailto:Motka2269@gmail.com">Motka2269@gmail.com</a>
             </p>
             <p>
-              💼 <a href="https://github.com/MatiasMcintire" target="_blank" rel="noopener">
+              <i class="ti ti-brand-github" aria-hidden="true"></i> <a href="https://github.com/MatiasMcintire" target="_blank" rel="noopener">
                 github.com/MatiasMcintire
               </a>
             </p>

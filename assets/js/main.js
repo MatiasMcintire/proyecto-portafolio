@@ -317,7 +317,7 @@ function showToast(message, type, duration) {
   var toast = document.getElementById('toast');
   if (!toast) return;
 
-  var icons = { success: '✓', error: '✕' };
+  var icons = { success: '[OK]', error: '[!]' };
 
   // Limpiar contenido anterior
   toast.innerHTML = '';

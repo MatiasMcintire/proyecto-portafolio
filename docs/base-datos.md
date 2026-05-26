@@ -2,11 +2,13 @@
 
 ## ¿Qué se hizo?
 
-Se diseñó un esquema relacional con 3 tablas para el portafolio:
+Se diseñó un esquema relacional con 5 tablas para el portafolio:
 
 1. `proyectos` — los trabajos del portafolio
 2. `usuarios` — el administrador del sistema
 3. `contactos` — mensajes enviados por el formulario
+4. `perfil` — datos biográficos del dueño del portafolio (fila única, id = 1)
+5. `habilidades` — habilidades técnicas por categoría con nivel %
 
 ## Diagrama de tablas
 
@@ -46,6 +48,36 @@ Se diseñó un esquema relacional con 3 tablas para el portafolio:
 │ mensaje      │ TEXT NOT NULL         │
 │ leido        │ TINYINT(1) DEFAULT 0  │
 │ ip           │ VARCHAR(45)           │
+│ created_at   │ TIMESTAMP             │
+└──────────────┴──────────────────────┘
+
+┌──────────────────────────────────────────┐
+│       perfil   (fila única, id = 1)      │
+├────────────────────┬─────────────────────┤
+│ id                 │ INT AUTO_INCREMENT PK│
+│ nombre             │ VARCHAR(100)         │
+│ titulo_profesional │ VARCHAR(150)         │
+│ bio                │ TEXT                 │
+│ email_contacto     │ VARCHAR(120)         │
+│ telefono           │ VARCHAR(30)          │
+│ ubicacion          │ VARCHAR(100)         │
+│ github             │ VARCHAR(200)         │
+│ linkedin           │ VARCHAR(200)         │
+│ foto               │ VARCHAR(255)         │
+│ updated_at         │ TIMESTAMP            │
+└────────────────────┴─────────────────────┘
+
+┌─────────────────────────────────────┐
+│           habilidades               │
+├──────────────┬──────────────────────┤
+│ id           │ INT AUTO_INCREMENT PK │
+│ categoria    │ VARCHAR(80) NOT NULL  │
+│ nombre       │ VARCHAR(80) NOT NULL  │
+│ nivel        │ TINYINT 0-100         │
+│ icono        │ VARCHAR(10) (emoji)   │
+│ icon_class   │ VARCHAR(100) devicon  │
+│ orden        │ SMALLINT DEFAULT 0    │
+│ visible      │ TINYINT(1) DEFAULT 1  │
 │ created_at   │ TIMESTAMP             │
 └──────────────┴──────────────────────┘
 ```
@@ -100,7 +132,7 @@ El `?` es un placeholder. PHP envía la consulta y los datos por separado, MySQL
 4. Clic en "Crear"
 5. Seleccionar la base de datos recién creada
 6. Ir a la pestaña "Importar"
-7. Seleccionar `database/portafolio.sql`
+7. Seleccionar `bd.sql` (en la raíz del proyecto)
 8. Clic en "Continuar"
 
 ## En el servidor (cPanel)
@@ -110,12 +142,12 @@ El `?` es un placeholder. PHP envía la consulta y los datos por separado, MySQL
 3. Crear usuario MySQL con contraseña segura
 4. Asignar el usuario a la base de datos (todos los privilegios)
 5. Ir a phpMyAdmin desde cPanel
-6. Seleccionar la BD e importar `portafolio.sql`
+6. Seleccionar la BD e importar `bd.sql` (en la raíz del proyecto)
 7. Actualizar `config/db.php` con las credenciales
 
 ## Errores comunes
 
-- ❌ Guardar contraseñas en texto plano — usar `password_hash()`
-- ❌ No tener `utf8mb4` — los acentos y emojis se corrompen
-- ❌ Usar `SELECT *` sin `LIMIT` en tablas grandes
-- ❌ Concatenar variables directamente en SQL (SQL Injection)
+- Guardar contraseñas en texto plano — usar `password_hash()`
+- No tener `utf8mb4` — los acentos y emojis se corrompen
+- Usar `SELECT *` sin `LIMIT` en tablas grandes
+- Concatenar variables directamente en SQL (SQL Injection)

@@ -1,7 +1,7 @@
 # Uso de Inteligencia Artificial en el desarrollo del portafolio
 
 **Autor:** Matías McIntire
-**Asignatura:** Programación de Sitios Dinámicos Web — TECLAB UCT
+**Asignatura:** Diseño y Desarrollo Web + IA — TECLAB UCT
 **Evaluación:** N° 3 — Portafolio profesional
 
 Este documento describe cómo utilicé herramientas de IA generativa durante el
@@ -233,7 +233,7 @@ En una versión temprana del prompt 2 (yo había pedido "algo simple para
 empezar"), me devolvió:
 
 ```php
-// ❌ MAL — versión inicial generada
+// MAL — versión inicial generada
 if ($user['password'] === md5($password)) { ... }
 ```
 
@@ -248,7 +248,7 @@ seguridad explícita, no asumir que la elige sola**.
 Primera versión del listado admin (prompt 6) tenía:
 
 ```php
-// ❌ MAL — vulnerable a SQL Injection
+// MAL — vulnerable a SQL Injection
 $q   = $_GET['q'] ?? '';
 $sql = "SELECT * FROM proyectos WHERE titulo LIKE '%$q%'";
 $res = $conn->query($sql);
@@ -258,7 +258,7 @@ Esto es **SQL Injection de manual**. Lo corregí pasando a prepared statement
 con placeholder:
 
 ```php
-// ✅ Corregido
+// OK — Corregido
 $stmt = $conn->prepare("SELECT * FROM proyectos WHERE titulo LIKE ?");
 $like = '%' . $q . '%';
 $stmt->bind_param('s', $like);
@@ -273,7 +273,7 @@ variables y cambiarlo por prepare/bind_param**.
 La primera versión del HTML del listado imprimía directamente:
 
 ```php
-// ❌ MAL — XSS si alguien guarda <script> en la descripción
+// MAL — XSS si alguien guarda <script> en la descripción
 echo "<td>" . $row['descripcion'] . "</td>";
 ```
 
@@ -282,7 +282,7 @@ podrían inyectar JS que afecte a futuras visitas. Lo envolví todo en
 `htmlspecialchars()`:
 
 ```php
-// ✅ Corregido
+// OK — Corregido
 echo "<td>" . htmlspecialchars($row['descripcion'], ENT_QUOTES, 'UTF-8') . "</td>";
 ```
 
@@ -291,7 +291,7 @@ echo "<td>" . htmlspecialchars($row['descripcion'], ENT_QUOTES, 'UTF-8') . "</td
 Primera versión de la subida (prompt 7, antes de aclarar) hacía:
 
 ```php
-// ❌ MAL — fácil de saltar renombrando archivo.php a archivo.jpg
+// MAL — fácil de saltar renombrando archivo.php a archivo.jpg
 $ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
 if (!in_array($ext, ['jpg','png','gif','webp'])) { ... }
 ```
@@ -304,13 +304,13 @@ quedó en `admin/profile.php`.
 
 ### Pifia 5 — Emojis rotos en la BD
 
-Después de importar `bd.sql` por primera vez en local, los emojis de las
-habilidades (🌐, 🐘, 🗄️) se guardaban como `?`. Claude no había puesto
+Después de importar `bd.sql` por primera vez en local, los emojis de la
+columna `icono` de habilidades se guardaban como `?`. Claude no había puesto
 `$conn->set_charset('utf8mb4')` en `config/db.php` y la conexión usaba
 `latin1` por defecto. Lo agregué a mano:
 
 ```php
-// ✅ Agregado a config/db.php
+// OK — Agregado a config/db.php
 $conn->set_charset('utf8mb4');
 ```
 
@@ -324,7 +324,7 @@ final** en producción si la BD se cae. Lo separé en dos ramas según el flag
 `IS_LOCAL`:
 
 ```php
-// ✅ En producción: log al servidor, mensaje genérico al usuario
+// OK — En producción: log al servidor, mensaje genérico al usuario
 if (IS_LOCAL) {
     die('Error de conexión: ' . $conn->connect_error);
 } else {
@@ -339,7 +339,7 @@ Esta me sorprendió: estaba escribiendo una función que ordenaba habilidades po
 una columna dinámica recibida por GET, y Copilot me sugirió:
 
 ```js
-// ❌ MAL — Copilot autocompletó esto
+// MAL — Copilot autocompletó esto
 const sortKey = new URLSearchParams(location.search).get('sort');
 data.sort((a, b) => eval(`a.${sortKey} > b.${sortKey} ? 1 : -1`));
 ```
@@ -348,7 +348,7 @@ data.sort((a, b) => eval(`a.${sortKey} > b.${sortKey} ? 1 : -1`));
 índice con whitelist:
 
 ```js
-// ✅ Corregido
+// OK — Corregido
 const ALLOWED_KEYS = ['nombre', 'categoria', 'nivel', 'orden'];
 const sortKey = ALLOWED_KEYS.includes(rawKey) ? rawKey : 'nombre';
 data.sort((a, b) => a[sortKey] > b[sortKey] ? 1 : -1);

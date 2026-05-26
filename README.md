@@ -1,8 +1,8 @@
 # Portafolio Web Profesional
 
 Portafolio personal autoadministrable desarrollado como Evaluación 3 de la
-asignatura **Diseño y Desarrollo Web + IA** — Tecnicatura Universitaria en
-Informática, TECLAB (Universidad Católica de Temuco).
+asignatura **Diseño y Desarrollo Web + IA** — Técnico
+en Informática, TECLAB (Universidad Católica de Temuco).
 
 - **Repositorio:** https://github.com/MatiasMcintire/proyecto-portafolio
 - **Producción:** _pendiente de deploy en `teclab.uct.cl/~usuario/`_
@@ -120,6 +120,6 @@ Ubicados en [`files/`](files/):
 ## Autor
 
 **Matías McIntire**
-Estudiante de Tecnicatura Universitaria en Informática — TECLAB UCT
+Estudiante de Técnico en Informática — TECLAB UCT
 Asignatura: Diseño y Desarrollo Web + IA
 Docente: Cristian Iglesias Vera

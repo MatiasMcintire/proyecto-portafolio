@@ -21,7 +21,7 @@ Documentación paso a paso para subir el portafolio al servidor del curso usando
 6. Ir a **phpMyAdmin** desde cPanel
 7. Seleccionar la base de datos recién creada
 8. Ir a la pestaña **Importar**
-9. Seleccionar el archivo `database/portafolio.sql`
+9. Seleccionar el archivo `bd.sql` (está en la raíz del proyecto)
 10. Hacer clic en **Continuar**
 
 ### PASO 2: Actualizar config/db.php
@@ -61,23 +61,23 @@ En FileZilla verás dos paneles:
 
 **Qué subir:**
 ```
-✅ index.php
-✅ config/db.php  (con las credenciales actualizadas)
-✅ includes/
-✅ admin/
-✅ api/
-✅ assets/css/
-✅ assets/js/
-✅ assets/uploads/  (la carpeta vacía)
-✅ robots.txt
-✅ sitemap.xml
+- index.php
+- config/db.php  (con las credenciales actualizadas)
+- includes/
+- admin/
+- api/
+- assets/css/
+- assets/js/
+- assets/uploads/  (la carpeta vacía)
+- robots.txt
+- sitemap.xml
 ```
 
 **Qué NO subir:**
 ```
-❌ database/portafolio.sql  (ya lo importaste en phpMyAdmin)
-❌ docs/                    (documentación interna, no va al servidor)
-❌ .git/                    (carpeta de git)
+- database/portafolio.sql  (ya lo importaste en phpMyAdmin)
+- docs/                    (documentación interna, no va al servidor)
+- .git/                    (carpeta de git)
 ```
 
 ### PASO 5: Permisos de carpeta uploads

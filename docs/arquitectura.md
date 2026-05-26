@@ -8,31 +8,43 @@ Se diseñó una arquitectura modular para un portafolio web con PHP y MySQL. La 
 
 ```
 proyecto-portafolio/
-├── index.php              ← Página principal (público)
+├── index.php                ← Página principal (público)
+├── bd.sql                   ← Script de creación de BD (importar en phpMyAdmin)
 ├── config/
-│   └── db.php             ← Conexión a base de datos (PRIVADO)
+│   └── db.php               ← Conexión a base de datos (PRIVADO)
 ├── includes/
-│   ├── header.php         ← Cabecera reutilizable (DRY)
-│   ├── footer.php         ← Pie de página reutilizable (DRY)
-│   └── auth.php           ← Verificación de sesión admin
+│   ├── header.php           ← Cabecera reutilizable (DRY)
+│   ├── footer.php           ← Pie de página reutilizable (DRY)
+│   ├── auth.php             ← Verificación de sesión admin
+│   └── csrf.php             ← Token CSRF + hardening de cookies de sesión
 ├── admin/
-│   ├── login.php          ← Login del administrador
-│   ├── logout.php         ← Cerrar sesión
-│   ├── index.php          ← Dashboard CRUD
-│   ├── add.php            ← Agregar proyecto
-│   ├── edit.php           ← Editar proyecto
-│   └── delete.php         ← Eliminar proyecto
+│   ├── login.php            ← Login del administrador
+│   ├── logout.php           ← Cerrar sesión (POST + CSRF)
+│   ├── index.php            ← Dashboard (stats + proyectos + mensajes)
+│   ├── admin_sidebar.php    ← Sidebar compartido del panel
+│   ├── add.php              ← Agregar proyecto
+│   ├── edit.php             ← Editar proyecto
+│   ├── delete.php           ← Eliminar proyecto
+│   ├── skills.php           ← Listado de habilidades
+│   ├── skills_add.php       ← Agregar habilidad
+│   ├── skills_edit.php      ← Editar habilidad
+│   ├── skills_delete.php    ← Eliminar habilidad
+│   ├── profile.php          ← Editar datos biográficos (tabla perfil)
+│   └── change_password.php  ← Cambiar contraseña del admin
 ├── api/
-│   └── contact.php        ← Endpoint JSON para el formulario
+│   └── contact.php          ← Endpoint JSON para el formulario
 ├── assets/
-│   ├── css/style.css      ← Estilos CSS propios (Flexbox + Grid)
-│   ├── js/main.js         ← Validaciones JS + feedback dinámico
-│   └── uploads/           ← Imágenes subidas por el admin
-├── database/
-│   └── portafolio.sql     ← Script de creación de BD
-├── docs/                  ← Documentación técnica
-├── robots.txt             ← SEO: instrucciones para bots
-└── sitemap.xml            ← SEO: mapa del sitio
+│   ├── css/
+│   │   ├── style.css        ← Estilos del sitio público
+│   │   └── admin.css        ← Estilos del panel admin
+│   ├── js/main.js           ← Validaciones JS + feedback dinámico
+│   └── uploads/             ← Imágenes subidas por el admin
+├── docs/                    ← Documentación técnica (arquitectura, BD, deploy)
+├── prompts/
+│   └── uso-ia.md            ← Documento obligatorio: uso de IA
+├── files/                   ← Wireframes (PNG + PDF)
+├── robots.txt               ← SEO: instrucciones para bots
+└── sitemap.xml              ← SEO: mapa del sitio
 ```
 
 ## ¿Por qué esta arquitectura?
@@ -62,7 +74,7 @@ Esta estructura es similar a lo que se usa en proyectos reales pequeños y media
 
 ## Errores comunes a evitar
 
-- ❌ Poner credenciales de DB directamente en index.php
-- ❌ No separar el HTML del PHP (archivos mezclados sin estructura)
-- ❌ No proteger las rutas admin con verificación de sesión
-- ❌ Subir archivos sin validar tipo MIME y tamaño
+- Poner credenciales de DB directamente en index.php
+- No separar el HTML del PHP (archivos mezclados sin estructura)
+- No proteger las rutas admin con verificación de sesión
+- Subir archivos sin validar tipo MIME y tamaño

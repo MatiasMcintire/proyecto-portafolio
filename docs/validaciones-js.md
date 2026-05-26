@@ -4,12 +4,12 @@
 
 Se implementaron validaciones completas del formulario de contacto usando JavaScript puro (sin librerías externas), cubriendo todos los criterios de la rúbrica:
 
-- ✅ Campos obligatorios
-- ✅ Validación de email con expresión regular
-- ✅ Restricción de caracteres (mínimo y máximo)
-- ✅ Mensajes de error sin `alert()`
-- ✅ Feedback dinámico (mensaje de éxito + reseteo de formulario)
-- ✅ Contador de caracteres en tiempo real
+- Campos obligatorios
+- Validación de email con expresión regular
+- Restricción de caracteres (mínimo y máximo)
+- Mensajes de error sin `alert()`
+- Feedback dinámico (mensaje de éxito + reseteo de formulario)
+- Contador de caracteres en tiempo real
 
 ## ¿Por qué sin `alert()`?
 
@@ -108,7 +108,7 @@ validateForm() valida todos los campos
 
 ## Errores comunes
 
-- ❌ Usar `document.getElementById('campo').value == ""` — no elimina espacios en blanco
-- ❌ Confiar solo en la validación del cliente — siempre validar también en PHP
-- ❌ Usar `alert()` para mostrar errores de formulario
-- ❌ Validar solo al enviar, no en tiempo real (mala UX)
+- Usar `document.getElementById('campo').value == ""` — no elimina espacios en blanco
+- Confiar solo en la validación del cliente — siempre validar también en PHP
+- Usar `alert()` para mostrar errores de formulario
+- Validar solo al enviar, no en tiempo real (mala UX)
