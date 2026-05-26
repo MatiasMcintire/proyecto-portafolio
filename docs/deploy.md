@@ -24,20 +24,27 @@ Documentación paso a paso para subir el portafolio al servidor del curso usando
 9. Seleccionar el archivo `bd.sql` (está en la raíz del proyecto)
 10. Hacer clic en **Continuar**
 
-### PASO 2: Actualizar config/db.php
+### PASO 2: Crear config/db.php en el servidor
 
-Cambiar las credenciales en `config/db.php`:
+`config/db.php` está en `.gitignore` y **no se sube por FTP ni GitHub** para no
+exponer credenciales. Hay que crearlo directamente en el servidor:
+
+1. En cPanel abrir **File Manager** y navegar a `public_html/config/`
+2. Crear archivo nuevo: `db.php`
+3. Copiar el contenido íntegro de `config/db.example.php` (lo tenés en tu copia
+   local del repo, ya versionado como plantilla)
+4. Pegarlo en el `db.php` recién creado y completar con las credenciales reales:
 
 ```php
-// Cambiar IS_LOCAL a false
-define('IS_LOCAL', false);
-
-// Completar con los datos de cPanel:
+define('IS_LOCAL', false);  // IMPORTANTE: false en producción
 define('DB_HOST', 'localhost');
-define('DB_USER', 'usuario_portafolio_usr');  // El usuario que creaste
-define('DB_PASS', 'tu_password_seguro');       // La contraseña que pusiste
-define('DB_NAME', 'usuario_portafolio');       // La BD que creaste
+define('DB_USER', 'usuario_portafolio_usr');   // el user MySQL del paso 1
+define('DB_PASS', 'tu_password_seguro');       // la pass del paso 1
+define('DB_NAME', 'usuario_portafolio');       // la BD del paso 1
 ```
+
+5. Guardar y cerrar
+6. Verificar permisos: 644 (lectura para el servidor, no ejecución)
 
 ### PASO 3: Conectar FileZilla al servidor
 
@@ -59,26 +66,34 @@ En FileZilla verás dos paneles:
 - **Izquierda**: tus archivos locales (busca `proyecto-portafolio/`)
 - **Derecha**: el servidor (navega a `public_html/` o `www/`)
 
-**Qué subir:**
+**Qué subir** (lo que el sitio necesita para funcionar en producción):
 ```
 - index.php
-- config/db.php  (con las credenciales actualizadas)
 - includes/
 - admin/
 - api/
 - assets/css/
 - assets/js/
-- assets/uploads/  (la carpeta vacía)
+- assets/uploads/      (la carpeta vacía con su .gitkeep — permisos 755 después)
 - robots.txt
 - sitemap.xml
 ```
 
-**Qué NO subir:**
+**Qué NO subir** (académico, de versión, o que se crea en el servidor):
 ```
-- database/portafolio.sql  (ya lo importaste en phpMyAdmin)
-- docs/                    (documentación interna, no va al servidor)
-- .git/                    (carpeta de git)
+- bd.sql                  (ya lo importaste en phpMyAdmin en el PASO 1)
+- config/db.php           (NO existe en local con credenciales reales — se CREA en el servidor, ver PASO 2)
+- config/db.example.php   (es plantilla del repo, no la necesita el servidor)
+- docs/                   (documentación interna del repo / entrega)
+- prompts/                (documento de uso de IA, para la entrega académica)
+- files/                  (wireframes en PNG/PDF, no van al servidor)
+- README.md               (información del repo, no la necesita el servidor)
+- .git/                   (carpeta de Git)
+- .gitignore              (archivo de Git, no relevante en producción)
 ```
+
+**Qué SÍ crear directamente en el servidor** (vía cPanel File Manager):
+- `config/db.php` con las credenciales reales (copiar el contenido de `config/db.example.php` y completar, ver PASO 2)
 
 ### PASO 5: Permisos de carpeta uploads
 
@@ -89,22 +104,25 @@ En FileZilla:
 2. "Permisos de archivo..."
 3. Establecer permisos: **755** (o marcar todos los permisos de lectura + escritura para propietario)
 
-### PASO 6: Generar contraseña del admin
+### PASO 6: Cambiar la contraseña del admin (OBLIGATORIO)
 
-En el servidor, ejecutar una vez este script (luego borrarlo):
+`bd.sql` deja el admin con la contraseña por defecto `Admin2024!`. Hay que
+cambiarla apenas el sitio esté arriba — el panel ya tiene una pantalla segura
+para hacerlo, no hace falta ningún script temporal.
 
-```php
-<?php
-// setup_admin.php — ELIMINAR DESPUÉS DE USAR
-$hash = password_hash('TuContraseñaSegura2024!', PASSWORD_DEFAULT);
-echo $hash;
-?>
-```
-
-Copiar el hash generado y actualizar en phpMyAdmin:
-```sql
-UPDATE usuarios SET password = 'HASH_GENERADO' WHERE username = 'admin';
-```
+1. Abrir `https://teclab.uct.cl/~tu-usuario/admin/login.php`
+2. Iniciar sesión con:
+   - Usuario: `admin`
+   - Contraseña: `Admin2024!`
+3. En el sidebar ir a **Configuración → Contraseña**, o entrar directo a:
+   `https://teclab.uct.cl/~tu-usuario/admin/change_password.php`
+4. Ingresar la nueva contraseña (mínimo 12 caracteres, mezcla de tipos)
+5. Cerrar sesión y volver a entrar con la pass nueva para verificar
+6. (Opcional) Cambiar también el `username` del admin si querés un perfil más
+   discreto, vía phpMyAdmin:
+   ```sql
+   UPDATE usuarios SET username = 'nuevo_user' WHERE username = 'admin';
+   ```
 
 ### PASO 7: Verificar el deploy
 
