@@ -33,3 +33,7 @@ build/
 
 # Material del docente (no se redistribuye)
 Rubrica_y_Escala_Ev_3.pdf
+
+# Notas internas de trabajo (no se versionan)
+SESION_CONTINUACION.md
+plan-wireframes-figma-design.md
