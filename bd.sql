@@ -14,10 +14,18 @@
 --        - perfil
 --        - habilidades
 --
--- USUARIO ADMIN POR DEFECTO:
+-- ============================================================
+-- !!! IMPORTANTE — USUARIO ADMIN POR DEFECTO (CAMBIAR TRAS EL PRIMER LOGIN) !!!
+-- ============================================================
 --   usuario:  admin
 --   password: Admin2024!
---   (cambiar tras el primer login en /admin/change_password.php)
+--
+--   >> Esta credencial es SOLO PARA DESARROLLO / SEMILLA INICIAL.
+--      En el primer arranque despues de importar este script:
+--        1. Iniciar sesion en /admin/login.php con admin / Admin2024!
+--        2. Ir a /admin/change_password.php y cambiarla por una
+--           contrasena fuerte (>=12 caracteres, mezcla de tipos).
+--        3. NUNCA dejar Admin2024! activa en produccion.
 -- ============================================================
 
 CREATE DATABASE IF NOT EXISTS `portafolio_db`

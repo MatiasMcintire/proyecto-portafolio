@@ -9,9 +9,9 @@
  *   <?php require_once '../includes/auth.php'; ?>
  */
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// csrf.php abre la sesión con HttpOnly/SameSite/Strict/use_strict_mode.
+// Centralizar el session_start ahí garantiza que el hardening siempre aplique.
+require_once __DIR__ . '/csrf.php';
 
 if (!isset($_SESSION['admin_user'])) {
     header('Location: login.php');

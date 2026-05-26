@@ -8,16 +8,16 @@
  *   - session_regenerate_id() contra Session Fixation
  */
 
-session_start();
+// csrf.php abre la sesión con HttpOnly/SameSite/Strict/use_strict_mode aplicados.
+// Tiene que ir ANTES de tocar $_SESSION.
+require_once '../includes/csrf.php';
+require_once '../config/db.php';
 
 // Si ya está autenticado, redirigir al dashboard
 if (isset($_SESSION['admin_user'])) {
     header('Location: index.php');
     exit;
 }
-
-require_once '../config/db.php';
-require_once '../includes/csrf.php';
 
 $error = '';
 

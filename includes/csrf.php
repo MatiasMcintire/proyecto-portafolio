@@ -14,7 +14,28 @@
  * para un panel single-user).
  */
 
+// ── Hardening de cookies de sesión ─────────────────────────────
+// Estos parámetros DEBEN aplicarse ANTES del primer session_start().
+// Si otra parte del código abrió sesión antes, no surten efecto.
 if (session_status() === PHP_SESSION_NONE) {
+
+    // Rechaza session IDs no inicializados por el servidor → mitiga
+    // session fixation residual cuando se intenta inyectar PHPSESSID.
+    ini_set('session.use_strict_mode', '1');
+
+    // Secure solo en HTTPS: en producción (teclab.uct.cl) activa,
+    // en local XAMPP (HTTP) desactivada para no romper login.
+    $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+
+    session_set_cookie_params([
+        'lifetime' => 0,          // cookie muere al cerrar navegador
+        'path'     => '/',
+        'domain'   => '',         // host actual
+        'secure'   => $secure,    // dinámico según protocolo
+        'httponly' => true,       // JS no puede leer la cookie → mitiga robo por XSS
+        'samesite' => 'Strict',   // no se envía cross-site → mitiga CSRF a nivel cookie
+    ]);
+
     session_start();
 }
 
