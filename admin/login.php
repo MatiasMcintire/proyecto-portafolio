@@ -81,17 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <!-- CSS propio (variables del tema, sobrescribe Bootstrap donde se requiere) -->
   <link rel="stylesheet" href="../assets/css/style.css">
 
-  <style>
-    /* Página de login: fondo suave, centra verticalmente */
-    .login-page {
-      min-height: 100vh;
-      background-color: var(--color-bg-soft);
-    }
-    .login-card {
-      background-color: var(--color-bg);
-      border: 1px solid var(--color-border);
-    }
-  </style>
 </head>
 <body class="login-page d-flex align-items-center">
 

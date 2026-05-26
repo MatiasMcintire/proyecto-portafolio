@@ -137,9 +137,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <h2>Editando: <?= htmlspecialchars($proyecto['titulo']) ?></h2>
 
       <?php if (!empty($errores)): ?>
-        <div style="background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:1rem; border-radius:8px; margin-bottom:1.5rem;" role="alert">
+        <div class="form-errors" role="alert">
           <strong>Errores:</strong>
-          <ul style="margin-top:0.5rem; padding-left:1.25rem;">
+          <ul>
             <?php foreach ($errores as $e): ?>
               <li><?= htmlspecialchars($e) ?></li>
             <?php endforeach; ?>

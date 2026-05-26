@@ -33,22 +33,6 @@ $msg = $_GET['msg'] ?? '';
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    .nivel-bar {
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 999px;
-      width: 100px;
-      overflow: hidden;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    .nivel-bar__fill {
-      height: 100%;
-      background: #3b82f6;
-      border-radius: 999px;
-    }
-  </style>
 </head>
 <body>
 
