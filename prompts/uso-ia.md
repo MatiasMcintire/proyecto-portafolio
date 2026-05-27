@@ -1,7 +1,7 @@
 # Uso de Inteligencia Artificial en el desarrollo del portafolio
 
 **Autor:** Matías McIntire
-**Asignatura:** Diseño y Desarrollo Web + IA — TECLAB UCT
+**Asignatura:** Diseño y Desarrollo Web + IA — TECLAB
 **Evaluación:** N° 3 — Portafolio profesional
 
 Este documento describe cómo utilicé herramientas de IA generativa durante el

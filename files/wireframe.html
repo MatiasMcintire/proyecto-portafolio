@@ -3,521 +3,692 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wireframe – Portafolio Web Profesional</title>
+<title>Wireframes — Portfolio Matías McIntire</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0a0a; --surface:#141414; --elevated:#1c1c1c; --border:#262626;
-  --text:#fafafa; --text-2:#a3a3a3; --muted:#737373;
-  --accent:#a3e635; --accent-2:#84cc16;
-  --danger:#ef4444;
+  --primary:#2563EB; --primary-hover:#1D4ED8; --accent-light:#EFF6FF;
+  --bg:#F8FAFC; --card:#FFFFFF; --footer:#0F172A;
+  --border:#E2E8F0; --text:#0F172A; --text-2:#64748B; --text-3:#94A3B8;
+  --success:#10B981; --error:#EF4444; --warning:#F59E0B;
+  --sidebar:#0F172A; --sidebar-active:#1E293B;
 }
 *{box-sizing:border-box}
-html,body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif;margin:0;-webkit-font-smoothing:antialiased}
-body{background-image:radial-gradient(circle at 20% 10%, rgba(163,230,53,0.04), transparent 40%), radial-gradient(circle at 80% 60%, rgba(163,230,53,0.03), transparent 50%)}
+html,body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
 .mono{font-family:'JetBrains Mono',monospace}
 
 /* View switcher */
-.view-switcher{position:fixed;top:16px;right:16px;z-index:1050;background:var(--elevated);border:1px solid var(--border);border-radius:999px;padding:4px;display:flex;gap:4px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
-.view-switcher button{background:transparent;color:var(--text-2);border:0;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s}
-.view-switcher button.active{background:var(--accent);color:#0a0a0a}
+.view-switcher{position:fixed;top:16px;right:16px;z-index:1050;background:white;border:1px solid var(--border);border-radius:999px;padding:4px;display:flex;gap:4px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.view-switcher button{background:transparent;color:var(--text-2);border:0;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
+.view-switcher button.active{background:var(--primary);color:white}
 .view-switcher button:not(.active):hover{color:var(--text)}
-
 .view{display:none}
 .view.active{display:block}
 
-/* Wireframe annotations */
-.wf-label{position:absolute;background:var(--accent);color:#0a0a0a;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;letter-spacing:0.5px;text-transform:uppercase;z-index:2}
-.wf-section{position:relative;border:1px dashed transparent;transition:border-color .2s}
-.wf-section:hover{border-color:rgba(163,230,53,0.2)}
+/* Buttons */
+.btn-primary-wf{background:var(--primary);color:white;border:0;padding:14px 28px;border-radius:8px;font-weight:700;font-size:16px;font-family:inherit;cursor:pointer;transition:background .15s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn-primary-wf:hover{background:var(--primary-hover);color:white}
+.btn-primary-wf.sm{padding:10px 18px;font-size:14px}
+.btn-outline-wf{background:transparent;color:var(--primary);border:1.5px solid var(--primary);padding:12.5px 26.5px;border-radius:8px;font-weight:700;font-size:16px;font-family:inherit;cursor:pointer;transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn-outline-wf:hover{background:var(--accent-light);color:var(--primary)}
 
-/* ==================== PUBLIC SITE ==================== */
-/* NAVBAR */
-.navbar-wf{background:rgba(10,10,10,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:100}
-.navbar-wf .logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
-.navbar-wf .logo span{color:var(--accent)}
-.navbar-wf a{color:var(--text-2);text-decoration:none;font-size:14px;font-weight:500;margin:0 16px;transition:color .2s}
-.navbar-wf a:hover{color:var(--text)}
-.btn-login{background:var(--accent);color:#0a0a0a;border:0;padding:8px 20px;border-radius:8px;font-weight:600;font-size:14px;transition:all .2s}
-.btn-login:hover{background:var(--accent-2);transform:translateY(-1px)}
+/* Chips */
+.chip{display:inline-flex;align-items:center;background:var(--accent-light);color:var(--primary);font-size:13px;font-weight:500;padding:6px 12px;border-radius:9999px}
+.chip.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 
-/* HERO / BIOGRAFIA */
-.hero{padding:100px 0 80px;position:relative;overflow:hidden}
-.hero h1{font-size:clamp(40px,6vw,72px);font-weight:800;line-height:1.05;letter-spacing:-0.03em;margin:0 0 24px}
-.hero h1 .accent{color:var(--accent)}
-.hero p.lead{font-size:18px;color:var(--text-2);max-width:520px;line-height:1.6;margin:0 0 32px}
-.hero .meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:24px}
-.avatar-frame{width:100%;aspect-ratio:1;background:var(--surface);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.avatar-frame::after{content:'FOTO / AVATAR';position:absolute;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em}
-.avatar-frame i{font-size:80px;color:var(--border)}
-.btn-outline-wf{background:transparent;color:var(--text);border:1px solid var(--border);padding:10px 20px;border-radius:8px;font-weight:500;font-size:14px;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-.btn-outline-wf:hover{border-color:var(--accent);color:var(--accent)}
+/* Card */
+.card-wf{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
 
-/* SECTIONS */
-.section{padding:80px 0;border-top:1px solid var(--border)}
-.section-header{margin-bottom:48px}
-.section-header .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px}
-.section-header h2{font-size:clamp(32px,4vw,48px);font-weight:700;letter-spacing:-0.02em;margin:0}
+/* Inputs */
+.input-wf{width:100%;border:1px solid var(--border);border-radius:8px;padding:12px 16px;background:white;font-family:inherit;font-size:15px;color:var(--text);transition:border-color .15s}
+.input-wf:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+.label-wf{font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px;display:block}
 
-/* SKILLS GRID */
-.skill-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;transition:all .2s;height:100%}
-.skill-card:hover{border-color:var(--accent);transform:translateY(-2px)}
-.skill-card .icon{width:48px;height:48px;background:var(--elevated);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:24px;color:var(--accent)}
-.skill-card h5{font-size:16px;font-weight:600;margin:0 0 4px}
-.skill-card p{font-size:13px;color:var(--text-2);margin:0}
+/* ============================ PUBLIC ============================ */
+/* Navbar */
+.nav-public{height:72px;background:white;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;display:flex;align-items:center}
+.nav-public .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:20px;letter-spacing:-0.02em;color:var(--text);text-decoration:none}
+.logo .accent{color:var(--primary)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{color:var(--text);text-decoration:none;font-size:15px;font-weight:500;transition:color .15s}
+.nav-links a:hover{color:var(--primary)}
+.nav-links a.active{background:var(--accent-light);color:var(--primary);padding:6px 14px;border-radius:9999px}
 
-/* TECNOLOGIAS */
-.tech-row{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--border)}
-.tech-row:last-child{border-bottom:0}
-.tech-name{display:flex;align-items:center;gap:16px}
-.tech-name .dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
-.tech-name span{font-size:16px;font-weight:500}
-.tech-bar{flex:1;max-width:300px;height:6px;background:var(--elevated);border-radius:999px;margin:0 24px;overflow:hidden}
-.tech-bar .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:999px}
-.tech-level{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-2);min-width:50px;text-align:right}
+/* Hero */
+.hero{padding:96px 0;background:linear-gradient(180deg,var(--bg),white)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--primary);padding:6px 14px;border-radius:9999px;font-size:13px;font-weight:500;margin-bottom:24px}
+.hero-badge .dot{width:8px;height:8px;background:var(--success);border-radius:50%}
+.hero h1{font-size:56px;font-weight:700;line-height:1.1;letter-spacing:-0.03em;margin:0 0 16px;color:var(--text)}
+.hero .bar{width:60px;height:4px;background:var(--primary);border-radius:2px;margin-bottom:24px}
+.hero p.lead{font-size:18px;color:var(--text-2);line-height:1.6;max-width:560px;margin:0 0 32px}
+.hero p.lead strong{color:var(--text);font-weight:600}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
 
-/* PROYECTOS */
-.project-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .2s;height:100%;display:flex;flex-direction:column}
-.project-card:hover{border-color:var(--accent);transform:translateY(-4px)}
-.project-img{aspect-ratio:16/10;background:var(--elevated);position:relative;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
-.project-img::after{content:'IMG PROYECTO';color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em}
+/* Section base */
+.section{padding:96px 0}
+.section.bg-soft{background:var(--bg)}
+.section.bg-white{background:white}
+.section-header{text-align:center;margin-bottom:64px}
+.section-header h2{font-size:36px;font-weight:700;letter-spacing:-0.02em;margin:0 0 12px}
+.section-header p{font-size:18px;color:var(--text-2);margin:0;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.5}
+
+/* Biografía */
+.bio-row{display:flex;gap:64px;align-items:center;max-width:1100px;margin:0 auto}
+.bio-avatar{width:280px;flex-shrink:0;display:flex;justify-content:center}
+.bio-avatar .circle{width:240px;height:240px;background:var(--primary);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:96px;font-weight:700;letter-spacing:-0.05em}
+.bio-text h3{font-size:24px;font-weight:600;color:var(--primary);margin:0 0 16px}
+.bio-text p{font-size:16px;color:var(--text-2);line-height:1.7;margin:0 0 24px}
+.bio-meta{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.bio-meta .item{display:flex;align-items:center;gap:10px;color:var(--text-2);font-size:15px}
+.bio-meta .item i{color:var(--primary);font-size:18px}
+
+/* Habilidades */
+.skill-card{background:white;border:1px solid var(--border);border-top:3px solid var(--primary);border-radius:12px;padding:28px;height:100%;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.skill-card .icon{width:48px;height:48px;background:var(--accent-light);color:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
+.skill-card h3{font-size:20px;font-weight:600;margin:0 0 4px}
+.skill-card .sub{font-size:13px;color:var(--text-2);margin:0 0 16px}
+.chip-stack{display:flex;flex-wrap:wrap;gap:8px}
+
+/* Tecnologías */
+.tech-card{background:white;border:1px solid var(--border);border-radius:12px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.tech-card .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.tech-card h4{font-size:18px;font-weight:600;margin:0}
+.tech-card .pct{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500;color:var(--primary)}
+.progress-track{height:6px;background:var(--border);border-radius:9999px;overflow:hidden}
+.progress-fill{height:100%;background:var(--primary);border-radius:9999px}
+.tech-card .desc{font-size:13px;color:var(--text-2);margin:12px 0 0}
+
+/* Proyectos */
+.project-card{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden;height:100%;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:all .2s}
+.project-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.project-thumb{height:200px;background:var(--accent-light);display:flex;align-items:center;justify-content:center}
+.project-thumb i{font-size:48px;color:var(--primary)}
 .project-body{padding:24px;flex:1;display:flex;flex-direction:column}
-.project-body .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px}
-.project-body h4{font-size:20px;font-weight:600;margin:0 0 8px}
-.project-body p{font-size:14px;color:var(--text-2);line-height:1.6;flex:1;margin:0 0 20px}
-.project-links{display:flex;gap:12px}
-.project-links a{font-size:13px;color:var(--text-2);text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-weight:500;transition:color .2s}
-.project-links a:hover{color:var(--accent)}
+.project-body h3{font-size:20px;font-weight:600;margin:0 0 8px}
+.project-body p.desc{font-size:14px;color:var(--text-2);line-height:1.6;margin:0 0 16px;flex:1}
+.tech-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
 
-/* CONTACTO */
-.form-wf label{font-size:13px;font-weight:500;color:var(--text-2);margin-bottom:8px;display:block;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;text-transform:uppercase}
-.form-wf .form-control{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-family:inherit;font-size:15px;transition:all .2s}
-.form-wf .form-control:focus{background:var(--surface);border-color:var(--accent);box-shadow:0 0 0 3px rgba(163,230,53,0.1);color:var(--text)}
-.form-wf .form-control::placeholder{color:var(--muted)}
-.btn-submit{background:var(--accent);color:#0a0a0a;border:0;padding:14px 32px;border-radius:10px;font-weight:600;font-size:15px;transition:all .2s;width:100%}
-.btn-submit:hover{background:var(--accent-2);transform:translateY(-1px)}
+/* Contacto */
+.contact-row{display:flex;gap:64px;align-items:flex-start}
+.contact-left{flex:0 0 40%}
+.contact-left h3{font-size:24px;font-weight:600;margin:0 0 16px}
+.contact-left p{font-size:16px;color:var(--text-2);line-height:1.7;margin:0 0 24px}
+.contact-info{display:flex;flex-direction:column;gap:14px}
+.contact-info a{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-size:15px;font-weight:500}
+.contact-info a i{color:var(--primary);font-size:20px}
+.contact-info a:hover{color:var(--primary)}
+.contact-right{flex:1}
+.textarea-wrap{position:relative}
+.textarea-counter{position:absolute;bottom:12px;right:16px;font-size:12px;color:var(--text-3);font-family:'JetBrains Mono',monospace}
+.required-note{font-size:13px;color:var(--error);margin-top:12px}
 
-/* FOOTER */
-.footer-wf{background:var(--surface);border-top:1px solid var(--border);padding:48px 0 24px;margin-top:0}
-.footer-wf h6{font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-2);margin:0 0 16px;font-family:'JetBrains Mono',monospace}
-.footer-wf a{color:var(--text-2);text-decoration:none;font-size:14px;display:block;padding:4px 0;transition:color .2s}
-.footer-wf a:hover{color:var(--accent)}
-.social-icons{display:flex;gap:12px;margin-top:8px}
-.social-icons a{width:40px;height:40px;background:var(--elevated);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0;font-size:18px}
-.social-icons a:hover{border-color:var(--accent)}
-.footer-bottom{border-top:1px solid var(--border);padding-top:24px;margin-top:32px;display:flex;justify-content:space-between;color:var(--muted);font-size:13px;font-family:'JetBrains Mono',monospace}
+/* Footer */
+.footer-wf{background:var(--footer);padding:32px 0;text-align:center}
+.footer-wf p{color:var(--text-3);font-size:14px;margin:0 0 8px}
+.footer-wf p strong{color:white}
+.footer-wf .tech-line{font-size:13px;color:var(--text-3);font-family:'JetBrains Mono',monospace;letter-spacing:0.05em}
 
-/* ==================== LOGIN MODAL VIEW ==================== */
-.modal-view{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:rgba(10,10,10,0.95);position:relative}
-.modal-view::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 50% 50%, rgba(163,230,53,0.05), transparent 60%)}
-.login-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:48px;width:100%;max-width:440px;position:relative;z-index:1}
-.login-card .brand{text-align:center;margin-bottom:32px}
-.login-card .brand .logo{font-size:24px;font-weight:800;letter-spacing:-0.02em}
-.login-card .brand .logo span{color:var(--accent)}
-.login-card .brand p{color:var(--text-2);font-size:14px;margin:8px 0 0}
-.login-card h3{font-size:24px;font-weight:700;margin:0 0 8px;text-align:center}
-.login-card .subtitle{color:var(--text-2);font-size:14px;text-align:center;margin-bottom:32px}
-.login-card .form-control{margin-bottom:16px}
-.forgot{text-align:right;margin:-8px 0 24px}
-.forgot a{color:var(--text-2);font-size:13px;text-decoration:none}
-.forgot a:hover{color:var(--accent)}
+/* ============================ LOGIN ============================ */
+.login-view{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.login-card{background:white;border-radius:12px;padding:40px;max-width:420px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.16);border:1px solid var(--border)}
+.login-header{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.login-header i{font-size:24px;color:var(--primary)}
+.login-header h3{font-size:20px;font-weight:600;margin:0}
+.login-subtitle{font-size:14px;color:var(--text-2);text-align:center;margin:0 0 24px}
+.alert-error{background:#FEE2E2;border:1px solid #FECACA;color:#991B1B;font-size:14px;padding:10px 14px;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.login-form{display:flex;flex-direction:column;gap:12px}
+.login-form .field{display:flex;flex-direction:column}
+.login-back{text-align:center;margin-top:16px}
+.login-back a{color:var(--text-2);font-size:14px;text-decoration:none}
+.login-back a:hover{color:var(--primary)}
 
-/* ==================== ADMIN DASHBOARD ==================== */
+/* ============================ ADMIN ============================ */
 .admin-layout{display:flex;min-height:100vh}
-.sidebar{width:260px;background:var(--surface);border-right:1px solid var(--border);padding:24px 16px;position:sticky;top:0;height:100vh;flex-shrink:0}
-.sidebar .logo{font-weight:800;font-size:18px;padding:8px 12px;margin-bottom:32px}
-.sidebar .logo span{color:var(--accent)}
-.sidebar .nav-item{display:flex;align-items:center;gap:12px;padding:10px 12px;color:var(--text-2);border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;margin-bottom:4px;cursor:pointer;transition:all .2s}
-.sidebar .nav-item:hover{background:var(--elevated);color:var(--text)}
-.sidebar .nav-item.active{background:var(--elevated);color:var(--accent)}
-.sidebar .nav-item i{font-size:16px;width:20px}
-.sidebar .nav-section{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;padding:16px 12px 8px}
-.sidebar .user-card{position:absolute;bottom:24px;left:16px;right:16px;background:var(--elevated);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:12px}
-.sidebar .user-card .avatar{width:36px;height:36px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0a0a0a;font-weight:700;font-size:14px}
-.sidebar .user-card .info{flex:1;min-width:0}
-.sidebar .user-card .info p{margin:0;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sidebar .user-card .info small{color:var(--muted);font-size:11px}
+.sidebar{width:260px;background:var(--sidebar);padding:24px;color:white;flex-shrink:0;display:flex;flex-direction:column;min-height:100vh;position:sticky;top:0}
+.sidebar-logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;color:white;margin-bottom:32px;padding:0 4px}
+.sidebar-logo i{font-size:22px}
+.nav-section-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin:16px 12px 8px;font-weight:600}
+.sidebar .menu-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;color:#CBD5E1;text-decoration:none;font-size:14px;font-weight:500;margin-bottom:2px;transition:all .15s;cursor:pointer;border-left:3px solid transparent}
+.sidebar .menu-item i{font-size:18px;width:20px}
+.sidebar .menu-item .label{flex:1}
+.sidebar .menu-item:hover{background:rgba(255,255,255,0.04);color:white}
+.sidebar .menu-item.active{background:var(--sidebar-active);color:white;border-left-color:#3B82F6}
+.pill-count{font-size:11px;background:#334155;color:#CBD5E1;padding:2px 8px;border-radius:9999px;font-weight:600}
+.pill-count.danger{background:var(--error);color:white}
+.sidebar-footer{margin-top:auto;border-top:1px solid #1E293B;padding-top:16px}
+.session-text{font-size:13px;color:#CBD5E1;margin:0 0 12px;padding:0 4px}
+.session-text strong{color:white}
+.btn-logout{width:100%;background:#7F1D1D;color:#FECACA;border:0;padding:10px;border-radius:8px;font-weight:600;font-size:14px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-logout:hover{background:#991B1B}
 
-.admin-main{flex:1;padding:32px 40px;min-width:0}
-.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
-.admin-header h1{font-size:28px;font-weight:700;margin:0;letter-spacing:-0.02em}
-.admin-header p{color:var(--text-2);font-size:14px;margin:4px 0 0}
-.btn-primary-wf{background:var(--accent);color:#0a0a0a;border:0;padding:10px 18px;border-radius:8px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;transition:all .2s;cursor:pointer}
-.btn-primary-wf:hover{background:var(--accent-2)}
+.admin-main{flex:1;background:#F1F5F9;padding:32px;min-width:0}
+.page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px}
+.page-header h1{font-size:36px;font-weight:700;letter-spacing:-0.02em;margin:0 0 6px}
+.page-header .subtitle{font-size:14px;color:var(--text-2);margin:0}
+.page-header .subtitle strong{color:var(--text)}
 
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px}
-.stat-card .label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
-.stat-card .value{font-size:32px;font-weight:700;letter-spacing:-0.02em}
-.stat-card .trend{font-size:12px;color:var(--accent);margin-top:4px}
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:white;border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;align-items:center;gap:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.stat-icon{width:48px;height:48px;background:var(--accent-light);color:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.stat-info .num{font-size:28px;font-weight:700;line-height:1;color:var(--text);letter-spacing:-0.02em}
+.stat-info .label{font-size:11px;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;margin-top:4px;font-weight:600}
 
-.admin-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
-.admin-section .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.admin-section h3{font-size:18px;font-weight:600;margin:0}
-.admin-table{width:100%;border-collapse:collapse}
-.admin-table th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;padding:12px 8px;border-bottom:1px solid var(--border);font-weight:500}
-.admin-table td{padding:14px 8px;border-bottom:1px solid var(--border);font-size:14px}
-.admin-table tr:last-child td{border-bottom:0}
-.action-btn{background:transparent;border:1px solid var(--border);color:var(--text-2);width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;margin-right:4px;cursor:pointer;transition:all .2s}
-.action-btn:hover{border-color:var(--accent);color:var(--accent)}
-.action-btn.danger:hover{border-color:var(--danger);color:var(--danger)}
-.badge-wf{font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 8px;border-radius:6px;background:var(--elevated);color:var(--text-2);letter-spacing:0.05em}
-.badge-wf.success{background:rgba(163,230,53,0.1);color:var(--accent)}
+/* Admin section cards */
+.admin-card{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.admin-card-head{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.admin-card-head h2{font-size:18px;font-weight:600;margin:0;display:flex;align-items:center;gap:10px}
+.admin-card-head h2 i{color:var(--primary);font-size:22px}
+.head-right{font-size:13px;color:var(--text-2)}
+.badge-new{background:var(--error);color:white;font-size:11px;padding:2px 8px;border-radius:9999px;font-weight:600;margin-left:8px}
 
-/* Mobile responsive */
-@media (max-width: 768px){
-  .sidebar{display:none}
-  .admin-main{padding:20px}
-  .view-switcher{top:auto;bottom:16px;right:50%;transform:translateX(50%)}
-  .view-switcher button{padding:6px 12px;font-size:12px}
-}
+/* Tables */
+.table-wf{width:100%;border-collapse:collapse}
+.table-wf th{text-align:left;font-size:11px;color:var(--text-2);text-transform:uppercase;letter-spacing:0.06em;padding:14px 16px;border-bottom:1px solid var(--border);font-weight:600;background:#F8FAFC}
+.table-wf td{padding:16px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:middle}
+.table-wf tr:last-child td{border-bottom:0}
+.table-wf tr.unread{background:#EFF6FF}
+.thumb{width:60px;height:60px;background:var(--accent-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:24px}
+.project-title{font-weight:600;color:var(--text)}
+.project-date{font-size:12px;color:var(--text-3);margin-top:2px}
+.tech-list{font-size:13px;color:var(--text-2);font-family:'JetBrains Mono',monospace}
+.status-pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:9999px}
+.status-pill.featured{background:#FEF3C7;color:#92400E}
+.status-pill.normal{background:#F1F5F9;color:var(--text-2)}
+.status-pill.new{background:var(--accent-light);color:var(--primary)}
+.status-pill.read{background:#F1F5F9;color:var(--text-2)}
+.action-btn{width:32px;height:32px;border:0;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:16px;margin-right:4px;transition:all .15s}
+.action-btn.edit{background:var(--accent-light);color:var(--primary)}
+.action-btn.edit:hover{background:var(--primary);color:white}
+.action-btn.view{background:#F1F5F9;color:var(--text-2)}
+.action-btn.view:hover{background:var(--text-2);color:white}
+.action-btn.check{background:#D1FAE5;color:#065F46}
+.action-btn.check:hover{background:var(--success);color:white}
+.action-btn.delete{background:#FEE2E2;color:#991B1B}
+.action-btn.delete:hover{background:var(--error);color:white}
+.email-link{color:var(--primary);text-decoration:none;font-size:14px}
+.email-link:hover{text-decoration:underline}
+.date-cell{font-size:12px;color:var(--text-3);font-family:'JetBrains Mono',monospace}
 </style>
 </head>
 <body>
 
-<!-- VIEW SWITCHER -->
 <div class="view-switcher">
-  <button class="active" data-view="public">Sitio</button>
+  <button class="active" data-view="public">Público</button>
   <button data-view="login">Login</button>
   <button data-view="admin">Admin</button>
 </div>
 
-<!-- ============================ PUBLIC SITE ============================ -->
+<!-- ============================ PUBLIC ============================ -->
 <div class="view active" id="public">
 
-  <!-- NAVBAR -->
-  <nav class="navbar-wf">
-    <div class="container d-flex justify-content-between align-items-center">
-      <div class="logo">tu<span>.</span>nombre</div>
-      <div class="d-none d-md-flex align-items-center">
+  <nav class="nav-public">
+    <div class="container">
+      <a href="#" class="logo">Matias<span class="accent">McIntire</span></a>
+      <div class="nav-links">
+        <a href="#" class="active">Inicio</a>
         <a href="#bio">Biografía</a>
         <a href="#skills">Habilidades</a>
         <a href="#tech">Tecnologías</a>
         <a href="#projects">Proyectos</a>
+        <a href="#contact">Contacto</a>
       </div>
-      <button class="btn-login"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</button>
+      <button class="btn-primary-wf sm"><i class="bi bi-lock-fill"></i> Iniciar sesión</button>
     </div>
   </nav>
 
-  <!-- HERO / BIO -->
-  <section class="hero" id="bio">
+  <section class="hero">
     <div class="container">
-      <div class="row align-items-center g-5">
-        <div class="col-lg-7">
-          <div class="meta mono">// Desarrollador Full-Stack · Disponible</div>
-          <h1>Matías<br>McIntire <span class="accent">.</span></h1>
-          <p class="lead">Breve descripción personal y profesional. Aquí va una bio de 2-3 líneas que presente quién eres, qué haces y qué te apasiona del desarrollo web.</p>
-          <div class="d-flex gap-2 flex-wrap">
-            <a href="#projects" class="btn-login"><i class="bi bi-arrow-right"></i> Ver proyectos</a>
-            <a href="#contact" class="btn-outline-wf"><i class="bi bi-envelope"></i> Contactarme</a>
-          </div>
-        </div>
-        <div class="col-lg-4 offset-lg-1">
-          <div class="avatar-frame">
-            <i class="bi bi-person-circle"></i>
-          </div>
-        </div>
+      <div class="hero-badge"><span class="dot"></span> Disponible para proyectos</div>
+      <h1>Hola, soy Matías McIntire</h1>
+      <div class="bar"></div>
+      <p class="lead"><strong>Técnico Universitario en Informática.</strong> Construyo aplicaciones web funcionales, seguras y bien diseñadas.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary-wf">Ver mis proyectos</a>
+        <a href="#contact" class="btn-outline-wf">Contáctame</a>
       </div>
     </div>
   </section>
 
-  <!-- HABILIDADES -->
-  <section class="section" id="skills">
+  <section class="section bg-soft" id="bio">
     <div class="container">
       <div class="section-header">
-        <div class="eyebrow mono">01 · Habilidades & Herramientas</div>
-        <h2>Lo que uso para construir.</h2>
+        <h2>Biografía</h2>
+        <p>Quién soy y qué hago</p>
       </div>
-      <div class="row g-3">
-        <div class="col-md-3 col-sm-6"><div class="skill-card"><div class="icon"><i class="bi bi-code-slash"></i></div><h5>HTML5</h5><p>Maquetado semántico</p></div></div>
-        <div class="col-md-3 col-sm-6"><div class="skill-card"><div class="icon"><i class="bi bi-palette"></i></div><h5>CSS3</h5><p>Estilos modernos</p></div></div>
-        <div class="col-md-3 col-sm-6"><div class="skill-card"><div class="icon"><i class="bi bi-braces"></i></div><h5>JavaScript</h5><p>Lógica e interactividad</p></div></div>
-        <div class="col-md-3 col-sm-6"><div class="skill-card"><div class="icon"><i class="bi bi-filetype-php"></i></div><h5>PHP</h5><p>Backend dinámico</p></div></div>
-        <div class="col-md-3 col-sm-6"><div class="skill-card"><div class="icon"><i class="bi bi-database"></i></div><h5>MySQL</h5><p>Bases de datos</p></div></div>
-        <div class="col-md-3 col-sm-6"><div class="skill-card"><div class="icon"><i class="bi bi-bootstrap"></i></div><h5>Bootstrap</h5><p>UI responsive</p></div></div>
-        <div class="col-md-3 col-sm-6"><div class="skill-card"><div class="icon"><i class="bi bi-github"></i></div><h5>GitHub</h5><p>Control de versiones</p></div></div>
-        <div class="col-md-3 col-sm-6"><div class="skill-card"><div class="icon"><i class="bi bi-cpu"></i></div><h5>IA Aplicada</h5><p>Dev con asistentes</p></div></div>
+      <div class="bio-row">
+        <div class="bio-avatar"><div class="circle">M</div></div>
+        <div class="bio-text">
+          <h3>Técnico Universitario en Informática</h3>
+          <p>Desarrollador web enfocado en construir soluciones full-stack robustas. Me especializo en backend con PHP y MySQL, y en frontend con stack moderno (Next.js + Tailwind). Apasionado por la seguridad en aplicaciones web y las buenas prácticas de OWASP.</p>
+          <div class="bio-meta">
+            <div class="item"><i class="bi bi-geo-alt"></i> Temuco, Chile</div>
+            <div class="item"><i class="bi bi-envelope"></i> Motka2269@gmail.com</div>
+            <div class="item"><i class="bi bi-telephone"></i> +569 8299 4348</div>
+          </div>
+          <a href="#" class="btn-outline-wf"><i class="bi bi-github"></i> Ver perfil GitHub</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- TECNOLOGIAS -->
-  <section class="section" id="tech">
+  <section class="section bg-white" id="skills">
     <div class="container">
       <div class="section-header">
-        <div class="eyebrow mono">02 · Tecnologías Dominadas</div>
-        <h2>Niveles de dominio.</h2>
+        <h2>Habilidades Técnicas</h2>
+        <p>Tecnologías con las que trabajo día a día, todo bajo estricta autodisciplina</p>
       </div>
-      <div class="row">
-        <div class="col-lg-10 offset-lg-1">
-          <div class="tech-row"><div class="tech-name"><span class="dot"></span><span>HTML & CSS</span></div><div class="tech-bar"><div class="fill" style="width:95%"></div></div><div class="tech-level mono">95%</div></div>
-          <div class="tech-row"><div class="tech-name"><span class="dot"></span><span>JavaScript</span></div><div class="tech-bar"><div class="fill" style="width:85%"></div></div><div class="tech-level mono">85%</div></div>
-          <div class="tech-row"><div class="tech-name"><span class="dot"></span><span>PHP</span></div><div class="tech-bar"><div class="fill" style="width:80%"></div></div><div class="tech-level mono">80%</div></div>
-          <div class="tech-row"><div class="tech-name"><span class="dot"></span><span>MySQL</span></div><div class="tech-bar"><div class="fill" style="width:75%"></div></div><div class="tech-level mono">75%</div></div>
-          <div class="tech-row"><div class="tech-name"><span class="dot"></span><span>Bootstrap 5</span></div><div class="tech-bar"><div class="fill" style="width:90%"></div></div><div class="tech-level mono">90%</div></div>
-          <div class="tech-row"><div class="tech-name"><span class="dot"></span><span>AJAX / Fetch API</span></div><div class="tech-bar"><div class="fill" style="width:70%"></div></div><div class="tech-level mono">70%</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROYECTOS -->
-  <section class="section" id="projects">
-    <div class="container">
-      <div class="section-header">
-        <div class="eyebrow mono">03 · Proyectos Realizados</div>
-        <h2>Cosas que he construido.</h2>
-      </div>
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4">
-          <div class="project-card">
-            <div class="project-img"></div>
-            <div class="project-body">
-              <div class="tag mono">Web App · PHP</div>
-              <h4>Nombre del Proyecto 1</h4>
-              <p>Descripción breve del proyecto: qué resuelve, qué tecnologías usa y cuál fue tu rol.</p>
-              <div class="project-links">
-                <a href="#"><i class="bi bi-box-arrow-up-right"></i> Demo</a>
-                <a href="#"><i class="bi bi-github"></i> Código</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="project-card">
-            <div class="project-img"></div>
-            <div class="project-body">
-              <div class="tag mono">Landing · Bootstrap</div>
-              <h4>Nombre del Proyecto 2</h4>
-              <p>Descripción breve del proyecto: qué resuelve, qué tecnologías usa y cuál fue tu rol.</p>
-              <div class="project-links">
-                <a href="#"><i class="bi bi-box-arrow-up-right"></i> Demo</a>
-                <a href="#"><i class="bi bi-github"></i> Código</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="project-card">
-            <div class="project-img"></div>
-            <div class="project-body">
-              <div class="tag mono">Dashboard · MySQL</div>
-              <h4>Nombre del Proyecto 3</h4>
-              <p>Descripción breve del proyecto: qué resuelve, qué tecnologías usa y cuál fue tu rol.</p>
-              <div class="project-links">
-                <a href="#"><i class="bi bi-box-arrow-up-right"></i> Demo</a>
-                <a href="#"><i class="bi bi-github"></i> Código</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTO -->
-  <section class="section" id="contact">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-5">
-          <div class="section-header">
-            <div class="eyebrow mono">04 · Contacto</div>
-            <h2>Hablemos.</h2>
-          </div>
-          <p style="color:var(--text-2);max-width:380px;line-height:1.7">¿Tienes un proyecto en mente o quieres colaborar? Envíame un mensaje y te respondo dentro de 24 hrs.</p>
-        </div>
-        <div class="col-lg-7">
-          <div class="form-wf">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label>Nombre</label>
-                <input type="text" class="form-control" placeholder="Tu nombre">
-              </div>
-              <div class="col-md-6">
-                <label>Correo</label>
-                <input type="email" class="form-control" placeholder="tu@email.com">
-              </div>
-              <div class="col-12">
-                <label>Asunto</label>
-                <input type="text" class="form-control" placeholder="¿Sobre qué quieres hablar?">
-              </div>
-              <div class="col-12">
-                <label>Mensaje</label>
-                <textarea rows="5" class="form-control" placeholder="Cuéntame más..."></textarea>
-              </div>
-              <div class="col-12">
-                <button class="btn-submit"><i class="bi bi-send"></i> Enviar mensaje</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer-wf">
-    <div class="container">
       <div class="row g-4">
         <div class="col-md-4">
-          <div class="logo" style="font-weight:800;font-size:20px;margin-bottom:12px">tu<span style="color:var(--accent)">.</span>nombre</div>
-          <p style="color:var(--text-2);font-size:14px;max-width:280px">Portafolio personal · Desarrollador Web Full-Stack</p>
+          <div class="skill-card">
+            <div class="icon"><i class="bi bi-hdd-stack"></i></div>
+            <h3>Backend</h3>
+            <p class="sub">Servidor, APIs, seguridad</p>
+            <div class="chip-stack">
+              <span class="chip mono">PHP 8</span><span class="chip mono">MySQL</span>
+              <span class="chip mono">NestJS</span><span class="chip mono">REST APIs</span>
+              <span class="chip mono">Prepared Statements</span><span class="chip mono">OWASP Top 10</span>
+            </div>
+          </div>
         </div>
-        <div class="col-md-2 col-6">
-          <h6>Navegación</h6>
-          <a href="#bio">Biografía</a>
-          <a href="#skills">Habilidades</a>
-          <a href="#tech">Tecnologías</a>
-          <a href="#projects">Proyectos</a>
+        <div class="col-md-4">
+          <div class="skill-card">
+            <div class="icon"><i class="bi bi-display"></i></div>
+            <h3>Frontend</h3>
+            <p class="sub">UI moderna y responsive</p>
+            <div class="chip-stack">
+              <span class="chip mono">HTML5 Semántico</span><span class="chip mono">CSS3 + Flexbox</span>
+              <span class="chip mono">JavaScript ES6</span><span class="chip mono">Next.js 14</span>
+              <span class="chip mono">Tailwind CSS</span>
+            </div>
+          </div>
         </div>
-        <div class="col-md-3 col-6">
-          <h6>Contacto</h6>
-          <a href="#">tu@email.com</a>
-          <a href="#">+56 9 0000 0000</a>
-          <a href="#">Santiago, Chile</a>
+        <div class="col-md-4">
+          <div class="skill-card">
+            <div class="icon"><i class="bi bi-database"></i></div>
+            <h3>Base de Datos</h3>
+            <p class="sub">Diseño y administración</p>
+            <div class="chip-stack">
+              <span class="chip mono">MySQL / phpMyAdmin</span><span class="chip mono">PostgreSQL</span>
+              <span class="chip mono">Prisma ORM</span><span class="chip mono">Diseño relacional</span>
+            </div>
+          </div>
         </div>
-        <div class="col-md-3">
-          <h6>Sígueme</h6>
-          <div class="social-icons">
-            <a href="#"><i class="bi bi-github"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
-            <a href="#"><i class="bi bi-twitter-x"></i></a>
-            <a href="#"><i class="bi bi-instagram"></i></a>
+        <div class="col-md-4">
+          <div class="skill-card">
+            <div class="icon"><i class="bi bi-tools"></i></div>
+            <h3>Herramientas</h3>
+            <p class="sub">Entorno y workflow</p>
+            <div class="chip-stack">
+              <span class="chip mono">Git/GitHub</span><span class="chip mono">VS Code</span>
+              <span class="chip mono">XAMPP/cPanel</span><span class="chip mono">Docker</span>
+              <span class="chip mono">Insomnia</span><span class="chip mono">Kali Linux</span>
+              <span class="chip mono">Nmap</span><span class="chip mono">Wireshark</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <div>© 2026 Matías McIntire. Todos los derechos reservados.</div>
-        <div>Hecho con PHP · MySQL · Bootstrap</div>
+    </div>
+  </section>
+
+  <section class="section bg-soft" id="tech">
+    <div class="container">
+      <div class="section-header">
+        <h2>Tecnologías</h2>
+        <p>Mi nivel de dominio en las herramientas principales</p>
       </div>
+      <div class="row g-4">
+        <div class="col-md-6"><div class="tech-card">
+          <div class="top"><h4>PHP 8</h4><span class="pct">85%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:85%"></div></div>
+          <p class="desc">Backend principal · Prepared Statements · Sesiones seguras</p>
+        </div></div>
+        <div class="col-md-6"><div class="tech-card">
+          <div class="top"><h4>MySQL</h4><span class="pct">80%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:80%"></div></div>
+          <p class="desc">Diseño relacional · Consultas optimizadas · Integridad referencial</p>
+        </div></div>
+        <div class="col-md-6"><div class="tech-card">
+          <div class="top"><h4>JavaScript ES6</h4><span class="pct">80%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:80%"></div></div>
+          <p class="desc">DOM · Fetch API · Async/Await · Módulos</p>
+        </div></div>
+        <div class="col-md-6"><div class="tech-card">
+          <div class="top"><h4>NestJS</h4><span class="pct">70%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:70%"></div></div>
+          <p class="desc">REST APIs · TypeScript · Decoradores · Prisma integration</p>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <h2>Proyectos Destacados</h2>
+        <p>Una selección de los proyectos en los que he trabajado</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-thumb"><i class="bi bi-laptop"></i></div>
+            <div class="project-body">
+              <h3>SyncStudy</h3>
+              <p class="desc">Plataforma colaborativa para grupos de estudio universitarios. Permite organizar sesiones, compartir material y hacer seguimiento del progreso.</p>
+              <div class="tech-tags">
+                <span class="chip mono">Next.js</span><span class="chip mono">NestJS</span><span class="chip mono">PostgreSQL</span>
+              </div>
+              <a href="#" class="btn-outline-wf" style="padding:8px 16px;font-size:14px;align-self:flex-start"><i class="bi bi-github"></i> Ver código</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-thumb"><i class="bi bi-laptop"></i></div>
+            <div class="project-body">
+              <h3>Rift Royale</h3>
+              <p class="desc">Sistema de gestión de torneos de e-sports con integración de la Riot API. Incluye brackets, rankings y estadísticas en tiempo real.</p>
+              <div class="tech-tags">
+                <span class="chip mono">PHP</span><span class="chip mono">MySQL</span><span class="chip mono">Bootstrap</span>
+              </div>
+              <a href="#" class="btn-outline-wf" style="padding:8px 16px;font-size:14px;align-self:flex-start"><i class="bi bi-github"></i> Ver código</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-thumb"><i class="bi bi-laptop"></i></div>
+            <div class="project-body">
+              <h3>Blog CMS</h3>
+              <p class="desc">CMS ligero para blogs personales construido desde cero. Editor WYSIWYG, panel admin, gestión de posts y comentarios moderados.</p>
+              <div class="tech-tags">
+                <span class="chip mono">PHP</span><span class="chip mono">MySQL</span><span class="chip mono">jQuery</span>
+              </div>
+              <a href="#" class="btn-outline-wf" style="padding:8px 16px;font-size:14px;align-self:flex-start"><i class="bi bi-github"></i> Ver código</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-soft" id="contact">
+    <div class="container">
+      <div class="contact-row">
+        <div class="contact-left">
+          <h3>Trabajemos juntos</h3>
+          <p>¿Tienes un proyecto en mente, una colaboración o simplemente quieres saludar? Escríbeme y te respondo lo antes posible.</p>
+          <div class="contact-info">
+            <a href="mailto:Motka2269@gmail.com"><i class="bi bi-envelope"></i> Motka2269@gmail.com</a>
+            <a href="#"><i class="bi bi-github"></i> github.com/matiasmcintire</a>
+            <a href="#"><i class="bi bi-geo-alt"></i> Temuco, Chile</a>
+          </div>
+        </div>
+        <div class="contact-right">
+          <div class="card-wf">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="label-wf">Nombre *</label>
+                <input type="text" class="input-wf" placeholder="Tu nombre">
+              </div>
+              <div class="col-md-6">
+                <label class="label-wf">Email *</label>
+                <input type="email" class="input-wf" placeholder="tu@email.com">
+              </div>
+              <div class="col-12">
+                <label class="label-wf">Asunto *</label>
+                <input type="text" class="input-wf" placeholder="¿De qué se trata?">
+              </div>
+              <div class="col-12">
+                <label class="label-wf">Mensaje *</label>
+                <div class="textarea-wrap">
+                  <textarea class="input-wf" rows="5" placeholder="Cuéntame más sobre tu proyecto..."></textarea>
+                  <span class="textarea-counter">0/1000</span>
+                </div>
+              </div>
+              <div class="col-12">
+                <button class="btn-primary-wf" style="width:100%;justify-content:center"><i class="bi bi-send"></i> Enviar mensaje</button>
+                <p class="required-note">* Campos obligatorios</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-wf">
+    <div class="container">
+      <p>Diseñado y desarrollado por <strong>Matias McIntire</strong> — Curso Diseño y Desarrollo Web + IA · 2026</p>
+      <p class="tech-line">HTML5 • CSS3 • JavaScript • PHP • MySQL</p>
     </div>
   </footer>
 </div>
 
-<!-- ============================ LOGIN MODAL ============================ -->
+<!-- ============================ LOGIN ============================ -->
 <div class="view" id="login">
-  <div class="modal-view">
+  <div class="login-view">
     <div class="login-card">
-      <div class="brand">
-        <div class="logo">tu<span>.</span>nombre</div>
-        <p>Panel de administración</p>
+      <div class="login-header">
+        <i class="bi bi-lock-fill"></i>
+        <h3>Admin</h3>
       </div>
-      <h3>Bienvenido de vuelta</h3>
-      <p class="subtitle">Ingresa tus credenciales para gestionar tu portafolio</p>
-      <div class="form-wf">
-        <label>Usuario o correo</label>
-        <input type="text" class="form-control" placeholder="admin@tudominio.cl">
-        <label>Contraseña</label>
-        <input type="password" class="form-control" placeholder="••••••••">
-        <div class="forgot"><a href="#">¿Olvidaste tu contraseña?</a></div>
-        <button class="btn-submit"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</button>
+      <p class="login-subtitle">Panel de administración del portafolio</p>
+      <div class="login-form">
+        <div class="field">
+          <label class="label-wf">Usuario</label>
+          <input type="text" class="input-wf" placeholder="admin">
+        </div>
+        <div class="field">
+          <label class="label-wf">Contraseña</label>
+          <input type="password" class="input-wf" placeholder="••••••••">
+        </div>
+        <button class="btn-primary-wf" style="width:100%;justify-content:center;margin-top:8px">Iniciar sesión</button>
       </div>
-      <div class="text-center mt-4">
-        <a href="#" style="color:var(--muted);font-size:13px;text-decoration:none">← Volver al sitio</a>
+      <div class="login-back">
+        <a href="#">← Volver al portafolio</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ============================ ADMIN DASHBOARD ============================ -->
+<!-- ============================ ADMIN ============================ -->
 <div class="view" id="admin">
   <div class="admin-layout">
-    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="logo">tu<span>.</span>admin</div>
-      <div class="nav-section">General</div>
-      <a class="nav-item active"><i class="bi bi-grid"></i> Dashboard</a>
-      <a class="nav-item"><i class="bi bi-eye"></i> Ver sitio público</a>
-      <div class="nav-section">Contenido</div>
-      <a class="nav-item"><i class="bi bi-person"></i> Biografía</a>
-      <a class="nav-item"><i class="bi bi-stars"></i> Habilidades</a>
-      <a class="nav-item"><i class="bi bi-bar-chart"></i> Tecnologías</a>
-      <a class="nav-item"><i class="bi bi-folder"></i> Proyectos</a>
-      <div class="nav-section">Cuenta</div>
-      <a class="nav-item"><i class="bi bi-gear"></i> Configuración</a>
-      <a class="nav-item"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
-      <div class="user-card">
-        <div class="avatar">TN</div>
-        <div class="info"><p>Matías McIntire</p><small>Administrador</small></div>
+      <div class="sidebar-logo"><i class="bi bi-command"></i> Panel Admin</div>
+
+      <div class="nav-section-label">Principal</div>
+      <a class="menu-item active">
+        <i class="bi bi-grid-1x2"></i>
+        <span class="label">Dashboard</span>
+      </a>
+
+      <div class="nav-section-label">Contenido</div>
+      <a class="menu-item">
+        <i class="bi bi-folder"></i>
+        <span class="label">Proyectos</span>
+        <span class="pill-count">3</span>
+      </a>
+      <a class="menu-item">
+        <i class="bi bi-envelope"></i>
+        <span class="label">Mensajes</span>
+        <span class="pill-count danger">2</span>
+      </a>
+      <a class="menu-item">
+        <i class="bi bi-tools"></i>
+        <span class="label">Habilidades</span>
+        <span class="pill-count">8</span>
+      </a>
+
+      <div class="nav-section-label">Configuración</div>
+      <a class="menu-item"><i class="bi bi-person"></i><span class="label">Mi Perfil</span></a>
+      <a class="menu-item"><i class="bi bi-key"></i><span class="label">Contraseña</span></a>
+
+      <div class="nav-section-label">Sitio</div>
+      <a class="menu-item"><i class="bi bi-globe"></i><span class="label">Ver portafolio</span></a>
+
+      <div class="sidebar-footer">
+        <p class="session-text">Sesión: <strong>admin</strong></p>
+        <button class="btn-logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</button>
       </div>
     </aside>
 
-    <!-- MAIN -->
     <main class="admin-main">
-      <div class="admin-header">
+      <div class="page-header">
         <div>
           <h1>Dashboard</h1>
-          <p>Gestiona el contenido de tu portafolio en tiempo real.</p>
+          <p class="subtitle">Bienvenido, <strong>admin</strong> — 26 de mayo, 2026</p>
         </div>
         <button class="btn-primary-wf"><i class="bi bi-plus-lg"></i> Nuevo proyecto</button>
       </div>
 
-      <!-- STATS -->
-      <div class="stat-grid">
-        <div class="stat-card"><div class="label mono">Proyectos</div><div class="value">12</div><div class="trend">+2 este mes</div></div>
-        <div class="stat-card"><div class="label mono">Habilidades</div><div class="value">8</div><div class="trend">Actualizadas</div></div>
-        <div class="stat-card"><div class="label mono">Tecnologías</div><div class="value">6</div><div class="trend">+1 reciente</div></div>
-        <div class="stat-card"><div class="label mono">Mensajes</div><div class="value">23</div><div class="trend">5 sin leer</div></div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-briefcase"></i></div>
+          <div class="stat-info"><div class="num">3</div><div class="label">Proyectos totales</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-star-fill"></i></div>
+          <div class="stat-info"><div class="num">2</div><div class="label">Destacados en home</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-envelope"></i></div>
+          <div class="stat-info"><div class="num">5</div><div class="label">Mensajes recibidos</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-bell"></i></div>
+          <div class="stat-info"><div class="num">2</div><div class="label">Sin leer</div></div>
+        </div>
       </div>
 
-      <!-- PROYECTOS TABLE -->
-      <div class="admin-section">
-        <div class="head">
-          <h3>Proyectos</h3>
-          <button class="btn-primary-wf" style="padding:8px 14px;font-size:13px"><i class="bi bi-plus"></i> Agregar</button>
+      <!-- Proyectos -->
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="bi bi-folder"></i> Proyectos</h2>
+          <button class="btn-primary-wf sm"><i class="bi bi-plus-lg"></i> Agregar</button>
         </div>
-        <table class="admin-table">
-          <thead><tr><th>Título</th><th>Tipo</th><th>Estado</th><th>Actualizado</th><th>Acciones</th></tr></thead>
+        <table class="table-wf">
+          <thead><tr>
+            <th>Imagen</th><th>Título</th><th>Tecnologías</th><th>Estado</th><th>Acciones</th>
+          </tr></thead>
           <tbody>
-            <tr><td>Proyecto 1</td><td>Web App</td><td><span class="badge-wf success">Publicado</span></td><td>Hace 2 días</td>
-              <td><button class="action-btn"><i class="bi bi-pencil"></i></button><button class="action-btn"><i class="bi bi-eye"></i></button><button class="action-btn danger"><i class="bi bi-trash"></i></button></td></tr>
-            <tr><td>Proyecto 2</td><td>Landing</td><td><span class="badge-wf success">Publicado</span></td><td>Hace 5 días</td>
-              <td><button class="action-btn"><i class="bi bi-pencil"></i></button><button class="action-btn"><i class="bi bi-eye"></i></button><button class="action-btn danger"><i class="bi bi-trash"></i></button></td></tr>
-            <tr><td>Proyecto 3</td><td>Dashboard</td><td><span class="badge-wf">Borrador</span></td><td>Hace 1 sem</td>
-              <td><button class="action-btn"><i class="bi bi-pencil"></i></button><button class="action-btn"><i class="bi bi-eye"></i></button><button class="action-btn danger"><i class="bi bi-trash"></i></button></td></tr>
+            <tr>
+              <td><div class="thumb"><i class="bi bi-image"></i></div></td>
+              <td><div class="project-title">SyncStudy</div><div class="project-date">12 mayo, 2026</div></td>
+              <td><span class="tech-list">Next.js · NestJS · PostgreSQL</span></td>
+              <td><span class="status-pill featured"><i class="bi bi-star-fill"></i> Destacado</span></td>
+              <td>
+                <button class="action-btn edit"><i class="bi bi-pencil"></i></button>
+                <button class="action-btn delete"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="thumb"><i class="bi bi-image"></i></div></td>
+              <td><div class="project-title">Rift Royale</div><div class="project-date">04 abril, 2026</div></td>
+              <td><span class="tech-list">PHP · MySQL · Bootstrap</span></td>
+              <td><span class="status-pill featured"><i class="bi bi-star-fill"></i> Destacado</span></td>
+              <td>
+                <button class="action-btn edit"><i class="bi bi-pencil"></i></button>
+                <button class="action-btn delete"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><div class="thumb"><i class="bi bi-image"></i></div></td>
+              <td><div class="project-title">Blog CMS</div><div class="project-date">18 marzo, 2026</div></td>
+              <td><span class="tech-list">PHP · MySQL · jQuery</span></td>
+              <td><span class="status-pill normal">Normal</span></td>
+              <td>
+                <button class="action-btn edit"><i class="bi bi-pencil"></i></button>
+                <button class="action-btn delete"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- BIO + SKILLS row -->
-      <div class="row g-3">
-        <div class="col-lg-6">
-          <div class="admin-section" style="margin-bottom:0">
-            <div class="head"><h3>Editar Biografía</h3><button class="btn-primary-wf" style="padding:8px 14px;font-size:13px"><i class="bi bi-check2"></i> Guardar</button></div>
-            <div class="form-wf">
-              <label>Nombre completo</label>
-              <input type="text" class="form-control" value="Matías McIntire" style="margin-bottom:16px">
-              <label>Descripción</label>
-              <textarea rows="4" class="form-control">Breve descripción personal/profesional para mostrar en el hero del portafolio.</textarea>
-            </div>
-          </div>
+      <!-- Mensajes -->
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <h2><i class="bi bi-envelope"></i> Mensajes de Contacto <span class="badge-new">2 nuevos</span></h2>
+          <div class="head-right">5 mensajes en total</div>
         </div>
-        <div class="col-lg-6">
-          <div class="admin-section" style="margin-bottom:0">
-            <div class="head"><h3>Habilidades</h3><button class="btn-primary-wf" style="padding:8px 14px;font-size:13px"><i class="bi bi-plus"></i> Agregar</button></div>
-            <table class="admin-table">
-              <tbody>
-                <tr><td>HTML5</td><td><span class="badge-wf success">Activo</span></td>
-                  <td style="text-align:right"><button class="action-btn"><i class="bi bi-pencil"></i></button><button class="action-btn danger"><i class="bi bi-trash"></i></button></td></tr>
-                <tr><td>CSS3</td><td><span class="badge-wf success">Activo</span></td>
-                  <td style="text-align:right"><button class="action-btn"><i class="bi bi-pencil"></i></button><button class="action-btn danger"><i class="bi bi-trash"></i></button></td></tr>
-                <tr><td>JavaScript</td><td><span class="badge-wf success">Activo</span></td>
-                  <td style="text-align:right"><button class="action-btn"><i class="bi bi-pencil"></i></button><button class="action-btn danger"><i class="bi bi-trash"></i></button></td></tr>
-                <tr><td>PHP</td><td><span class="badge-wf success">Activo</span></td>
-                  <td style="text-align:right"><button class="action-btn"><i class="bi bi-pencil"></i></button><button class="action-btn danger"><i class="bi bi-trash"></i></button></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <table class="table-wf">
+          <thead><tr>
+            <th>Estado</th><th>Nombre</th><th>Email</th><th>Asunto</th><th>Fecha</th><th>Acciones</th>
+          </tr></thead>
+          <tbody>
+            <tr class="unread">
+              <td><span class="status-pill new">Nuevo</span></td>
+              <td>Juan Pérez</td>
+              <td><a href="#" class="email-link">juan.perez@empresa.cl</a></td>
+              <td>Cotización proyecto web</td>
+              <td><span class="date-cell">26/05/2026 09:42</span></td>
+              <td>
+                <button class="action-btn view"><i class="bi bi-eye"></i></button>
+                <button class="action-btn check"><i class="bi bi-check-circle"></i></button>
+                <button class="action-btn delete"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            <tr class="unread">
+              <td><span class="status-pill new">Nuevo</span></td>
+              <td>María González</td>
+              <td><a href="#" class="email-link">m.gonzalez@startup.com</a></td>
+              <td>Oportunidad freelance</td>
+              <td><span class="date-cell">25/05/2026 18:15</span></td>
+              <td>
+                <button class="action-btn view"><i class="bi bi-eye"></i></button>
+                <button class="action-btn check"><i class="bi bi-check-circle"></i></button>
+                <button class="action-btn delete"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="status-pill read">Leído</span></td>
+              <td>Carlos Muñoz</td>
+              <td><a href="#" class="email-link">cmunoz@dev.cl</a></td>
+              <td>Colaboración Open Source</td>
+              <td><span class="date-cell">23/05/2026 11:08</span></td>
+              <td>
+                <button class="action-btn view"><i class="bi bi-eye"></i></button>
+                <button class="action-btn check"><i class="bi bi-check-circle"></i></button>
+                <button class="action-btn delete"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="status-pill read">Leído</span></td>
+              <td>Ana Silva</td>
+              <td><a href="#" class="email-link">ana.silva@gmail.com</a></td>
+              <td>Felicitaciones por SyncStudy</td>
+              <td><span class="date-cell">20/05/2026 14:30</span></td>
+              <td>
+                <button class="action-btn view"><i class="bi bi-eye"></i></button>
+                <button class="action-btn check"><i class="bi bi-check-circle"></i></button>
+                <button class="action-btn delete"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="status-pill read">Leído</span></td>
+              <td>Roberto Vega</td>
+              <td><a href="#" class="email-link">rvega@consultora.com</a></td>
+              <td>Consulta sobre Rift Royale</td>
+              <td><span class="date-cell">15/05/2026 10:22</span></td>
+              <td>
+                <button class="action-btn view"><i class="bi bi-eye"></i></button>
+                <button class="action-btn check"><i class="bi bi-check-circle"></i></button>
+                <button class="action-btn delete"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </main>
   </div>
 </div>
 
 <script>
-// View switcher
 document.querySelectorAll('.view-switcher button').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.view-switcher button').forEach(b=>b.classList.remove('active'));
@@ -526,15 +697,6 @@ document.querySelectorAll('.view-switcher button').forEach(btn=>{
     document.getElementById(btn.dataset.view).classList.add('active');
     window.scrollTo(0,0);
   });
-});
-
-// Login button opens login view
-document.querySelector('.btn-login').addEventListener('click',()=>{
-  document.querySelectorAll('.view-switcher button').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelector('[data-view="login"]').classList.add('active');
-  document.getElementById('login').classList.add('active');
-  window.scrollTo(0,0);
 });
 </script>
 </body>

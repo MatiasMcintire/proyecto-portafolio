@@ -1,6 +1,6 @@
 -- ============================================================
 -- PORTAFOLIO PROFESIONAL — Base de Datos
--- Asignatura: Diseño y Desarrollo Web + IA (TECLAB UCT)
+-- Asignatura: Diseño y Desarrollo Web + IA (TECLAB)
 -- Autor: Matías McIntire
 --
 -- INSTRUCCIONES DE INSTALACIÓN:
@@ -135,8 +135,8 @@ INSERT INTO `usuarios` (`username`, `password`) VALUES
 INSERT IGNORE INTO `perfil` (`id`, `nombre`, `titulo_profesional`, `bio`) VALUES
 (1,
  'Matías McIntire',
- 'Estudiante de Técnico en Informática',
- 'Estudiante de Técnico en Informática en TECLAB (Universidad Católica de Temuco). Apasionado por el desarrollo web full-stack, con foco en PHP, MySQL y JavaScript. Este portafolio reúne mis proyectos del cursado.');
+ 'Técnico Universitario en Informática',
+ 'Estudiante de Técnico Universitario en Informática en la Universidad Católica de Temuco. Apasionado por el desarrollo web full-stack, con foco en PHP, MySQL y JavaScript. Este portafolio reúne mis proyectos del cursado.');
 
 -- Proyectos de ejemplo
 INSERT INTO `proyectos`

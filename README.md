@@ -1,11 +1,12 @@
 # Portafolio Web Profesional
 
 Portafolio personal autoadministrable desarrollado como Evaluación 3 de la
-asignatura **Diseño y Desarrollo Web + IA** — Técnico
-en Informática, TECLAB (Universidad Católica de Temuco).
+asignatura **Diseño y Desarrollo Web + IA**, carrera Técnico Universitario
+en Informática — Universidad Católica de Temuco.
 
 - **Repositorio:** https://github.com/MatiasMcintire/proyecto-portafolio
 - **Producción:** _pendiente de deploy en `teclab.uct.cl/~usuario/`_
+- **Diseño Figma:** https://www.figma.com/design/4SSFmv82XEfKr7kNSskkzj/Wireframes-%E2%80%94-Portfolio-Mat%C3%ADas-McIntire
 - **Documento de uso de IA:** [`prompts/uso-ia.md`](prompts/uso-ia.md)
 
 El sitio público presenta biografía, habilidades, proyectos y un formulario de
@@ -109,6 +110,15 @@ Ubicados en [`files/`](files/):
 - `wireframe_admin.png` — panel de administración
 - `wireframe_login.png` — pantalla de login
 
+## Capturas del sitio funcionando
+
+Ubicadas en [`files/screenshots/`](files/screenshots/):
+
+- `01-home-hero.png` — hero del portafolio público
+- `02-habilidades-tecnologias.png` — sección de habilidades técnicas
+- `03-admin-dashboard.png` — panel administrativo con stats y CRUD
+- `04-contacto-validacion.png` — validación JS del formulario en tiempo real
+
 ## Documentación adicional
 
 - [`prompts/uso-ia.md`](prompts/uso-ia.md) — uso documentado de IA (herramientas, prompts, ajustes, reflexión)
@@ -120,6 +130,6 @@ Ubicados en [`files/`](files/):
 ## Autor
 
 **Matías McIntire**
-Estudiante de Técnico en Informática — TECLAB UCT
+Estudiante de Técnico Universitario en Informática — Universidad Católica de Temuco
 Asignatura: Diseño y Desarrollo Web + IA
 Docente: Cristian Iglesias Vera
