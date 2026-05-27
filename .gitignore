@@ -1,6 +1,13 @@
 # Credenciales y configuración local
 config/db.php
 
+# Dump SQL adaptado para servidor TECLAB (BD pre-creada, sin CREATE DATABASE/USE)
+bd_servidor.sql
+
+# Pantallazos temporales pegados desde el portapapeles
+Imagen pegada.png
+Screenshot *.png
+
 # Subidas de usuario (fotos de perfil, etc.)
 assets/uploads/*
 !assets/uploads/.gitkeep

@@ -10,8 +10,8 @@
   <!-- SEO: Meta descripción -->
   <meta name="description" content="<?= isset($pageDesc) ? htmlspecialchars($pageDesc) : 'Portafolio profesional de desarrollo web. HTML5, CSS3, JavaScript, PHP y MySQL.' ?>">
 
-  <!-- SEO: Canonical URL — descomentar y completar con la URL real tras deploy -->
-  <!-- <link rel="canonical" href="https://teclab.uct.cl/~usuario/"> -->
+  <!-- SEO: Canonical URL -->
+  <link rel="canonical" href="https://teclab.uct.cl/~mmcintire2025/">
 
   <!-- Accesibilidad: Idioma declarado -->
   <!-- lang="es" en <html> cumple criterio WCAG 3.1.1 -->

@@ -5,7 +5,7 @@ asignatura **Diseño y Desarrollo Web + IA**, carrera Técnico Universitario
 en Informática — Universidad Católica de Temuco.
 
 - **Repositorio:** https://github.com/MatiasMcintire/proyecto-portafolio
-- **Producción:** _pendiente de deploy en `teclab.uct.cl/~usuario/`_
+- **Producción:** https://teclab.uct.cl/~mmcintire2025/
 - **Diseño Figma:** https://www.figma.com/design/4SSFmv82XEfKr7kNSskkzj/Wireframes-%E2%80%94-Portfolio-Mat%C3%ADas-McIntire
 - **Documento de uso de IA:** [`prompts/uso-ia.md`](prompts/uso-ia.md)
 
@@ -23,7 +23,7 @@ habilidades y bandeja de mensajes recibidos.
 - **Base de datos:** MySQL 8 / MariaDB 10
 - **Bootstrap:** 5.3.3 (integrado vía CDN — navbar collapse, cards, progress, form-control, grid, alerts)
 - **Servidor local:** XAMPP / LAMP
-- **Producción:** cPanel en `teclab.uct.cl/~usuario/` (ver [`docs/deploy.md`](docs/deploy.md))
+- **Producción:** Apache en `teclab.uct.cl/~mmcintire2025/` (ver [`docs/deploy.md`](docs/deploy.md))
 
 ## Estructura del proyecto
 

@@ -7,28 +7,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://tu-dominio.cl/</loc>
+    <loc>https://teclab.uct.cl/~mmcintire2025/</loc>
     <lastmod>2026-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
   </url>
 
   <url>
-    <loc>https://tu-dominio.cl/index.php#habilidades</loc>
+    <loc>https://teclab.uct.cl/~mmcintire2025/index.php#habilidades</loc>
     <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://tu-dominio.cl/index.php#proyectos</loc>
+    <loc>https://teclab.uct.cl/~mmcintire2025/index.php#proyectos</loc>
     <lastmod>2026-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
 
   <url>
-    <loc>https://tu-dominio.cl/index.php#contacto</loc>
+    <loc>https://teclab.uct.cl/~mmcintire2025/index.php#contacto</loc>
     <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
