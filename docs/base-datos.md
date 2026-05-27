@@ -74,7 +74,6 @@ Se diseñó un esquema relacional con 5 tablas para el portafolio:
 │ categoria    │ VARCHAR(80) NOT NULL  │
 │ nombre       │ VARCHAR(80) NOT NULL  │
 │ nivel        │ TINYINT 0-100         │
-│ icono        │ VARCHAR(10) (emoji)   │
 │ icon_class   │ VARCHAR(100) devicon  │
 │ orden        │ SMALLINT DEFAULT 0    │
 │ visible      │ TINYINT(1) DEFAULT 1  │

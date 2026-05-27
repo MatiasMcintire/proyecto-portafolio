@@ -48,5 +48,5 @@ if ($conn->connect_error) {
     }
 }
 
-// UTF-8 completo (necesario para que los emojis del campo `icono` no se guarden como ?)
+// UTF-8 completo para acentos y caracteres especiales
 $conn->set_charset('utf8mb4');

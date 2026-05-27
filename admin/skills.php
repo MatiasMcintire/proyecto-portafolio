@@ -65,7 +65,6 @@ $msg = $_GET['msg'] ?? '';
   `categoria`  VARCHAR(80)      NOT NULL,
   `nombre`     VARCHAR(80)      NOT NULL,
   `nivel`      TINYINT UNSIGNED NOT NULL DEFAULT 80,
-  `icono`      VARCHAR(10)      DEFAULT '⚙️',
   `icon_class` VARCHAR(100)     DEFAULT '',
   `orden`      SMALLINT         DEFAULT 0,
   `visible`    TINYINT(1)       DEFAULT 1,
@@ -73,14 +72,14 @@ $msg = $_GET['msg'] ?? '';
 );
 
 -- Habilidades de ejemplo (puedes editarlas o eliminarlas)
-INSERT INTO `habilidades` (categoria, nombre, nivel, icono, icon_class, orden) VALUES
-  ('Frontend',     'HTML5',      90, '🌐', 'devicon-html5-plain colored',      1),
-  ('Frontend',     'CSS3',       85, '🎨', 'devicon-css3-plain colored',       2),
-  ('Frontend',     'JavaScript', 80, '⚡', 'devicon-javascript-plain colored', 3),
-  ('Backend',      'PHP',        80, '🐘', 'devicon-php-plain colored',        1),
-  ('Backend',      'MySQL',      75, '🗄️', 'devicon-mysql-plain colored',      2),
-  ('Herramientas', 'Git',        70, '🔧', 'devicon-git-plain colored',        1),
-  ('Herramientas', 'XAMPP',      75, '💻', 'devicon-apache-plain colored',     2);</div>
+INSERT INTO `habilidades` (categoria, nombre, nivel, icon_class, orden) VALUES
+  ('Frontend',     'HTML5',      90, 'devicon-html5-plain colored',      1),
+  ('Frontend',     'CSS3',       85, 'devicon-css3-plain colored',       2),
+  ('Frontend',     'JavaScript', 80, 'devicon-javascript-plain colored', 3),
+  ('Backend',      'PHP',        80, 'devicon-php-plain colored',        1),
+  ('Backend',      'MySQL',      75, 'devicon-mysql-plain colored',      2),
+  ('Herramientas', 'Git',        70, 'devicon-git-plain colored',        1),
+  ('Herramientas', 'XAMPP',      75, 'devicon-apache-plain colored',     2);</div>
   <p style="color:#64748b; font-size:.88rem; margin-top:.5rem;">
     Después de ejecutar el SQL, recarga esta página.
   </p>
@@ -110,11 +109,7 @@ INSERT INTO `habilidades` (categoria, nombre, nivel, icono, icon_class, orden) V
             <?php while ($h = $habilidades->fetch_assoc()): ?>
               <tr>
                 <td style="font-size:1.4rem; text-align:center; padding:.5rem;">
-                  <?php if (!empty($h['icon_class'])): ?>
-                    <i class="<?= htmlspecialchars($h['icon_class']) ?>" style="font-size:1.4rem;"></i>
-                  <?php else: ?>
-                    <?= htmlspecialchars($h['icono'] ?? '⚙️') ?>
-                  <?php endif; ?>
+                  <i class="<?= htmlspecialchars($h['icon_class'] ?: 'ti ti-tag') ?>" style="font-size:1.4rem;"></i>
                 </td>
                 <td><strong><?= htmlspecialchars($h['nombre']) ?></strong></td>
                 <td>

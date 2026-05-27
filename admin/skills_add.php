@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categoria  = trim($_POST['categoria']  ?? '');
     $nombre     = trim($_POST['nombre']     ?? '');
     $nivel      = (int)($_POST['nivel']     ?? 80);
-    $icono      = trim($_POST['icono']      ?? '⚙️');
     $icon_class = trim($_POST['icon_class'] ?? '');
     $orden      = (int)($_POST['orden']     ?? 0);
     $visible    = isset($_POST['visible']) ? 1 : 0;
@@ -25,10 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'El nivel debe estar entre 0 y 100.';
     } else {
         $stmt = $conn->prepare(
-            "INSERT INTO habilidades (categoria, nombre, nivel, icono, icon_class, orden, visible)
-             VALUES (?, ?, ?, ?, ?, ?, ?)"
+            "INSERT INTO habilidades (categoria, nombre, nivel, icon_class, orden, visible)
+             VALUES (?, ?, ?, ?, ?, ?)"
         );
-        $stmt->bind_param('ssissii', $categoria, $nombre, $nivel, $icono, $icon_class, $orden, $visible);
+        $stmt->bind_param('ssisii', $categoria, $nombre, $nivel, $icon_class, $orden, $visible);
         $stmt->execute();
         $stmt->close();
         header('Location: skills.php?msg=creada');
@@ -108,35 +107,24 @@ if ($rc) {
           </div>
         </div>
 
-        <div class="form-grid-2">
-          <div class="form-row">
-            <label for="icono">Icono <small>(emoji para sección Tecnologías)</small></label>
-            <input type="text" id="icono" name="icono"
-                   value="<?= htmlspecialchars($_POST['icono'] ?? '⚙️') ?>"
-                   placeholder="⚙️"
-                   style="font-size:1.4rem; text-align:center;">
-            <div class="hint">Copia un emoji. Ej: 🌐 🎨 ⚡ 🐘 🗄️ 🔧</div>
-          </div>
-
-          <div class="form-row">
-            <label for="nivel">Nivel de dominio: <strong id="nivel-val"><?= (int)($_POST['nivel'] ?? 80) ?>%</strong></label>
-            <input type="range" id="nivel" name="nivel"
-                   min="0" max="100" step="5"
-                   value="<?= (int)($_POST['nivel'] ?? 80) ?>"
-                   oninput="document.getElementById('nivel-val').textContent = this.value + '%'"
-                   style="width:100%; accent-color:#3b82f6; margin-top:.5rem;">
-          </div>
+        <div class="form-row">
+          <label for="nivel">Nivel de dominio: <strong id="nivel-val"><?= (int)($_POST['nivel'] ?? 80) ?>%</strong></label>
+          <input type="range" id="nivel" name="nivel"
+                 min="0" max="100" step="5"
+                 value="<?= (int)($_POST['nivel'] ?? 80) ?>"
+                 oninput="document.getElementById('nivel-val').textContent = this.value + '%'"
+                 style="width:100%; accent-color:#3b82f6; margin-top:.5rem;">
         </div>
 
         <div class="form-row">
-          <label for="icon_class">Clase del ícono <small>(Devicon o Tabler Icons, para sección Habilidades)</small></label>
+          <label for="icon_class">Clase del ícono <small>(Devicon o Tabler Icons)</small></label>
           <input type="text" id="icon_class" name="icon_class"
                  value="<?= htmlspecialchars($_POST['icon_class'] ?? '') ?>"
                  placeholder="Ej: devicon-php-plain colored  o  ti ti-shield-lock">
           <div class="hint">
             Buscar en <a href="https://devicon.dev" target="_blank" rel="noopener">devicon.dev</a>
             o <a href="https://tabler.io/icons" target="_blank" rel="noopener">tabler.io/icons</a>.
-            Si lo dejas vacío, se usa el emoji.
+            Si lo dejas vacío, se usa <code>ti ti-tag</code> como fallback.
           </div>
         </div>
 

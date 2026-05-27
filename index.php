@@ -256,11 +256,7 @@ $stmtAll->close();
               <ul role="list">
                 <?php foreach ($items as $h): ?>
                   <li>
-                    <?php if (!empty($h['icon_class'])): ?>
-                      <i class="<?= htmlspecialchars($h['icon_class']) ?>" aria-hidden="true"></i>
-                    <?php else: ?>
-                      <span aria-hidden="true"><?= htmlspecialchars($h['icono'] ?? '⚙️') ?></span>
-                    <?php endif; ?>
+                    <i class="<?= htmlspecialchars($h['icon_class'] ?: 'ti ti-tag') ?>" aria-hidden="true"></i>
                     <?= htmlspecialchars($h['nombre']) ?>
                   </li>
                 <?php endforeach; ?>
@@ -303,7 +299,7 @@ $stmtAll->close();
                 <?php foreach ($items as $h): ?>
                   <li class="tech-item">
                     <span class="tech-item__icon" aria-hidden="true">
-                      <?= htmlspecialchars($h['icono'] ?? '⚙️') ?>
+                      <i class="<?= htmlspecialchars($h['icon_class'] ?: 'ti ti-tag') ?>"></i>
                     </span>
                     <span class="tech-item__name"><?= htmlspecialchars($h['nombre']) ?></span>
                     <!-- Bootstrap .progress + .progress-bar (theme custom via .tech-item__*) -->
