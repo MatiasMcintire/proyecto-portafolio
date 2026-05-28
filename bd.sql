@@ -1,6 +1,6 @@
 -- ============================================================
 -- PORTAFOLIO PROFESIONAL — Base de Datos
--- Asignatura: Diseño y Desarrollo Web + IA (TECLAB)
+-- Asignatura: Diseño y Desarrollo Web + IA — Técnico Universitario en Informática (UCT)
 -- Autor: Matías McIntire
 --
 -- INSTRUCCIONES DE INSTALACIÓN:

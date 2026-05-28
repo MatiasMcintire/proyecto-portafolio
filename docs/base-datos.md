@@ -134,15 +134,21 @@ El `?` es un placeholder. PHP envía la consulta y los datos por separado, MySQL
 7. Seleccionar `bd.sql` (en la raíz del proyecto)
 8. Clic en "Continuar"
 
-## En el servidor (cPanel)
+## En el servidor de producción
 
-1. Ir a cPanel → MySQL Databases
-2. Crear base de datos (ej: `usuario_portafolio`)
-3. Crear usuario MySQL con contraseña segura
-4. Asignar el usuario a la base de datos (todos los privilegios)
-5. Ir a phpMyAdmin desde cPanel
-6. Seleccionar la BD e importar `bd.sql` (en la raíz del proyecto)
-7. Actualizar `config/db.php` con las credenciales
+Cada hosting tiene su propio flujo. Pasos genéricos comunes:
+
+1. Crear (o identificar) la base de datos en el panel del hosting.
+2. Importar `bd.sql` desde phpMyAdmin. **Cuidado:** el script empieza con
+   `CREATE DATABASE IF NOT EXISTS portafolio_db` + `USE portafolio_db`. Si tu
+   hosting **no permite crear bases de datos** (caso típico de hostings
+   compartidos académicos como TECLAB, donde las BDs vienen pre-creadas), hay
+   que comentar esas dos líneas y ejecutar el resto dentro de la BD asignada.
+3. Actualizar `config/db.php` en el servidor con `DB_HOST`, `DB_USER`,
+   `DB_PASS` y `DB_NAME` que entregue el hosting.
+
+El flujo completo para el servidor del curso (TECLAB) está documentado en
+[`deploy.md`](deploy.md).
 
 ## Errores comunes
 

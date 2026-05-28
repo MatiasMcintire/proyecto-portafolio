@@ -1,7 +1,7 @@
 # Uso de Inteligencia Artificial en el desarrollo del portafolio
 
 **Autor:** Matías McIntire
-**Asignatura:** Diseño y Desarrollo Web + IA — TECLAB
+**Asignatura:** Diseño y Desarrollo Web + IA — Técnico Universitario en Informática (UCT)
 **Evaluación:** N° 3 — Portafolio profesional
 
 Este documento describe cómo utilicé herramientas de IA generativa durante el
@@ -374,11 +374,29 @@ procedural, no PDO"**, así no mezcla.
 
 ### Pifia 10 — Sugirió guardar la sesión sin `httponly`
 
-En el prompt 2, la cookie de sesión salía con configuración por defecto.
-Después de leer un poco más sobre cookies seguras, ajusté en `auth.php` para
-forzar `HttpOnly` y `SameSite=Strict` antes de `session_start()` (todavía
-pendiente en el código actual — lo marqué como TODO para Fase 2.7 antes del
-deploy).
+En el prompt 2, la cookie de sesión salía con configuración por defecto. Después
+de leer un poco más sobre cookies seguras, terminé centralizando el
+`session_start()` en `includes/csrf.php` para que el hardening aplique sí o sí
+antes de cualquier acceso a `$_SESSION`:
+
+```php
+// OK — En includes/csrf.php, antes del primer session_start()
+ini_set('session.use_strict_mode', '1');
+$secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path'     => '/',
+    'secure'   => $secure,    // true en producción HTTPS, false en XAMPP local
+    'httponly' => true,       // JS no puede leer la cookie
+    'samesite' => 'Strict',   // cookie no se envía cross-site
+]);
+session_start();
+```
+
+`includes/auth.php` y `admin/login.php` ahora hacen `require_once 'csrf.php'`
+antes de tocar `$_SESSION`, así no hay forma de abrir sesión saltándose el
+hardening. Detalle clave: si `csrf.php` no es el primer archivo que llama a
+`session_start()`, los parámetros se ignoran silenciosamente.
 
 ---
 

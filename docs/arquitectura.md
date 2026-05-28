@@ -37,7 +37,9 @@ proyecto-portafolio/
 │   ├── css/
 │   │   ├── style.css        ← Estilos del sitio público
 │   │   └── admin.css        ← Estilos del panel admin
-│   ├── js/main.js           ← Validaciones JS + feedback dinámico
+│   ├── js/
+│   │   ├── main.js          ← Validaciones del formulario + feedback dinámico
+│   │   └── admin.js         ← Toggle del sidebar mobile del panel
 │   └── uploads/             ← Imágenes subidas por el admin
 ├── docs/                    ← Documentación técnica (arquitectura, BD, deploy)
 ├── prompts/

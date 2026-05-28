@@ -1,183 +1,246 @@
-# Guía de Deploy — Servidor cPanel con FileZilla
+# Guía de Deploy — Servidor TECLAB (UCT)
 
 ## ¿Qué se hizo?
 
-Documentación paso a paso para subir el portafolio al servidor del curso usando FileZilla (FTP) y configurar la base de datos en phpMyAdmin de cPanel.
+Documentación paso a paso para desplegar el portafolio en el hosting del curso
+en `teclab.uct.cl`, usando un cliente SFTP (FileZilla, WinSCP o `sftp` por
+consola) y phpMyAdmin para la base de datos.
+
+## Entorno del servidor
+
+| Pieza | Detalle |
+|-------|---------|
+| Sistema | Rocky Linux |
+| Servidor web | Apache 2.4.62 (con `mod_userdir`) |
+| PHP | 8.4.21 |
+| BD | MariaDB (compatible MySQL) |
+| Panel | phpMyAdmin web (no hay cPanel, no hay File Manager) |
+| Acceso a archivos | **SFTP** en `teclab.uct.cl:55522` (no FTP plano) |
+| URL pública | `https://teclab.uct.cl/~USUARIO/` (en este proyecto: `~mmcintire2025/`) |
+| Directorio público | `/USUARIO/public_html/` |
+| Bases de datos | **Pre-creadas** por TECLAB: `USUARIO_db1` y `USUARIO_db2`. NO se pueden crear nuevas BDs ni usuarios MySQL. El user MySQL es el mismo que el de SFTP/phpMyAdmin. |
+
+> En esta guía `USUARIO` representa tu usuario TECLAB (ej. `mmcintire2025`).
+> Reemplazalo en los comandos y URLs.
 
 ## Pasos completos
 
-### PASO 1: Preparar la base de datos en cPanel
+### PASO 1 — Conectarse por SFTP
 
-1. Abrir el panel cPanel de tu servidor
-2. Buscar **MySQL Databases** (o Bases de Datos MySQL)
-3. Crear base de datos:
-   - Nombre: `portafolio` (quedará como `usuario_portafolio`)
-4. Crear usuario MySQL:
-   - Usuario: `portafolio_usr`
-   - Contraseña: una contraseña segura (mínimo 12 caracteres)
-5. Asignar usuario a la base de datos:
-   - Seleccionar usuario y base de datos
-   - Marcar **TODOS LOS PRIVILEGIOS**
-6. Ir a **phpMyAdmin** desde cPanel
-7. Seleccionar la base de datos recién creada
-8. Ir a la pestaña **Importar**
-9. Seleccionar el archivo `bd.sql` (está en la raíz del proyecto)
-10. Hacer clic en **Continuar**
+1. Abrir FileZilla (o tu cliente SFTP).
+2. Ir a **Archivo → Gestor de sitios** (Ctrl+S).
+3. Crear sitio nuevo con:
+   - **Protocolo**: **SFTP - SSH File Transfer Protocol** (no FTP).
+   - **Servidor**: `teclab.uct.cl`
+   - **Puerto**: `55522` (es obligatorio especificarlo; el SSH estándar 22 no está expuesto).
+   - **Modo de acceso**: Normal.
+   - **Usuario**: el usuario TECLAB que te asignó el curso.
+   - **Contraseña**: la entregada con tu usuario.
+4. Conectar. Al entrar verás el home del usuario (ej. `/mmcintire2025/`).
 
-### PASO 2: Crear config/db.php en el servidor
+### PASO 2 — Subir los archivos al `public_html`
 
-`config/db.php` está en `.gitignore` y **no se sube por FTP ni GitHub** para no
-exponer credenciales. Hay que crearlo directamente en el servidor:
+En FileZilla, panel izquierdo (local) abrir el repo `proyecto-portafolio/`, en
+el panel derecho (servidor) entrar a `public_html/`.
 
-1. En cPanel abrir **File Manager** y navegar a `public_html/config/`
-2. Crear archivo nuevo: `db.php`
-3. Copiar el contenido íntegro de `config/db.example.php` (lo tenés en tu copia
-   local del repo, ya versionado como plantilla)
-4. Pegarlo en el `db.php` recién creado y completar con las credenciales reales:
+**Qué subir** (es lo que el sitio necesita para funcionar):
+
+```
+index.php
+robots.txt
+sitemap.xml
+includes/
+admin/
+api/
+assets/css/
+assets/js/
+assets/uploads/        ← carpeta vacía con su .gitkeep (los permisos los seteás en el PASO 5)
+config/db.example.php  ← opcional, plantilla para el PASO 3
+```
+
+**Qué NO subir** (es material académico o de versión, no aporta nada en
+producción y en algunos casos no debería ser público):
+
+```
+config/db.php          ← NO existe en local con credenciales reales — se CREA en el servidor en el PASO 3
+bd.sql                 ← se importa por phpMyAdmin en el PASO 4
+bd_servidor.sql        ← variante usada solo para el import, no hace falta en producción
+docs/                  ← documentación del repo (entrega académica)
+prompts/               ← documento de uso de IA (entrega académica)
+files/                 ← wireframes (PNG/PDF) (entrega académica)
+README.md              ← información del repo
+SESION_CONTINUACION.md ← notas internas (gitignored)
+.git/                  ← carpeta de Git
+.gitignore             ← archivo de Git
+Rubrica_y_Escala_Ev_3.pdf
+```
+
+### PASO 3 — Crear `config/db.php` en el servidor
+
+`config/db.php` está en `.gitignore` y **nunca** se sube por SFTP ni se commitea
+(contiene la contraseña de la BD). Hay que crearlo directamente en el servidor.
+
+Como TECLAB no tiene File Manager, se hace por SFTP:
+
+1. En el panel derecho de FileZilla, entrar a `public_html/config/` (subiste el
+   directorio `config/` solo con `db.example.php` en el PASO 2).
+2. **Opción A — editar in-place desde FileZilla:**
+   - Clic derecho en `db.example.php` → **Renombrar** → `db.php`.
+   - Clic derecho en `db.php` → **Ver/Editar** (FileZilla abre el editor que
+     tengas configurado).
+3. **Opción B — preparar en local:**
+   - Copiar `config/db.example.php` a un `config/db.php` local **temporal**.
+   - Editarlo con las credenciales reales.
+   - Subirlo por SFTP.
+   - **Borrar el `db.php` local** antes de seguir trabajando (para no
+     commitearlo por error — ya está en `.gitignore`, pero mejor no tenerlo
+     físicamente en el repo local).
+4. Contenido a poner en `config/db.php`:
 
 ```php
-define('IS_LOCAL', false);  // IMPORTANTE: false en producción
+define('IS_LOCAL', false);                     // IMPORTANTE: false en producción
 define('DB_HOST', 'localhost');
-define('DB_USER', 'usuario_portafolio_usr');   // el user MySQL del paso 1
-define('DB_PASS', 'tu_password_seguro');       // la pass del paso 1
-define('DB_NAME', 'usuario_portafolio');       // la BD del paso 1
+define('DB_USER', 'USUARIO');                  // mismo user que SFTP/phpMyAdmin
+define('DB_PASS', 'tu_password_teclab');       // misma pass que SFTP/phpMyAdmin
+define('DB_NAME', 'USUARIO_db1');              // una de las 2 BDs pre-creadas
 ```
 
-5. Guardar y cerrar
-6. Verificar permisos: 644 (lectura para el servidor, no ejecución)
+5. Verificar permisos: **644** (Apache corre como otro usuario y necesita poder
+   leer el archivo; 600 lo bloquearía). En FileZilla: clic derecho → "Permisos
+   de archivo..." → `644`.
 
-### PASO 3: Conectar FileZilla al servidor
+### PASO 4 — Importar la BD en phpMyAdmin
 
-1. Abrir FileZilla
-2. Ir a **Archivo → Gestor de sitios** (o Ctrl+S)
-3. Hacer clic en "Nuevo sitio"
-4. Completar:
-   - **Protocolo**: FTP - Protocolo de Transferencia de Archivos
-   - **Servidor**: el host FTP del curso (ej: `ftp.teclab.uct.cl`)
-   - **Cifrado**: Requerir FTP explícito sobre TLS (si está disponible)
-   - **Modo de acceso**: Normal
-   - **Usuario**: tu usuario FTP del curso
-   - **Contraseña**: tu contraseña FTP
-5. Clic en **Conectar**
+phpMyAdmin se accede vía web (no por cPanel). La URL te la da TECLAB; entrás
+con el mismo usuario y password del SFTP.
 
-### PASO 4: Subir los archivos
+1. Abrir phpMyAdmin web.
+2. En la lista de la izquierda seleccionar `USUARIO_db1` (o `_db2`, lo que
+   hayas puesto en `config/db.php`).
+3. Pestaña **Importar** → **Choose File**.
+4. **Problema conocido**: `bd.sql` del repo arranca con
+   `CREATE DATABASE IF NOT EXISTS portafolio_db` + `USE portafolio_db`. En
+   TECLAB el usuario MySQL no tiene permiso para crear/usar bases distintas a
+   las pre-creadas → el import falla con **error 1044 (Access denied)**.
 
-En FileZilla verás dos paneles:
-- **Izquierda**: tus archivos locales (busca `proyecto-portafolio/`)
-- **Derecha**: el servidor (navega a `public_html/` o `www/`)
+   **Solución:** generar una copia de `bd.sql` con esas dos líneas
+   comentadas. Desde la terminal del repo local:
 
-**Qué subir** (lo que el sitio necesita para funcionar en producción):
-```
-- index.php
-- includes/
-- admin/
-- api/
-- assets/css/
-- assets/js/
-- assets/uploads/      (la carpeta vacía con su .gitkeep — permisos 755 después)
-- robots.txt
-- sitemap.xml
-```
+   ```bash
+   sed 's|^CREATE DATABASE|-- CREATE DATABASE|; s|^USE |-- USE |' bd.sql > bd_servidor.sql
+   ```
 
-**Qué NO subir** (académico, de versión, o que se crea en el servidor):
-```
-- bd.sql                  (ya lo importaste en phpMyAdmin en el PASO 1)
-- config/db.php           (NO existe en local con credenciales reales — se CREA en el servidor, ver PASO 2)
-- config/db.example.php   (es plantilla del repo, no la necesita el servidor)
-- docs/                   (documentación interna del repo / entrega)
-- prompts/                (documento de uso de IA, para la entrega académica)
-- files/                  (wireframes en PNG/PDF, no van al servidor)
-- README.md               (información del repo, no la necesita el servidor)
-- .git/                   (carpeta de Git)
-- .gitignore              (archivo de Git, no relevante en producción)
-```
+   Este `bd_servidor.sql` ya está en `.gitignore` para que no se commitee.
+5. Subir `bd_servidor.sql` desde phpMyAdmin → Continuar.
+6. Verificar que las 5 tablas aparezcan: `proyectos`, `usuarios`, `contactos`,
+   `perfil`, `habilidades`.
 
-**Qué SÍ crear directamente en el servidor** (vía cPanel File Manager):
-- `config/db.php` con las credenciales reales (copiar el contenido de `config/db.example.php` y completar, ver PASO 2)
+### PASO 5 — Permisos de `assets/uploads/`
 
-### PASO 5: Permisos de carpeta uploads
+PHP necesita escribir en `assets/uploads/` para guardar las fotos de perfil y
+las imágenes de los proyectos.
 
-La carpeta `assets/uploads/` necesita permisos de escritura para que PHP pueda subir imágenes.
+1. En FileZilla, clic derecho en `assets/uploads/` → "Permisos de archivo...".
+2. Marcar **755** (rwxr-xr-x).
+3. **No** subir foto desde el admin todavía: hacelo después del PASO 6 cuando
+   la pass del admin sea segura.
 
-En FileZilla:
-1. Clic derecho en `assets/uploads/`
-2. "Permisos de archivo..."
-3. Establecer permisos: **755** (o marcar todos los permisos de lectura + escritura para propietario)
+### PASO 6 — Cambiar la contraseña del admin (OBLIGATORIO)
 
-### PASO 6: Cambiar la contraseña del admin (OBLIGATORIO)
+`bd.sql` trae el admin con la pass por defecto `Admin2024!`, que es **pública**
+en el repo. Hay que cambiarla inmediatamente apenas el sitio esté arriba —
+desde la propia UI del panel, sin scripts temporales.
 
-`bd.sql` deja el admin con la contraseña por defecto `Admin2024!`. Hay que
-cambiarla apenas el sitio esté arriba — el panel ya tiene una pantalla segura
-para hacerlo, no hace falta ningún script temporal.
-
-1. Abrir `https://teclab.uct.cl/~tu-usuario/admin/login.php`
+1. Abrir `https://teclab.uct.cl/~USUARIO/admin/login.php`.
 2. Iniciar sesión con:
    - Usuario: `admin`
    - Contraseña: `Admin2024!`
-3. En el sidebar ir a **Configuración → Contraseña**, o entrar directo a:
-   `https://teclab.uct.cl/~tu-usuario/admin/change_password.php`
-4. Ingresar la nueva contraseña (mínimo 12 caracteres, mezcla de tipos)
-5. Cerrar sesión y volver a entrar con la pass nueva para verificar
-6. (Opcional) Cambiar también el `username` del admin si querés un perfil más
-   discreto, vía phpMyAdmin:
+3. En el sidebar ir a **Configuración → Contraseña** (o entrar directo a
+   `https://teclab.uct.cl/~USUARIO/admin/change_password.php`).
+4. Poner una nueva contraseña fuerte (≥ 12 caracteres, mezcla de tipos).
+5. Cerrar sesión y volver a entrar con la pass nueva para verificar.
+6. (Opcional) Cambiar también el `username` del admin desde phpMyAdmin si
+   querés un perfil más discreto:
    ```sql
    UPDATE usuarios SET username = 'nuevo_user' WHERE username = 'admin';
    ```
 
-### PASO 7: Verificar el deploy
+### PASO 7 — Verificar el deploy
 
-1. Abrir `https://teclab.uct.cl/~usuario/` en el navegador
-2. Verificar que carga la página y los proyectos aparecen
-3. Probar el formulario de contacto
-4. Ir a `https://teclab.uct.cl/~usuario/admin/login.php`
-5. Iniciar sesión con las credenciales
-6. Verificar CRUD de proyectos
+1. Abrir `https://teclab.uct.cl/~USUARIO/` en el navegador.
+2. Verificar que carga la home, las habilidades aparecen con sus íconos y los
+   proyectos destacados se muestran.
+3. Probar el formulario de contacto: enviar un mensaje real y entrar al admin
+   para confirmar que llegó.
+4. Probar el CRUD: agregar un proyecto y verificar que aparece en la home.
+5. Probar la subida de foto en `admin/profile.php` (después del cambio de pass
+   del PASO 6).
 
 ## Errores frecuentes y soluciones
 
 | Error | Causa | Solución |
 |-------|-------|----------|
-| Página en blanco | Error PHP sin mostrar | Revisar logs en cPanel → Errors |
-| "Error de conexión DB" | Credenciales incorrectas | Verificar config/db.php |
-| Imágenes no se suben | Permisos de carpeta | Chmod 755 en uploads/ |
-| Admin redirige al login | Sesiones no funcionan | Verificar session_start() en auth.php |
-| Acentos se ven mal | Charset incorrecto | Verificar utf8mb4 en DB y PHP |
+| Página en blanco / HTTP 500 | Error PHP sin mostrar | TECLAB no expone los logs de Apache por SFTP. Subir un `_debug.php` temporal con `ini_set('display_errors', '1'); error_reporting(E_ALL);` y `include 'index.php';` para ver el error, **y borrarlo después**. |
+| Error 1044 al importar `bd.sql` | El user MySQL no puede crear/usar otras BDs | Usar `bd_servidor.sql` con `CREATE DATABASE` y `USE` comentados (ver PASO 4). |
+| Error 1045 al cargar la home | Credenciales DB incorrectas en `config/db.php` | Verificar `DB_USER`/`DB_PASS`/`DB_NAME` (los 3 son el mismo user que SFTP/phpMyAdmin, no inventar). |
+| Imágenes no se suben desde el admin | Permisos de `assets/uploads/` | `chmod 755` desde FileZilla (PASO 5). |
+| Sesión no se mantiene tras login | El navegador rechaza la cookie | Verificar que estés entrando por `https://` (no `http://`) — la cookie tiene flag `secure`. |
+| Acentos rotos en la BD | Conexión no es utf8mb4 | `config/db.php` debe terminar con `$conn->set_charset('utf8mb4');` (ya viene así por defecto). |
 
-## Estructura en el servidor
+## Estructura final en el servidor
 
 ```
-public_html/
+/USUARIO/public_html/
 ├── index.php
+├── robots.txt
+├── sitemap.xml
 ├── config/
-│   └── db.php        ← Con credenciales reales
+│   └── db.php             ← credenciales reales (644)
 ├── includes/
 ├── admin/
 ├── api/
-├── assets/
-│   └── uploads/      ← Permisos 755
-├── robots.txt
-└── sitemap.xml
+└── assets/
+    ├── css/
+    ├── js/
+    └── uploads/           ← 755 (escribible por PHP)
 ```
 
-## Actualizar el sitio (workflow)
+## Actualizar el sitio (workflow recurrente)
 
 Cuando hagas cambios:
-1. Editar los archivos localmente (en VS Code)
-2. Probar en XAMPP (localhost)
-3. Subir SOLO los archivos modificados con FileZilla
-4. Verificar en el navegador en el servidor
+
+1. Editar los archivos localmente (en VS Code).
+2. Probar en XAMPP (`http://localhost/proyecto-portafolio/`).
+3. Hacer commit + push a GitHub.
+4. Subir **solo los archivos modificados** por SFTP (no resubas la carpeta
+   entera — es lento y arriesga sobrescribir `config/db.php`).
+5. Si cambió el esquema de la BD (alguna `ALTER TABLE` o `CREATE TABLE`), no
+   reimportar `bd.sql` (perderías los datos): generar un dump del local con
+   `mysqldump portafolio_db > dump.sql`, adaptar el `CREATE DATABASE` /`USE`
+   como en el PASO 4, y aplicar solo los cambios incrementales en phpMyAdmin.
+6. Verificar el cambio en `https://teclab.uct.cl/~USUARIO/`.
 
 ## Seguridad adicional en producción
 
-Agregar un archivo `.htaccess` en la raíz para proteger carpetas sensibles:
+`config/db.php` queda dentro de `public_html/`, así que si Apache deja de
+interpretar PHP por alguna razón, el archivo se serviría como texto. Apache de
+TECLAB sí interpreta PHP, así que el riesgo es bajo, pero como cinturón y
+tiradores podés agregar un `.htaccess` en `public_html/`:
 
 ```apache
-# .htaccess — Reglas de seguridad Apache
+# .htaccess — Reglas de seguridad básicas
 Options -Indexes
 
-# Proteger archivos sensibles
 <Files "db.php">
     Order Allow,Deny
     Deny from all
 </Files>
+
+<FilesMatch "\.(sql|md|example\.php)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
 ```
+
+Esto evita listados de directorios y bloquea acceso directo a `db.php`,
+archivos `.sql`, `.md` y `db.example.php` aunque alguien adivine la URL.

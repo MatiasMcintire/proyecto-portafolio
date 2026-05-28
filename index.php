@@ -29,7 +29,7 @@ require_once 'config/db.php';
 $perfil = [
     'nombre'             => 'Matias McIntire',
     'titulo_profesional' => 'Desarrollador Web Full Stack',
-    'bio'                => 'Desarrollador web con enfoque en PHP, MySQL y JavaScript. Construyo aplicaciones funcionales, seguras y bien diseñadas.',
+    'bio'                => 'Construyo aplicaciones web full-stack con foco en seguridad: backend robusto en PHP y NestJS, frontend moderno con Next.js y Tailwind, y buenas prácticas OWASP desde el día uno.',
     'email_contacto'     => 'Motka2269@gmail.com',
     'telefono'           => '',
     'ubicacion'          => '',
@@ -125,7 +125,7 @@ $stmtAll->close();
         <!-- Subtítulo descriptivo (título profesional desde tabla perfil) -->
         <p>
           <strong><?= htmlspecialchars($perfil['titulo_profesional']) ?></strong>.
-          Construyo aplicaciones web funcionales, seguras y bien diseñadas.
+          Construyo aplicaciones web full-stack con foco en seguridad: backend robusto en PHP y NestJS, frontend moderno con Next.js y Tailwind, y buenas prácticas OWASP desde el día uno.
         </p>
 
         <!-- Call to action -->

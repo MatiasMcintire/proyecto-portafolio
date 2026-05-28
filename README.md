@@ -79,14 +79,23 @@ proyecto-portafolio/
 
 ## Despliegue en producción
 
-Ver instrucciones detalladas en [`docs/deploy.md`](docs/deploy.md).
+Ver instrucciones detalladas en [`docs/deploy.md`](docs/deploy.md) (flujo
+completo para el hosting del curso `teclab.uct.cl`: SFTP en puerto `55522`,
+phpMyAdmin web, BDs prefabricadas).
+
 Resumen:
 
-1. Cambiar `config/db.php` → `define('IS_LOCAL', false)` y completar
-   credenciales del cPanel.
-2. Importar `bd.sql` al phpMyAdmin del servidor.
-3. Subir archivos por FTP/SFTP al directorio `public_html/`.
-4. Regenerar el password admin (no dejar `Admin2024!`).
+1. Subir archivos por **SFTP** al directorio `public_html/`.
+2. Crear `config/db.php` en el servidor (a partir de `config/db.example.php`)
+   con `IS_LOCAL = false` y las credenciales reales de la BD.
+3. Importar `bd.sql` al phpMyAdmin del servidor. **Caveat:** el script empieza
+   con `CREATE DATABASE IF NOT EXISTS portafolio_db` + `USE portafolio_db`. Si
+   el hosting no permite crear bases de datos (caso TECLAB: solo da BDs
+   prefabricadas), comentar esas dos líneas antes de importar — `deploy.md`
+   incluye el comando `sed` que genera `bd_servidor.sql` con esa adaptación.
+4. `chmod 755` a `assets/uploads/`.
+5. Regenerar el password admin desde `admin/change_password.php`
+   (no dejar `Admin2024!`).
 
 ## Base de datos
 
