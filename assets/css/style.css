@@ -613,6 +613,16 @@ a:hover {
   margin-bottom: 1.25rem;
 }
 
+/* Honeypot anti-spam: lo sacamos de pantalla en lugar de display:none
+   (algunos bots ignoran los campos con display:none). Invisible para humanos. */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 /* Selector de elemento: todas las etiquetas */
 label {
   display: block;

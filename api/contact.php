@@ -32,6 +32,15 @@ require_once '../config/db.php';
 // XSS: se escapa al renderizar en el admin con htmlspecialchars().
 // No usamos FILTER_SANITIZE_SPECIAL_CHARS porque modifica el contenido
 // y produce doble-escape al mostrar (M&M's → M&#38;M&#39;s en BD).
+// Honeypot anti-spam: el campo `website` está oculto en el formulario, así que
+// un humano nunca lo completa. Si llega con contenido, es un bot: respondemos
+// "success" para no revelarle que lo detectamos, pero NO guardamos nada.
+if (!empty($_POST['website'])) {
+    echo json_encode(['success' => true, 'message' => '¡Mensaje enviado correctamente!']);
+    $conn->close();
+    exit;
+}
+
 $nombre  = trim($_POST['nombre']  ?? '');
 $email   = trim($_POST['email']   ?? '');
 $asunto  = trim($_POST['asunto']  ?? '');

@@ -483,6 +483,16 @@ $stmtAll->close();
             aria-label="Formulario de contacto"
           >
 
+            <!-- Honeypot anti-spam: invisible para humanos (fuera de pantalla,
+                 tabindex -1, aria-hidden). Los bots automáticos sí lo rellenan;
+                 el backend descarta silenciosamente cualquier envío con este
+                 campo no vacío. -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="website">No completar este campo</label>
+              <input type="text" id="website" name="website"
+                     tabindex="-1" autocomplete="off">
+            </div>
+
             <!-- Campo: Nombre -->
             <div class="form-group">
               <label for="nombre">

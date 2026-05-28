@@ -6,10 +6,10 @@
  * para no exponer credenciales en GitHub ni al subir por FTP.
  *
  * USO:
- *   - LOCAL  : copiar este archivo como `config/db.php` y dejar IS_LOCAL = true
- *   - SERVIDOR (cPanel): crear `public_html/config/db.php` directamente vía
- *     File Manager (NO subir por FTP), pegar este contenido, poner
- *     IS_LOCAL = false y completar con las credenciales reales del cPanel.
+ *   - LOCAL    : copiar este archivo como `config/db.php` y dejar IS_LOCAL = true
+ *   - SERVIDOR : crear `public_html/config/db.php` directamente en el servidor
+ *     (NO subir el db.php real al repo), pegar este contenido, poner
+ *     IS_LOCAL = false y completar con las credenciales reales de la BD.
  *
  * Ver: docs/deploy.md
  */
@@ -19,7 +19,7 @@ date_default_timezone_set('America/Santiago');
 
 // --- Entorno ---
 // Local:      true   (XAMPP, HTTP, usuario root sin pass)
-// Producción: false  (cPanel, HTTPS, credenciales reales)
+// Producción: false  (servidor del curso, HTTPS, credenciales reales)
 define('IS_LOCAL', true);
 
 if (IS_LOCAL) {
@@ -28,11 +28,11 @@ if (IS_LOCAL) {
     define('DB_PASS', '');
     define('DB_NAME', 'portafolio_db');
 } else {
-    // Credenciales del servidor cPanel — REEMPLAZAR
+    // Credenciales del servidor del curso — REEMPLAZAR
     define('DB_HOST', 'localhost');
-    define('DB_USER', 'USUARIO_CPANEL_AQUI');      // ej: matiasmcintire_usr
-    define('DB_PASS', 'PASSWORD_CPANEL_AQUI');     // la que pusiste al crear el user MySQL
-    define('DB_NAME', 'NOMBRE_BD_CPANEL_AQUI');    // ej: matiasmcintire_portafolio
+    define('DB_USER', 'USUARIO_AQUI');     // en TECLAB: el mismo user de SFTP/phpMyAdmin (ej: mmcintire2025)
+    define('DB_PASS', 'PASSWORD_AQUI');    // en TECLAB: la misma pass de SFTP/phpMyAdmin
+    define('DB_NAME', 'NOMBRE_BD_AQUI');   // en TECLAB: una BD prefabricada (ej: mmcintire2025_db1)
 }
 
 // --- Conexión con manejo de errores diferenciado por entorno ---
